@@ -72,6 +72,8 @@ body.sidebar-collapsed .sidebar-toggle {
     transition: transform 0.3s ease;
     resize: horizontal;
     z-index: 900;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .sidebar-resizer {
