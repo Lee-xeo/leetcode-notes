@@ -431,11 +431,13 @@ ListNode* mid = slow-&gt;next;</code></pre>
         if res[i] &gt; 0:
             ans += res[i]
     return ans</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int trap(vector<int>&amp; height) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int trap(vector&lt;int&gt;&amp; height) {
     int n = height.size();
     int h = 0;
-    vector<int> l(n), r(n), res(n);
-    for(int i=0;i<n;i++){ if(height[i]="" l[i]="h;">h) h = height[i];
+    vector&lt;int&gt; l(n), r(n), res(n);
+    for(int i=0;i&lt;n;i++){
+        l[i] = h;
+        if(height[i]&gt;h) h = height[i];
     }
     h = 0;
     for(int i=n-1;i&gt;=0;i--){
@@ -443,10 +445,12 @@ ListNode* mid = slow-&gt;next;</code></pre>
         if(height[i]&gt;h) h = height[i];
     }
     int ans = 0;
-    for(int i=0;i<n;i++){ -="" height[i];="" if(res[i]="" r[i])="" res[i]="min(l[i],">0) ans+=res[i];
+    for(int i=0;i&lt;n;i++){
+        res[i]=min(l[i], r[i]) - height[i];
+        if(res[i]&gt;0) ans+=res[i];
     }
     return ans;
-}</n;i++){></n;i++){></int></int></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -484,14 +488,15 @@ ListNode* mid = slow-&gt;next;</code></pre>
     for i in range(n):
         maxa = max(maxa, heights[i] * (right[i] - left[i] - 1))  
     return maxa</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int largestRectangleArea(vector<int>&amp; heights) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int largestRectangleArea(vector&lt;int&gt;&amp; heights) {
     // 对于i列，矩形大小为：左边最远不小于自己的，右边最远不小于自己的
     int n = heights.size();
     if(n==0) return heights[0];
-    stack<int> s;
-    vector<int> left(n), right(n);
+    stack&lt;int&gt; s;
+    vector&lt;int&gt; left(n), right(n);
     // 从左往右，找左边严格小,严格单调递减栈
-    for(int i=0;i<n;i++){ &&="" heights[s.top()]="" while(!s.empty()="">=heights[i])	s.pop();
+    for(int i=0;i&lt;n;i++){
+        while(!s.empty() &amp;&amp; heights[s.top()]&gt;=heights[i])	s.pop();
         if(s.empty())   left[i] = -1;
         else    left[i] = s.top();
         s.push(i); 
@@ -506,7 +511,11 @@ ListNode* mid = slow-&gt;next;</code></pre>
     }
     // 计算答案
     int maxa = 0;
-    for(int i=0;i<n;i++){ code="" heights[i]*(right[i]-left[i]-1));="" maxa="max(maxa," maxa;="" return="" }="" }<=""></n;i++){></n;i++){></int></int></int></code></pre>
+    for(int i=0;i&lt;n;i++){
+        maxa = max(maxa, heights[i]*(right[i]-left[i]-1));
+    }
+    return maxa;
+}</code></pre>
 </div>
 </div>
 </p>
@@ -520,17 +529,17 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">vector<int> dailyTemperatures(vector<int>&amp; temperatures) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">vector&lt;int&gt; dailyTemperatures(vector&lt;int&gt;&amp; temperatures) {
     int n = temperatures.size();
-    vector<int> ans(n, 0);
-    stack<int> s; // 只存储索引，不需要结构体
+    vector&lt;int&gt; ans(n, 0);
+    stack&lt;int&gt; s; // 只存储索引，不需要结构体
     for (int i = n - 1; i &gt;= 0; i--) {
         while (!s.empty() &amp;&amp; temperatures[i] &gt;= temperatures[s.top()])	s.pop();
         if (!s.empty())	ans[i] = s.top() - i;
         s.push(i);
     }
     return ans;
-}</int></int></int></int></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -600,11 +609,16 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxSubArray(vector<int>&amp; nums) {
-    vector<int> dp(nums.size());
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxSubArray(vector&lt;int&gt;&amp; nums) {
+    vector&lt;int&gt; dp(nums.size());
     dp[0] = nums[0];
     int maxn = dp[0];
-    for(int i=1;i<nums.size();i++){ code="" dp[i]="max(nums[i],dp[i-1]+nums[i]);" if(maxn<dp[i])="" maxn="dp[i];" maxn;="" return="" }="" }<=""></nums.size();i++){></int></int></code></pre>
+    for(int i=1;i&lt;nums.size();i++){
+        dp[i] = max(nums[i],dp[i-1]+nums[i]);
+        if(maxn&lt;dp[i]) maxn=dp[i];
+    }
+    return maxn;
+}</code></pre>
 </div>
 </div>
 </p>
@@ -618,12 +632,13 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProduct(vector<int>&amp; nums) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProduct(vector&lt;int&gt;&amp; nums) {
     int n = nums.size();
-    vector<int> dp(n, 0), neg(n,0);
+    vector&lt;int&gt; dp(n, 0), neg(n,0);
     dp[0] = nums[0], neg[0]=nums[0];
     int res = dp[0];
-    for(int i=1;i<n;i++){ if(nums[i]="">0){
+    for(int i=1;i&lt;n;i++){
+        if(nums[i]&gt;0){
             neg[i] = min(neg[i-1]*nums[i], nums[i]); // 默认neg是负数
             dp[i] = max(dp[i-1]*nums[i], nums[i]);
         }   
@@ -631,7 +646,10 @@ ListNode* mid = slow-&gt;next;</code></pre>
             neg[i] = min(dp[i-1]*nums[i], nums[i]); // 默认dp是负数
             dp[i] = max(neg[i-1]*nums[i],dp[i-1]*nums[i]);
         }
-        if(res<dp[i]) code="" res="dp[i];" res;="" return="" }="" }<=""></dp[i])></n;i++){></int></int></code></pre>
+        if(res&lt;dp[i]) res = dp[i];
+    }
+    return res;
+}</code></pre>
 </div>
 </div>
 </p>
@@ -698,14 +716,14 @@ ListNode* mid = slow-&gt;next;</code></pre>
     for i in range(n-1,-1,-1):
         dp[i] = max(dp[i+1],questions[i][0]+dp[min(n,i+questions[i][1]+1)])
     return dp[0]</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">long long mostPoints(vector<vector<int>&gt;&amp; questions) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">long long mostPoints(vector&lt;vector&lt;int&gt;&gt;&amp; questions) {
     int n = questions.size();
-    vector<long long=""> dp(n+1, 0); // 最后一个作为0哨兵
+    vector&lt;long long&gt; dp(n+1, 0); // 最后一个作为0哨兵
     for(int i=n-1;i&gt;=0;i--){
         dp[i]=max(dp[i+1], dp[min(n, i + questions[i][1] + 1)]+questions[i][0]);
     }
     return dp[0];
-}</long></vector<int></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -757,16 +775,24 @@ ListNode* mid = slow-&gt;next;</code></pre>
     // dp[i][j]: s[i..j] 是回文串
     // dp[i][j] = dp[i+1][j-1], s[i]==s[j]
     int n = s.size();
-    vector<vector<bool>&gt; dp(n, vector<bool>(n, false));
+    vector&lt;vector&lt;bool&gt;&gt; dp(n, vector&lt;bool&gt;(n, false));
     int resi=0, reslen=1;
-    for(int i=0;i<n;i++) &&="" dp[i][i]="true;" dp[i][j]="dp[i+1][j-1];" else="" for(int="" i="0;i&lt;=n-len;i++){" if(dp[i][j]="" if(i="j-1)" if(s[i]="s[j]){" int="" j="i+len-1;" j-i+1="" len="2的情况" }="">reslen){
+    for(int i=0;i&lt;n;i++) dp[i][i]=true;
+    for(int len=2;len&lt;=n;len++){
+        for(int i=0;i&lt;=n-len;i++){
+            int j = i+len-1;
+            if(s[i]==s[j]){
+                if(i==j-1)  dp[i][j]=true; //len=2的情况
+                else dp[i][j] = dp[i+1][j-1];
+            }  
+            if(dp[i][j] &amp;&amp; j-i+1&gt;reslen){
                 reslen = j-i+1;
                 resi = i;
             }
         }
     }
     return s.substr(resi, reslen);
-}</n;i++)></bool></vector<bool></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -781,8 +807,17 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int longestPalindromeSubseq(string s) {
     int n = s.size();
-    vector<vector<int>&gt; dp(n,vector<int>(n,0));
-    for(int i=0;i<n;i++) code="" dp[0][n-1];="" dp[i][i]="1;" dp[i][j]="max(dp[i][j-1],dp[i+1][j]);" else="" for(int="" i="0;i&lt;=n-len;i++){" if(s[i]="s[j])" int="" j="i+len-1;" len="2;len&lt;=n;len++){" return="" }="" }<=""></n;i++)></int></vector<int></code></pre>
+    vector&lt;vector&lt;int&gt;&gt; dp(n,vector&lt;int&gt;(n,0));
+    for(int i=0;i&lt;n;i++) dp[i][i]=1;
+    for(int len=2;len&lt;=n;len++){
+        for(int i=0;i&lt;=n-len;i++){
+            int j = i+len-1;
+            if(s[i]==s[j])  dp[i][j]=dp[i+1][j-1]+2;
+            else    dp[i][j]=max(dp[i][j-1],dp[i+1][j]);
+        }
+    }
+    return dp[0][n-1];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -797,7 +832,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int minInsertions(string s) {
     int n = s.size();
-    vector<vector<int>&gt; dp(n,vector<int>(n,0));
+    vector&lt;vector&lt;int&gt;&gt; dp(n,vector&lt;int&gt;(n,0));
     for(int len=2;len&lt;=n;len++){
         for(int i=0;i&lt;=n-len;i++){
             int j = i+len-1;
@@ -806,7 +841,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
         }
     }
     return dp[0][n-1];
-}</int></vector<int></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -820,15 +855,21 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxCoins(vector<int>&amp; nums) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxCoins(vector&lt;int&gt;&amp; nums) {
     // 我也不知道为什么是区间dp
     // dp[i][j]: 考虑开子区间的最优解
     // dp[i][k]: k 是最后一个戳爆的气球
     nums.insert(nums.begin(),1);
     nums.push_back(1);
     int n = nums.size();
-    vector<vector<int>&gt; dp(n+1, vector<int>(n+1, 0));
-    for(int len=2;len<n;len++) code="" dp[0][n-1];="" dp[i][i+len]="max(dp[i][i+len]," dp[i][k]+nums[i]*nums[k]*nums[i+len]+dp[k][i+len]);="" for(int="" i="0;i&lt;n-len;i++)" k="i+1;k&lt;i+len;k++)" return="" }<="" 区间dp特点：最外层是区间长度=""></n;len++)></int></vector<int></int></code></pre>
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1, vector&lt;int&gt;(n+1, 0));
+    for(int len=2;len&lt;n;len++) // 区间dp特点：最外层是区间长度
+        for(int i=0;i&lt;n-len;i++)
+            for(int k=i+1;k&lt;i+len;k++)
+                dp[i][i+len] = max(dp[i][i+len], dp[i][k]+nums[i]*nums[k]*nums[i+len]+dp[k][i+len]);
+
+    return dp[0][n-1];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -841,14 +882,29 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int mergeStones(vector<int>&amp; stones, int k) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int mergeStones(vector&lt;int&gt;&amp; stones, int k) {
     // 区间dp
     int n = stones.size();
     if((n-1)%(k-1)!=0) return -1;
 
-    vector<int> prefix(n+1,0);// 计算前缀和，便于计算代价
-    for(int i=0;i<n;i++) +="" 1]="prefix[i]" prefix[i="" stones[i];="" vector<vector<int="">&gt; dp(n, vector<int>(n,99999));
-    for(int i=0;i<n;i++) %="" ((j="" (k="" +="" -="" 1)="0)" 1]="" code="" dp[0][n-1];="" dp[i][i]="0;" dp[i][j]="" dp[i][p]="" dp[p+1][j]);="" for(int="" i="0;i&lt;=n-len;i++){" i)="" if="" int="" j="i+len-1;" len="2;len&lt;=n;len++){" p="i;p&lt;j;p+=k-1)" prefix[i];="" return="" }="" }<="" 如果当前区间长度满足可以合并成一堆的条件，加上合并的成本="" 尝试所有可能的分割点=""></n;i++)></int></n;i++)></int></int></code></pre>
+    vector&lt;int&gt; prefix(n+1,0);// 计算前缀和，便于计算代价
+    for(int i=0;i&lt;n;i++)    prefix[i + 1] = prefix[i] + stones[i];
+
+    vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(n,99999));
+    for(int i=0;i&lt;n;i++) dp[i][i] = 0;
+
+    for(int len=2;len&lt;=n;len++){
+        for(int i=0;i&lt;=n-len;i++){
+            int j = i+len-1;
+            for(int p=i;p&lt;j;p+=k-1)    // 尝试所有可能的分割点
+                dp[i][j] = min(dp[i][j], dp[i][p] + dp[p+1][j]);
+            // 如果当前区间长度满足可以合并成一堆的条件，加上合并的成本
+            if ((j - i) % (k - 1) == 0)
+                dp[i][j] += prefix[j + 1] - prefix[i];
+        }
+    }
+    return dp[0][n-1];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -895,13 +951,21 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector<int>&amp; nums) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector&lt;int&gt;&amp; nums) {
     int sum = 0, n=nums.size();
-    for(int i=0;i<n;i++) false;="" if(sum%2!="0)" int="" p="sum/2;" return="" sum+="nums[i];" vector<vector<int="">&gt; dp(n+1,vector<int>(p+1,false));
+    for(int i=0;i&lt;n;i++) sum+=nums[i];
+    if(sum%2!=0) return false;
+    int p = sum/2;
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1,vector&lt;int&gt;(p+1,false));
     dp[0][0]=true;
     for(int i=1;i&lt;=n;i++){
         for(int j=0;j&lt;=p;j++){
-            if(j<nums[i-1]) code="" dp[i-1][j-nums[i-1]];="" dp[i][j]="dp[i-1][j]" dp[n][p];="" else="" return="" ||="" }="" }<=""></nums[i-1])></int></n;i++)></int></code></pre>
+            if(j&lt;nums[i-1]) dp[i][j]=dp[i-1][j];
+            else dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];
+        }
+    }
+    return dp[n][p];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -918,16 +982,20 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector<int>&amp; nums) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector&lt;int&gt;&amp; nums) {
     int sum = 0, n=nums.size();
-    for(int i=0;i<n;i++) =2;="" false;="" if(sum%2!="0)" return="" sum="" sum+="nums[i];" vector<int=""> dp(sum+1,false);
+    for(int i=0;i&lt;n;i++) sum+=nums[i];
+    if(sum%2!=0) return false;
+    sum/=2;
+    vector&lt;int&gt; dp(sum+1,false);
     dp[0]=true;
-    for(int i=0;i<n;i++){ for(int="" j="sum;j">=nums[i];j--){
+    for(int i=0;i&lt;n;i++){
+        for(int j=sum;j&gt;=nums[i];j--){
             dp[j] = dp[j] || dp[j-nums[i]];
         }
     }
     return dp[sum];
-}</n;i++){></n;i++)></int></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -955,14 +1023,24 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector<int>&amp; nums, int target) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector&lt;int&gt;&amp; nums, int target) {
     int n = nums.size();
     int p=0;
-    for(int i=0;i<n;i++) +="target;" 0;="" =2;="" if(p%2!="0" if(p<target)="" p="" p+="nums[i];" p<0)="" return="" vector<vector<int="" ||="">&gt; dp(n+1, vector<int>(p+1,0));
+    for(int i=0;i&lt;n;i++) p+=nums[i]; 
+    if(p&lt;target) return 0;
+    p += target;
+    if(p%2!=0 || p&lt;0) return 0;
+    p/=2;
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1, vector&lt;int&gt;(p+1,0));
     dp[0][0]=1; // 空组和为0，相当于有一种方案 
     for(int i=1;i&lt;=n;i++){
         for(int j=0;j&lt;=p;j++){
-            if(j<nums[i-1]) code="" dp[i][j]="dp[i-1][j]+dp[i-1][j-nums[i-1]];" dp[n][p];="" else="" return="" }="" }<="" 不选这个数方案数+选这个数方案数="" 没法选=""></nums[i-1])></int></n;i++)></int></code></pre>
+            if(j&lt;nums[i-1]) dp[i][j]=dp[i-1][j]; //没法选
+            else dp[i][j]=dp[i-1][j]+dp[i-1][j-nums[i-1]]; //不选这个数方案数+选这个数方案数
+        }
+    }
+    return dp[n][p];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -979,19 +1057,25 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector<int>&amp; nums, int target) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector&lt;int&gt;&amp; nums, int target) {
     // `P=(target+sum(nums))/2`
     // 将问题转化为：在数组中选取若干数，使得它们的和等于 `P`（01 背包）
     int n = nums.size();
     int p=0;
-    for(int i=0;i<n;i++) +="target;" 0;="" =2;="" if(p%2!="0" if(p<target)="" p="" p+="nums[i];" p<0)="" return="" vector<int="" ||=""> dp(p+1,0);
+    for(int i=0;i&lt;n;i++) p+=nums[i]; 
+    if(p&lt;target) return 0;
+    p += target;
+    if(p%2!=0 || p&lt;0) return 0;
+    p/=2;
+    vector&lt;int&gt; dp(p+1,0);
     dp[0]=1; // 空组和为0，相当于有一种方案 
-    for(int i=0;i<n;i++){ for(int="" j="p;j">=nums[i];j--){
+    for(int i=0;i&lt;n;i++){
+        for(int j=p;j&gt;=nums[i];j--){
             dp[j]=dp[j]+dp[j-nums[i]]; //不选这个数方案数+选这个数方案数
         }
     }
     return dp[p];
-}</n;i++){></n;i++)></int></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -1014,17 +1098,23 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findMaxForm(vector<string>&amp; strs, int m, int n) {
-    vector<vector<int>&gt; dp(m+1,vector<int>(n+1,0));
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findMaxForm(vector&lt;string&gt;&amp; strs, int m, int n) {
+    vector&lt;vector&lt;int&gt;&gt; dp(m+1,vector&lt;int&gt;(n+1,0));
     dp[0][0]=0;
-    for(int i=0;i<strs.size();i++){ )="" else="" for(int="" if(strs[i][j]="0" int="" j="m;j" one="0;" one++;="" zero="0," zero++;="" }="">=zero;j--){
+    for(int i=0;i&lt;strs.size();i++){
+        int zero =0, one=0;
+        for(int j=0;j&lt;strs[i].size();j++){
+            if(strs[i][j]=='0') zero++;
+            else one++;
+        }
+        for(int j=m;j&gt;=zero;j--){
             for(int k=n;k&gt;=one;k--){
                 dp[j][k]=max(dp[j][k], dp[j-zero][k-one]+1);
             }
         }
     }
     return dp[m][n];
-}</strs.size();i++){></int></vector<int></string></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -1058,12 +1148,18 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector<int>&amp; coins, int amount) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector&lt;int&gt;&amp; coins, int amount) {
     int n = coins.size();
-    vector<vector<int>&gt; dp(n+1,vector<int>(amount+1,INT_MAX-1));
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1,vector&lt;int&gt;(amount+1,INT_MAX-1));
     dp[0][0]=0;
     for(int i=1;i&lt;=n;i++){ //遍历物品
-        for(int j=0;j<amount+1;j++){ -1="" :="" code="" dp[i][j-coins[i-1]]+1);="" dp[i][j]="min(dp[i-1][j]," dp[n][amount]="INT_MAX-1?" dp[n][amount];="" else="" if(j<coins[i-1])="" return="" }="" }<="" 遍历容量=""></amount+1;j++){></int></vector<int></int></code></pre>
+        for(int j=0;j&lt;amount+1;j++){ //遍历容量
+            if(j&lt;coins[i-1]) dp[i][j]=dp[i-1][j];
+            else dp[i][j]=min(dp[i-1][j], dp[i][j-coins[i-1]]+1);
+        }
+    }
+    return dp[n][amount]==INT_MAX-1? -1 : dp[n][amount];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -1080,10 +1176,16 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector<int>&amp; coins, int amount) {
-    vector<int> dp(amount+1,INT_MAX-1);
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector&lt;int&gt;&amp; coins, int amount) {
+    vector&lt;int&gt; dp(amount+1,INT_MAX-1);
     dp[0]=0;
-    for(int i=0;i<coins.size();i++){ -1="" :="" code="" dp[amount]="INT_MAX-1?" dp[amount];="" dp[j-coins[i]]+1);="" dp[j]="min(dp[j]," for(int="" j="coins[i];j&lt;amount+1;j++){" return="" }="" }<="" 遍历容量="" 遍历物品=""></coins.size();i++){></int></int></code></pre>
+    for(int i=0;i&lt;coins.size();i++){ //遍历物品
+        for(int j=coins[i];j&lt;amount+1;j++){ //遍历容量
+            dp[j]=min(dp[j], dp[j-coins[i]]+1);
+        }
+    }
+    return dp[amount]==INT_MAX-1? -1 : dp[amount];
+}</code></pre>
 </div>
 </div>
 </p>
@@ -1096,10 +1198,10 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool wordBreak(string s, vector<string>&amp; wordDict) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool wordBreak(string s, vector&lt;string&gt;&amp; wordDict) {
     // dp[i]:考虑前i个字母的结果
     int n = s.size();
-    vector<bool> dp(n+1, false);
+    vector&lt;bool&gt; dp(n+1, false);
     dp[0] = true;
     for(int i=0;i&lt;=n;i++){ // 遍历容量
         for (const string&amp; word : wordDict) { // 遍历物品
@@ -1111,7 +1213,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
         }
     }
     return dp[n];
-}</bool></string></code></pre>
+}</code></pre>
 </div>
 </div>
 </p>
@@ -1137,11 +1239,16 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">int change(int amount, vector<int>&amp; coins) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int change(int amount, vector&lt;int&gt;&amp; coins) {
     int n = coins.size();
-    vector<double> dp(amount+1, 0);
+    vector&lt;double&gt; dp(amount+1, 0);
     dp[0] = 1;
-    for(int i=0;i<n;i++){ +="" code="" dp[amount];="" dp[j-coins[i]];="" dp[j]="dp[j]" for(int="" j="coins[i];j&lt;=amount;j++)" return="" }="" }<=""></n;i++){></double></int></code></pre>
+    for(int i=0;i&lt;n;i++){
+        for(int j=coins[i];j&lt;=amount;j++)
+            dp[j]=dp[j] + dp[j-coins[i]];
+    }
+    return dp[amount];
+}</code></pre>
 </div>
 </div>
 </p>

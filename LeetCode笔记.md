@@ -771,8 +771,7 @@ int maxCoins(vector<int>& nums) {
     for(int len=2;len<n;len++) // 区间dp特点：最外层是区间长度
         for(int i=0;i<n-len;i++)
             for(int k=i+1;k<i+len;k++)
-                dp[i][i+len] = max(dp[i][i+len], 
-                                   dp[i][k]+nums[i]*nums[k]*nums[i+len]+dp[k][i+len]);
+                dp[i][i+len] = max(dp[i][i+len], dp[i][k]+nums[i]*nums[k]*nums[i+len]+dp[k][i+len]);
 
     return dp[0][n-1];
 }

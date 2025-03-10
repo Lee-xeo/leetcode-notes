@@ -10,7 +10,7 @@
 """
 
 import re
-import markdown
+import markdown, html
 from bs4 import BeautifulSoup
 
 # 配置信息
@@ -33,7 +33,7 @@ class CodeBlockExtractor:
         返回替换了代码块的Markdown内容和代码块信息
         """
         # 正则表达式匹配代码块: ```语言 代码 ```
-        code_block_pattern = r'```(python|c\+\+)(.*?)```'
+        code_block_pattern = r'```(python|c\+\+)\n(.*?)```'
         
         # 查找所有代码块
         matches = list(re.finditer(code_block_pattern, md_content, re.DOTALL))
@@ -131,6 +131,10 @@ class CodeBlockExtractor:
         if not cpp_code.strip():
             cpp_code = "// 此部分代码待实现"
         
+        # 对代码进行HTML转义，特别是处理<, >, &等特殊字符
+        python_code = html.escape(python_code)
+        cpp_code = html.escape(cpp_code)
+            
         # 生成代码容器HTML
         return f"""
 <div class="code-container">
