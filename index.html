@@ -6,106 +6,120 @@
     <title>LeetCode笔记</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <!-- MathJax 支持 -->
+     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+     <script>
+     MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+        processHtmlClass: 'tex2jax_process'
+      },
+      startup: {
+        pageReady: function() {
+          return MathJax.startup.defaultPageReady().then(function() {
+            console.log('MathJax initial typesetting complete');
+          });
+        }
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 </head>
 <body>
+    <div class="sidebar-toggle">≡</div>
     <nav class="sidebar">
-        <div class="sidebar-header">
-            <h2>目录</h2>
-        </div>
         <ul id="toc">
-            <!-- 目录将由JavaScript生成 -->
+<ul>
+    <li><a href="#leetcode">LeetCode 算法笔记</a></li>
+    <ul>
+        <ul>
+            <li><a href="#_1">常用工具包</a></li>
+            <ul>
+                <li><a href="#_2">二分查找</a></li>
+                <ul>
+                    <li><a href="#-1">查找给定值，存在则返回索引，否则返回-1：</a></li>
+                    <li><a href="#_3">查找比给定值小的最大元素（下界）:</a></li>
+                    <li><a href="#_4">查找比给定值大的最小元素（上界）:</a></li>
+                </ul>
+                <li><a href="#_5">链表快慢指针</a></li>
+                <ul>
+                    <li><a href="#_6">取链表中点</a></li>
+                    <li><a href="#_7">找环形入口</a></li>
+                </ul>
+                <li><a href="#_8">数组元素的相互抵消运算</a></li>
+            </ul>
+            <li><a href="#_9">滑动窗口</a></li>
+            <li><a href="#_10">单调栈</a></li>
+            <ul>
+                <li><a href="#_11">单调队列</a></li>
+                <li><a href="#_12">前缀和</a></li>
+            </ul>
+            <li><a href="#_13">动态规划</a></li>
+            <li><a href="#dp">DP 问题分类大观</a></li>
+            <ul>
+                <li><a href="#dp_1">线性 DP</a></li>
+                <ul>
+                    <li><a href="#_14">连续子数组问题</a></li>
+                    <li><a href="#lis">最长递增子序列问题 LIS</a></li>
+                    <li><a href="#_15">逆序问题</a></li>
+                    <li><a href="#_16">双序列问题</a></li>
+                    <li><a href="#_17">双序列表格法</a></li>
+                    <li><a href="#_18">二维线性问题</a></li>
+                </ul>
+                <li><a href="#dp_2">区间DP：子区间最优解</a></li>
+                <ul>
+                    <li><a href="#_19">回文串类型</a></li>
+                    <li><a href="#_20">分割点类型</a></li>
+                </ul>
+                <li><a href="#_21">背包问题：选择与容量</a></li>
+                <ul>
+                    <li><a href="#0-1">0-1 背包</a></li>
+                    <li><a href="#_22">完全背包</a></li>
+                </ul>
+                <li><a href="#dp_3">状态机 DP</a></li>
+                <ul>
+                    <li><a href="#_23">一维动态规划</a></li>
+                </ul>
+                <li><a href="#_24">数学技巧</a></li>
+                <ul>
+                    <li><a href="#_25">矩阵旋转</a></li>
+                </ul>
+            </ul>
         </ul>
+    </ul>
+</ul>
+</ul>
+</div>
     </nav>
     
     <main id="content">
-        <h1>LeetCode笔记</h1>
-        
-        <!-- 工具包 - 二分查找 -->
-        <section id="binary-search">
-            <h2>工具包</h2>
-            <h3>二分查找</h3>
-            
-            <p>查找给定值，存在则返回索引，否则返回-1：</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="python">Python</button>
-                    <button class="tab-btn" data-lang="cpp">C++</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def binary_search(nums, target):
-    left, right = 0, len(nums) - 1
-    while left <= right:
-        mid = (left + right) // 2
-        if nums[mid] == target:
-            return mid
-        elif nums[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    return -1
-# 递归版本
-def binary_search(nums, target, left, right):
-    if left > right:
-        return -1
-    mid = (left + right) // 2
-    if nums[mid] == target:
-        return mid
-    elif nums[mid] < target:
-        return binary_search(nums, target, mid + 1, right)
-    else:
-        return binary_search(nums, target, left, mid - 1)</code></pre>
-                    
-                    <pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int binarySearch(vector<int>& nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] == target) {
-            return mid;
-        } else if (nums[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
-    }
-    return -1;
-}
-// 递归版本
-int binarySearch(vector<int>& nums, int target, int left, int right) {
-    if (left > right) {
-        return -1;
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] == target) {
-        return mid;
-    } else if (nums[mid] < target) {
-        return binarySearch(nums, target, mid + 1, right);
-    } else {
-        return binarySearch(nums, target, left, mid - 1);
-    }
-}</code></pre>
-                </div>
-            </div>
-            
-            <p>查找比给定值小的最大元素（下界）:</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="python">Python</button>
-                    <button class="tab-btn" data-lang="cpp">C++</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+        <section id="leetcode"><h1 id="leetcode">LeetCode 算法笔记</h1>
+<p>服务于机考</p>
+<h3 id="_1">常用工具包</h3>
+<h4 id="_2">二分查找</h4>
+<p>注：在以下算法中，<code>if</code> 递归条件中改为非严格符号，就能处理有相同元素时的问题</p>
+<h5 id="-1">查找给定值，存在则返回索引，否则返回-1：</h5>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
 def find_lower_bound(nums, target):
     left, right = 0, len(nums) - 1
     i = len(nums)  # 初始化假设所有元素都小于target
-    while left <= right:
+    while left &lt;= right:
         mid = (left + right) // 2
-        if nums[mid] >= target:
+        if nums[mid] &gt;= target:
             i = mid
             right = mid - 1
         else:
@@ -113,21 +127,20 @@ def find_lower_bound(nums, target):
     return i - 1 if i != 0 else -1
 # 递归版本
 def find_lower_bound(nums, target, left, right):
-    if left > right:
+    if left &gt; right:
         return right  # 返回比target小的最大元素的索引
     mid = (left + right) // 2
-    if nums[mid] >= target:
+    if nums[mid] &gt;= target:
         return find_lower_bound(nums, target, left, mid - 1)
     else:
         return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-                    
-                    <pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector<int>& nums, int target) {
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
     int left = 0, right = nums.size() - 1;
     int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left <= right) {
+    while (left &lt;= right) {
         int mid = left + (right - left) / 2;
-        if (nums[mid] >= target) {
+        if (nums[mid] &gt;= target) {
             i = mid;
             right = mid - 1;
         } else {
@@ -137,517 +150,1948 @@ int findLowerBound(vector<int>& nums, int target) {
     return i == 0 ? -1 : i - 1;
 }
 // 递归版本
-int findLowerBound(vector<int>& nums, int target, int left, int right) {
-    if (left > right) {
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
         return right;  // 返回比target小的最大元素的索引
     }
     int mid = left + (right - left) / 2;
-    if (nums[mid] >= target) {
+    if (nums[mid] &gt;= target) {
         return findLowerBound(nums, target, left, mid - 1);
     } else {
         return findLowerBound(nums, target, mid + 1, right);
     }
 }</code></pre>
-                </div>
-            </div>
-            
-            <p>查找比给定值大的最小元素（上界）:</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="python">Python</button>
-                    <button class="tab-btn" data-lang="cpp">C++</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_upper_bound(nums, target):
+</div>
+</div>
+</p>
+<h5 id="_3">查找比给定值小的最大元素（下界）:</h5>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
     left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于等于target
-    while left <= right:
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
         mid = (left + right) // 2
-        if nums[mid] > target:
+        if nums[mid] &gt;= target:
             i = mid
             right = mid - 1
         else:
             left = mid + 1
-    return i if i != len(nums) else -1
+    return i - 1 if i != 0 else -1
 # 递归版本
-def find_upper_bound(nums, target, left, right):
-    if left > right:
-        return left if left < len(nums) else -1  # 返回比target大的最小元素的索引
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
     mid = (left + right) // 2
-    if nums[mid] > target:
-        return find_upper_bound(nums, target, left, mid - 1)
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
     else:
-        return find_upper_bound(nums, target, mid + 1, right)</code></pre>
-                    
-                    <pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findUpperBound(vector<int>& nums, int target) {
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
     int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于等于target
-    while (left <= right) {
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
         int mid = left + (right - left) / 2;
-        if (nums[mid] > target) {
+        if (nums[mid] &gt;= target) {
             i = mid;
             right = mid - 1;
         } else {
             left = mid + 1;
         }
     }
-    return i != nums.size() ? i : -1;
+    return i == 0 ? -1 : i - 1;
 }
 // 递归版本
-int findUpperBound(vector<int>& nums, int target, int left, int right) {
-    if (left > right) {
-        return left < nums.size() ? left : -1;  // 返回比target大的最小元素的索引
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
     }
     int mid = left + (right - left) / 2;
-    if (nums[mid] > target) {
-        return findUpperBound(nums, target, left, mid - 1);
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
     } else {
-        return findUpperBound(nums, target, mid + 1, right);
+        return findLowerBound(nums, target, mid + 1, right);
     }
 }</code></pre>
-                </div>
-            </div>
-            
-            <p>注：在以上算法中，<code>if</code> 递归条件中改为非严格符号，就能处理有相同元素时的问题</p>
-        </section>
-        
-        <!-- 快慢指针 -->
-        <section id="two-pointers">
-            <h3>快慢指针</h3>
-            
-            <p>取链表中点</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="python">Python</button>
-                    <button class="tab-btn" data-lang="cpp">C++</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="python"><code class="language-python">while fast and fast.next:
-    fast, slow = fast.next.next, slow.next
-mid = slow.next</code></pre>
-                    
-                    <pre class="code-block" data-lang="cpp"><code class="language-cpp">while (fast != nullptr && fast->next != nullptr) {
-    fast = fast->next->next;
-    slow = slow->next;
+</div>
+</div>
+</p>
+<h5 id="_4">查找比给定值大的最小元素（上界）:</h5>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
 }
-ListNode* mid = slow->next;</code></pre>
-                </div>
-            </div>
-            
-            <p>找环形入口</p>
-            
-            <p><a href="https://leetcode.cn/problems/find-the-duplicate-number/" target="_blank">287. 寻找重复数 - 力扣（LeetCode）</a></p>
-        </section>
-        
-        <!-- 数组元素的相互抵消运算 -->
-        <section id="array-cancel">
-            <h3>数组元素的相互抵消运算</h3>
-            
-            <ul>
-                <li>异或运算：<a href="https://leetcode.cn/problems/single-number/" target="_blank">136. 只出现一次的数字 - 力扣（LeetCode）</a></li>
-                <li>摩尔投票：<a href="https://leetcode.cn/problems/majority-element/description/" target="_blank">169. 多数元素 - 力扣（LeetCode）</a></li>
-            </ul>
-        </section>
-        
-        <!-- 滑动窗口 -->
-        <section id="sliding-window">
-            <h3>滑动窗口</h3>
-            
-            <p>滑动窗口仅适用于单调数组，即右扩展</p>
-            
-            <p><a href="https://leetcode.cn/problems/minimum-window-substring/description" target="_blank">76. 最小覆盖子串 - 力扣（LeetCode）</a></p>
-        </section>
-        
-        <!-- 单调栈 -->
-        <section id="monotonic-stack">
-            <h3>单调栈</h3>
-            
-            <p>在 O(n) 内解决 "左/右边下一个更大/更小元素" 问题（广义：在一维数组中找第一个满足某种条件的数）：</p>
-            
-            <ul>
-                <li>单调递增栈：从栈顶到栈底递增（口诀：<strong>递增栈找第一大</strong>）
-                    <ul>
-                        <li>满足递增：入栈时判断栈顶是否比自己<strong>小</strong>，如果是则弹出；直到<strong>栈空</strong>或栈顶<strong>不小于</strong>自身，入栈</li>
-                        <li>当从左到右顺序遍历入栈时，入栈前的元素就是<strong>左边第一个比自己大的元素</strong></li>
-                    </ul>
-                </li>
-                <li>单调递减栈：从栈顶到栈底递减（口诀：<strong>递减栈找第一小</strong>）
-                    <ul>
-                        <li>入栈时判断栈顶是否比自己<strong>大</strong></li>
-                        <li>如果是则弹出，直到栈顶<strong>不大于</strong>自身，入栈</li>
-                        <li>当从左到右顺序遍历入栈时，入栈前的元素就是<strong>左边第一个比自己小的元素</strong></li>
-                    </ul>
-                </li>
-            </ul>
-            
-            <p>单调栈是非常好用的数据结构，为了避免脑子卡住：</p>
-            
-            <ul>
-                <li>先记住口诀：减小增大（顺着的）</li>
-                <li>再记模板：单调栈三部曲</li>
-            </ul>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="python">Python</button>
-                    <button class="tab-btn" data-lang="cpp">C++</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="python"><code class="language-python">while 栈非空 and 单调性不满足（这里是排除，排除不严格结果就严格）:
-    出栈
-if 栈空:    边界处理
-else: r[i]=栈顶
-无条件入栈 a[i]</code></pre>
-                    
-                    <pre class="code-block" data-lang="cpp"><code class="language-cpp">while (!stack.empty() && !满足单调性条件) {
-    stack.pop();
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h4 id="_5">链表快慢指针</h4>
+<h5 id="_6">取链表中点</h5>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
 }
-if (stack.empty()) {
-    // 边界处理
-} else {
-    r[i] = stack.top();
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h5 id="_7">找环形入口</h5>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
 }
-stack.push(a[i]);</code></pre>
-                </div>
-            </div>
-            
-            <p>然后理解：单调栈的精髓在于<strong>单向遮盖</strong>：对于从左向右遍历的递减栈来说，当它遇到一个值，栈中所有比它大的值都会被踢出，这个值就相当于遮盖了它左边所有比它大的值，标记出了新的左侧下界，但又保留了比自己更小的值</p>
-            
-            <p>（一般在实际应用中维护的是索引，结果序列的初试默认值为 -1，最终值为 -1 则代表没有，也就是单向极值）：</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="python">Python</button>
-                    <button class="tab-btn" data-lang="cpp">C++</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="python"><code class="language-python">def next_greater(nums):
-    greater_stack = []
-    answer = [-1]*len(nums)    # 初始化全 -1
-    for i in range(len(nums)):
-        while greater_stack and nums[i]>nums[greater_stack[-1]]: # 栈底在末位
-            index = greater_stack.pop()
-            answer[index] = nums[i]
-        greater_stack.append(i)
-    return answer</code></pre>
-                    
-                    <pre class="code-block" data-lang="cpp"><code class="language-cpp">vector<int> nextGreater(vector<int>& nums) {
-    stack<int> greaterStack;
-    vector<int> answer(nums.size(), -1);  // 初始化全 -1
-    for (int i = 0; i < nums.size(); i++) {
-        while (!greaterStack.empty() && nums[i] > nums[greaterStack.top()]) { // 栈底在末位
-            int index = greaterStack.top();
-            greaterStack.pop();
-            answer[index] = nums[i];
-        }
-        greaterStack.push(i);
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
     }
-    return answer;
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
 }</code></pre>
-                </div>
-            </div>
-            
-            <p>⭐<a href="https://leetcode.cn/problems/trapping-rain-water/description" target="_blank">42. 接雨水 - 力扣（LeetCode）</a></p>
-            
-            <p>思路：按列求，每次只关注一列（而不是块区域，这个聚焦思想很重要），一个列能够接雨水的量：取决于：<code>min(左边的最高值，右边的最高值）-当前列高</code>，于是我们只需要获得：</p>
-            
-            <ul>
-                <li>向左看的最高列数组<code>l</code></li>
-                <li>向右看的最高列数组<code>r</code></li>
-                <li>本列的高度输入（输入）<code>a</code></li>
-            </ul>
-            
-            <p>就可以得到答案数组<code>res[i]=min(l[i],r[i])-a[i]</code>，对 <code>res</code> 的所有非 0 项求和即可</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="cpp">C++</button>
-                    <button class="tab-btn" data-lang="python">Python</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="cpp"><code class="language-cpp">int trap(vector<int>& height) {
-    int n = height.size();
-    int h = 0;
-    vector<int> l(n), r(n), res(n);
-    for(int i=0;i<n;i++){
-        l[i] = h;
-        if(height[i]>h) h = height[i];
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/find-the-duplicate-number/">287. 寻找重复数 - 力扣（LeetCode）</a></p>
+<h4 id="_8">数组元素的相互抵消运算</h4>
+<p>异或运算：<a href="https://leetcode.cn/problems/single-number/">136. 只出现一次的数字 - 力扣（LeetCode）</a></p>
+<p>摩尔投票：<a href="https://leetcode.cn/problems/majority-element/description/">169. 多数元素 - 力扣（LeetCode）</a></p>
+<h3 id="_9">滑动窗口</h3>
+<p>滑动窗口仅适用于单调数组，即右扩展</p>
+<p><a href="https://leetcode.cn/problems/minimum-window-substring/description">76. 最小覆盖子串 - 力扣（LeetCode）</a></p>
+<h3 id="_10">单调栈</h3>
+<p>​   在 $O(n)$ 内解决 “ 左 / 右边下一个更大 / 更小元素 ” 问题（广义：在一维数组中找第一个满足某种条件的数）：</p>
+<ul>
+<li>单调递增栈：从栈顶到栈底递增（口诀：<strong>递增栈找第一大</strong>）</li>
+<li>满足递增：入栈时判断栈顶是否比自己<strong>小</strong>，如果是则弹出；直到<strong>栈空</strong>或栈顶<strong>不小于</strong>自身，入栈</li>
+<li>当从左到右顺序遍历入栈时，入栈前的元素就是<strong>左边第一个比自己大的元素</strong></li>
+<li>单调递减栈：从栈顶到栈底递减（口诀：<strong>递减栈找第一小</strong>）</li>
+<li>入栈时判断栈顶是否比自己<strong>大</strong></li>
+<li>如果是则弹出，直到栈顶<strong>不大于</strong>自身，入栈</li>
+<li>当从左到右顺序遍历入栈时，入栈前的元素就是<strong>左边第一个比自己小的元素</strong></li>
+</ul>
+<p>​   单调栈是非常好用的数据结构，为了避免脑子卡住：</p>
+<ul>
+<li>
+<p>先记住口诀：减小增大（顺着的）</p>
+</li>
+<li>
+<p>再记模板：单调栈三部曲</p>
+</li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
     }
-    h = 0;
-    for(int i=n-1;i>=0;i--){
-        r[i] = h;
-        if(height[i]>h) h = height[i];
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
     }
-    int ans = 0;
-    for(int i=0;i<n;i++){
-        res[i]=min(l[i], r[i]) - height[i];
-        if(res[i]>0) ans+=res[i];
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
     }
-    return ans;
 }</code></pre>
-                    
-                    <pre class="code-block" data-lang="python"><code class="language-python">def trap(height):
-    n = len(height)
-    h = 0
-    l, r, res = [0] * n, [0] * n, [0] * n
-    
-    for i in range(n):
-        l[i] = h
-        if height[i] > h:
-            h = height[i]
-    
-    h = 0
-    for i in range(n-1, -1, -1):
-        r[i] = h
-        if height[i] > h:
-            h = height[i]
-    
-    ans = 0
-    for i in range(n):
-        res[i] = min(l[i], r[i]) - height[i]
-        if res[i] > 0:
-            ans += res[i]
-    
-    return ans</code></pre>
-                </div>
-            </div>
-            
-            <p><a href="https://leetcode.cn/problems/largest-rectangle-in-histogram/description" target="_blank">84. 柱状图中最大的矩形 - 力扣（LeetCode）</a></p>
-            
-            <p>经典单调栈题目</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="cpp">C++</button>
-                    <button class="tab-btn" data-lang="python">Python</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="cpp"><code class="language-cpp">class Solution {
-public:
-    int largestRectangleArea(vector<int>& heights) {
-        // 对于i列，矩形大小为：左边最远不小于自己的，右边最远不小于自己的
-        int n = heights.size();
-        if(n==0) return heights[0];
-        stack<int> s;
-        vector<int> left(n), right(n);
-        // 从左往右，找左边严格小,严格单调递减栈
-        for(int i=0;i<n;i++){
-            while(!s.empty() && heights[s.top()]>=heights[i])    s.pop();
-            if(s.empty())   left[i] = -1;
-            else    left[i] = s.top();
-            s.push(i); 
+</div>
+</div>
+</p>
+<ul>
+<li>然后理解：单调栈的精髓在于<strong>单向遮盖</strong>：对于从左向右遍历的递减栈来说，当它遇到一个值，栈中所有比它大的值都会被踢出，这个值就相当于遮盖了它左边所有比它大的值，标记出了新的左侧下界，但又保留了比自己更小的值</li>
+</ul>
+<p>（一般在实际应用中维护的是索引，结果序列的初试默认值为 -1，最终值为 -1 则代表没有，也就是单向极值）：</p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
         }
-        while(!s.empty()) s.pop();
-        // 从右往左，找右边严格小,严格单调递减栈
-        for(int i=n-1;i>=0;i--){
-            while(!s.empty() && heights[s.top()]>=heights[i])    s.pop();
-            if(s.empty())   right[i] = n;
-            else    right[i] = s.top();
-            s.push(i); 
-        }
-        // 计算答案
-        int maxa = 0;
-        for(int i=0;i<n;i++){
-            maxa = max(maxa, heights[i]*(right[i]-left[i]-1));
-        }
-        return maxa;
     }
-};</code></pre>
-                    
-                    <pre class="code-block" data-lang="python"><code class="language-python">class Solution:
-    def largestRectangleArea(self, heights):
-        # 对于i列，矩形大小为：左边最远不小于自己的，右边最远不小于自己的
-        n = len(heights)
-        if n == 0:
-            return heights[0]
-        
-        s = []
-        left, right = [0] * n, [0] * n
-        
-        # 从左往右，找左边严格小,严格单调递减栈
-        for i in range(n):
-            while s and heights[s[-1]] >= heights[i]:
-                s.pop()
-            left[i] = -1 if not s else s[-1]
-            s.append(i)
-        
-        s = []
-        # 从右往左，找右边严格小,严格单调递减栈
-        for i in range(n-1, -1, -1):
-            while s and heights[s[-1]] >= heights[i]:
-                s.pop()
-            right[i] = n if not s else s[-1]
-            s.append(i)
-        
-        # 计算答案
-        maxa = 0
-        for i in range(n):
-            maxa = max(maxa, heights[i] * (right[i] - left[i] - 1))
-        
-        return maxa</code></pre>
-                </div>
-            </div>
-            
-            <!-- 更多代码示例... -->
-        </section>
-        
-        <!-- 单调队列 -->
-        <section id="monotonic-queue">
-            <h3>单调队列</h3>
-            
-            <p><a href="https://leetcode.cn/problems/sliding-window-maximum/description" target="_blank">239. 滑动窗口最大值 - 力扣（LeetCode）</a></p>
-        </section>
-        
-        <!-- 前缀和 -->
-        <section id="prefix-sum">
-            <h3>前缀和</h3>
-            
-            <p><a href="https://leetcode.cn/problems/subarray-sum-equals-k/description" target="_blank">560. 和为 K 的子数组 - 力扣（LeetCode）</a></p>
-            
-            <p><a href="https://leetcode.cn/problems/path-sum-iii/description" target="_blank">437. 路径总和 III - 力扣（LeetCode）</a></p>
-        </section>
-        
-        <!-- 动态规划 -->
-        <section id="dp">
-            <h2>动态规划</h2>
-            
-            <h3>思想和解题流程</h3>
-            
-            <p>为了搞懂动态规划，必须在这做记录：动态规划永远是根据已经走过的路，计算走到今天付出的代价</p>
-            
-            <p>动态规划就四个步骤：</p>
-            
-            <ol>
-                <li><strong>定义子问题</strong>：
-                    <ul>
-                        <li>子问题一定和原问题类似，且规模更小的问题，往往都是参数化的，参数就与问题的规模有关</li>
-                        <li>父问题一定与子问题有关，也就是能根据已知的子问题解出规模更大的父问题</li>
-                    </ul>
-                </li>
-                <li><strong>写出子问题的递推关系</strong>：
-                    <ul>
-                        <li>假设子问题已经被解决了，那么当前的问题应该如何解决（常见关系：max 选择，求和转移）</li>
-                        <li>加上边界条件（最初的子问题）</li>
-                    </ul>
-                </li>
-                <li><strong>确定 DP 数组的计算顺序</strong>：
-                    <ul>
-                        <li>大部分 DP 问题都是基于数组进行顺序迭代的</li>
-                        <li>极少部分 DP 问题是基于递归进行备忘录求解的</li>
-                    </ul>
-                </li>
-                <li><strong>空间优化</strong>：
-                    <ul>
-                        <li>是否能够空间优化其实可以在写出子问题的递推关系的时候发现，如果关系式的参数是有限且临近的，那在迭代问题中就可以被临时变量代替了</li>
-                        <li>哪些动态规划问题不能空间优化？我称之为长记忆问题，也就是子循环递推问题，这类问题求解父问题需要遍历之前的所有子问题</li>
-                    </ul>
-                </li>
-            </ol>
-            
-            <p>遇到任何动态规划问题，都是对子问题的分析，对子问题的确定需要依托子问题和父问题的信息传递，即子问题的解决必须能减轻父问题的负担，这样的问题才是子问题</p>
-            
-            <h3>DP 问题分类大观</h3>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>问题特征</th>
-                        <th>可能类型</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>涉及数组/字符串的<strong>单个序列</strong>操作，状态与序列位置直接相关（仅依赖序列前驱）</td>
-                        <td><strong>线性DP</strong></td>
-                    </tr>
-                    <tr>
-                        <td>涉及<strong>两个序列</strong>的匹配或比较</td>
-                        <td><strong>双序列DP</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>选择物品</strong>且有<strong>容量限制</strong>，状态定义中包含容量维度</td>
-                        <td><strong>背包问题</strong></td>
-                    </tr>
-                    <tr>
-                        <td>操作对象是<strong>区间或子序列</strong>（需枚举分割点）</td>
-                        <td><strong>区间DP</strong></td>
-                    </tr>
-                    <tr>
-                        <td>问题在<strong>树形结构</strong>上操作</td>
-                        <td><strong>树形DP</strong></td>
-                    </tr>
-                    <tr>
-                        <td>存在多个<strong>互斥状态</strong>，状态间有明确的转移规则。</td>
-                        <td><strong>状态机DP</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <h4>线性DP：单序列问题</h4>
-            
-            <p><strong>核心特点</strong>：状态与序列位置直接相关</p>
-            
-            <p><strong>经典问题</strong>：最长递增子序列（LIS）、最大子数组和</p>
-            
-            <p>🎯 <strong>状态定义套路</strong>：</p>
-            
-            <ul>
-                <li><code>dp[i]</code>：<strong>以第 i 个元素结尾</strong>的某种最优解</li>
-            </ul>
-            
-            <h5>连续子数组问题</h5>
-            
-            <p>状态定义：<code>dp[i]</code>：以第 i 个元素结尾的最大子数组和</p>
-            
-            <p>状态转移：<code>dp[i]=max(nums[i], dp[i-1] + nums[i])</code>：要么尾追，要么单开</p>
-            
-            <p>空间优化：因为只关注前驱，只保留 <code>pre</code> 即可</p>
-            
-            <p><a href="https://leetcode.cn/problems/maximum-subarray/description" target="_blank">53. 最大子数组和 - 力扣（LeetCode）</a></p>
-            
-            <p><strong>问题</strong>：找出一个具有最大和的连续非空子数组</p>
-            
-            <div class="code-container">
-                <div class="code-tabs">
-                    <button class="tab-btn active" data-lang="cpp">C++</button>
-                    <button class="tab-btn" data-lang="python">Python</button>
-                </div>
-                
-                <div class="code-blocks">
-                    <pre class="code-block active" data-lang="cpp"><code class="language-cpp">int maxSubArray(vector<int>& nums) {
-    vector<int> dp(nums.size());
-    dp[0] = nums[0];
-    int maxn = dp[0];
-    for(int i=1;i<nums.size();i++){
-        dp[i] = max(nums[i],dp[i-1]+nums[i]);
-        if(maxn<dp[i]) maxn=dp[i];
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
     }
-    return maxn;
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
 }</code></pre>
-                    
-                    <pre class="code-block" data-lang="python"><code class="language-python">def maxSubArray(nums):
-    dp = [0] * len(nums)
-    dp[0] = nums[0]
-    maxn = dp[0]
-    for i in range(1, len(nums)):
-        dp[i] = max(nums[i], dp[i-1] + nums[i])
-        maxn = max(maxn, dp[i])
-    return maxn</code></pre>
-                </div>
-            </div>
-            
-            <!-- 更多内容省略... -->
-        </section>
+</div>
+</div>
+</p>
+<p>:star:<a href="https://leetcode.cn/problems/trapping-rain-water/description">42. 接雨水 - 力扣（LeetCode）</a></p>
+<p>思路：按列求，每次只关注一列（而不是块区域，这个聚焦思想很重要），一个列能够接雨水的量：取决于：<code>min(左边的最高值，右边的最高值）-当前列高</code>，于是我们只需要获得：</p>
+<ul>
+<li>向左看的最高列数组<code>l</code></li>
+<li>向右看的最高列数组<code>r</code></li>
+<li>本列的高度输入（输入）<code>a</code></li>
+</ul>
+<p>​   就可以得到答案数组<code>res[i]=min(l[i],r[i])-a[i]</code>，对 <code>res</code> 的所有非 0 项求和即可</p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/largest-rectangle-in-histogram/description">84. 柱状图中最大的矩形 - 力扣（LeetCode）</a></p>
+<p>经典单调栈题目</p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/daily-temperatures/description">739. 每日温度 - 力扣（LeetCode）</a></p>
+<p>单调栈经典例题，提醒一下：单调栈经常存储的是<strong>下标</strong>，而属性信息则使用下标查表</p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p>四道同思路的拓展题：</p>
+<p><a href="https://leetcode.cn/problems/remove-k-digits/description/">402. 移掉 K 位数字 - 力扣（LeetCode）</a></p>
+<p><a href="https://leetcode.cn/problems/remove-duplicate-letters/">316. 去除重复字母 - 力扣（LeetCode）</a></p>
+<p><a href="https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/description/">581. 最短无序连续子数组 - 力扣（LeetCode）</a></p>
+<h4 id="_11">单调队列</h4>
+<p><a href="https://leetcode.cn/problems/sliding-window-maximum/description">239. 滑动窗口最大值 - 力扣（LeetCode）</a></p>
+<h4 id="_12">前缀和</h4>
+<p><a href="https://leetcode.cn/problems/subarray-sum-equals-k/description">560. 和为 K 的子数组 - 力扣（LeetCode）</a></p>
+<p><a href="https://leetcode.cn/problems/path-sum-iii/description">437. 路径总和 III - 力扣（LeetCode）</a></p>
+<h3 id="_13">动态规划</h3>
+<h3 id="dp">DP 问题分类大观</h3>
+<table>
+<thead>
+<tr>
+<th>问题特征</th>
+<th>可能类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>涉及数组/字符串的<strong>单个序列</strong>操作，状态与序列位置直接相关（仅依赖序列前驱）</td>
+<td><strong>线性DP</strong></td>
+</tr>
+<tr>
+<td>涉及<strong>两个序列</strong>的匹配或比较</td>
+<td><strong>双序列DP</strong></td>
+</tr>
+<tr>
+<td><strong>选择物品</strong>且有<strong>容量限制</strong>，状态定义中包含容量维度</td>
+<td><strong>背包问题</strong></td>
+</tr>
+<tr>
+<td>操作对象是<strong>区间或子序列</strong>（需枚举分割点）</td>
+<td><strong>区间DP</strong></td>
+</tr>
+<tr>
+<td>问题在<strong>树形结构</strong>上操作</td>
+<td><strong>树形DP</strong></td>
+</tr>
+<tr>
+<td>存在多个<strong>互斥状态</strong>，状态间有明确的转移规则。</td>
+<td><strong>状态机DP</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="dp_1">线性 DP</h4>
+<p><strong>核心特点</strong>：状态与序列位置直接相关</p>
+<p><strong>经典问题</strong>：最长递增子序列（LIS）、最大子数组和</p>
+<p>🎯 <strong>状态定义套路</strong>：</p>
+<ul>
+<li><code>dp[i]</code>：<strong>以第 i 个元素结尾</strong>的某种最优解</li>
+</ul>
+<h5 id="_14">连续子数组问题</h5>
+<p>🎯 <strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素结尾的最大子数组和</p>
+<p><strong>状态转移</strong>：<code>dp[i]=max(nums[i], dp[i-1] + nums[i])</code>：要么尾追，要么单开</p>
+<p><strong>空间优化</strong>：因为只关注前驱，只保留 <code>pre</code> 即可</p>
+<p><a href="https://leetcode.cn/problems/maximum-subarray/description">53. 最大子数组和 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：找出一个具有最大和的连续非空子数组</p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/maximum-product-subarray/description">152. 乘积最大子数组 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：找出一个具有最大乘积的连续非空子数组</p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h5 id="lis">最长递增子序列问题 LIS</h5>
+<p>最基础的暴力 DP：</p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p>基础模型：<strong>二分法求 LIS 长度</strong>：</p>
+<p>​   维护 <code>p</code> 数组：<code>p[i]</code>：长度为 <code>i+1</code> 的递增子序列的最末尾元素中的<strong>最小值</strong>（最小值的用意直观上是为了找上升得最慢的子序列），且显然 <code>p</code> 是递增的</p>
+<ul>
+<li>遍历主数组，若当前 <code>t[i]</code> 元素大于 <code>p[-1]</code>，则把该元素追加到 <code>p</code> 后：<code>p.append(t[i])</code></li>
+<li>若当前 <code>t[i]</code> 元素小于 <code>p[-1]</code>，说明找到了更慢的上升子序列，则更新 <code>p</code>，覆盖掉 <code>p</code> 中大于 <code>t[i]</code> 的最小元素（二分查找）</li>
+<li>最终返回 <code>p</code> 的长度</li>
+</ul>
+<p><a href="https://leetcode.cn/problems/longest-increasing-subsequence/description">300. 最长递增子序列 - 力扣（LeetCode）</a></p>
+<p>万能建模：DAG 模型，可用于 LIS 进阶问题</p>
+<p><img alt="1" src=".figure/1.png" style="zoom:50%;"/></p>
+<p>​   建模思路：</p>
+<ul>
+<li>数据结构：二维数组，每一层用一个列表，每个列表内部是有序的</li>
+<li>构建过程：对于每个元素 <code>s[i]</code>，由于每个层的最小元素都在顶部，所以可以只看顶部就知道自己能不能和前面的层构成递增关系，即插入到下界后的有序表中</li>
+<li>层间联系：图上的边实际上并不需要真的存储，因为边描述的是递增关系，递增关系可以在需要的时候通过遍历查询</li>
+</ul>
+<p>用法：</p>
+<p><strong>求最长递增子序列的个数</strong></p>
+<p>​   思路：子序列个数 = 到达子序列末节点的路径个数，每次插入新元素，都需要检查前一层队列中，是自己前驱的个数和，元素构造为：<code>val, num</code></p>
+<p><img alt="2" src=".figure/2.png" style="zoom:50%;"/></p>
+<p><a href="https://leetcode.cn/problems/number-of-longest-increasing-subsequence">673. 最长递增子序列的个数 - 力扣（LeetCode）</a></p>
+<p><strong>俄罗斯套娃信封问题</strong></p>
+<p>​   LIS 问题的二维延伸，特点在于，你可以按照其中一个特征排序，另一个特征就会无序，随后在无序的特征维上做 LIS</p>
+<p><img alt="3" src=".figure/3.png" style="zoom:50%;"/></p>
+<p>​   排序中有个细节，却是点睛之笔，如果两个信封宽度相等，要按高度逆序排序 。 无论宽高，当严格大于时，才可以认为装的下。在宽相等的多个信封中，LIS 求解时只能取一个。 此时的局部逆序，则保证了 LIS 序列中最多从中取一个</p>
+<p>​   更多的，还有三维衍生问题：</p>
+<p><a href="https://leetcode.cn/problems/pile-box-lcci/description/">面试题 08.13. 堆箱子 - 力扣（LeetCode）</a></p>
+<h5 id="_15">逆序问题</h5>
+<p><strong>核心特点</strong>：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）</p>
+<p><a href="https://leetcode.cn/problems/solving-questions-with-brainpower">2140. 解决智力问题 - 力扣（LeetCode）</a></p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h5 id="_16">双序列问题</h5>
+<p><strong>核心特点</strong>：</p>
+<ul>
+<li>操作对象是<strong>两个序列</strong>（如字符串、数组）</li>
+<li>通常涉及<strong>匹配、对比、转换</strong>操作（如最长公共子序列、编辑距离）</li>
+</ul>
+<p><strong>经典问题</strong>：最长公共子序列、编辑距离</p>
+<p>🎯 <strong>状态定义套路</strong>：</p>
+<ul>
+<li><code>dp[i][j]</code>：表示处理到<strong>第一个序列的第 i 个元素</strong>和<strong>第二个序列的第 j 个元素</strong>时的最优解</li>
+</ul>
+<h5 id="_17">双序列表格法</h5>
+<p>常用技巧：字符串填充前导 0 或前导空，便于边界处理</p>
+<p><a href="https://leetcode.cn/problems/edit-distance/description/">72. 编辑距离 - 力扣（LeetCode）</a></p>
+<p><img alt="5" src=".figure/5.png" style="zoom:65%;"/></p>
+<p><a href="https://leetcode.cn/problems/interleaving-string/?envType=study-plan-v2&amp;envId=top-interview-150">97. 交错字符串 - 力扣（LeetCode）</a></p>
+<p><img alt="4" src=".figure/4.png" style="zoom:35%;"/></p>
+<p><a href="https://leetcode.cn/problems/uncrossed-lines">1035. 不相交的线 - 力扣（LeetCode）</a></p>
+<p><a href="https://leetcode.cn/problems/longest-common-subsequence">1143. 最长公共子序列 - 力扣（LeetCode）</a></p>
+<h5 id="_18">二维线性问题</h5>
+<p><strong>核心特点</strong>：</p>
+<ul>
+<li>问题场景在<strong>二维网格</strong>中（如矩阵、棋盘）</li>
+<li>移动方向受限（通常只能向右/向下）</li>
+</ul>
+<p><strong>状态定义套路</strong>：</p>
+<ul>
+<li><strong><code>dp[i][j]</code></strong>: 表示到达网格位置<code>(i,j)</code>时的最优解（如路径数、最小代价）</li>
+</ul>
+<h4 id="dp_2">区间DP：子区间最优解</h4>
+<p><strong>核心特点</strong>：操作对象是区间，最外层循环是子区间长度，下一层循环是子区间起点</p>
+<p><strong>经典问题</strong>：矩阵连乘、回文子串、戳气球</p>
+<p>🎯 <strong>状态定义套路</strong>：<code>dp[i][j]</code>：区间 <code>[i,j]</code> 上的最优解</p>
+<p>🎯 <strong>状态转移套路</strong>：<code>dp[i,j] = max/min{dp[i,j], dp[i, k] + dp[k+1, j] + cost}</code></p>
+<h5 id="_19">回文串类型</h5>
+<p><a href="https://leetcode.cn/problems/longest-palindromic-substring/">5. 最长回文子串 - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/longest-palindromic-subsequence/description/">516. 最长回文子序列 - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/">1312. 让字符串成为回文串的最少插入次数 - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h5 id="_20">分割点类型</h5>
+<p><a href="https://leetcode.cn/problems/burst-balloons/description/">312. 戳气球 - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/minimum-cost-to-merge-stones/description/">1000. 合并石头的最低成本 - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h4 id="_21">背包问题：选择与容量</h4>
+<p><strong>核心特点</strong>：物品选择 + 容量限制（在有约束的情况下，对某个元素<strong>要么拿要么不拿</strong>）</p>
+<p><strong>经典问题</strong>：01背包、完全背包、分割等和子集</p>
+<p>🎯 <strong>状态定义套路</strong>：<code>dp[i][w]</code>：前 i 个物品，容量为 w 时的最优解（实际定义数组需要以 n+1 和 w+1 为尺寸）</p>
+<p>🎯 <strong>状态转移套路</strong>：背包问题特点：最外层循环是背包容量，下一层循环是物品</p>
+<p><strong>空间优化</strong>：</p>
+<ul>
+<li>常用一维数组<code>dp[w]</code>：发现<code>dp[i][w]</code>的计算仅依赖上一行<code>dp[i-1][...]</code>的值，因此可以用一维数组滚动更新，<strong>覆盖旧状态</strong>。（01背包覆盖通常需要<strong>从右向左更新</strong>，反向遍历；而完全背包正向遍历）</li>
+<li>优化前，<code>i</code> 的遍历范围是<code>[1,n]</code>，<code>dp</code> 数组的尺寸是 <code>[n+1][p+1]</code>；优化后 <code>i</code> 的遍历范围是 <code>[0,n-1]</code>，<code>dp</code> 数组的尺寸是 <code>[p+1]</code></li>
+<li>优化前，需要判断背包余量和物品重量的关系（二维表格全遍历，存在物品重量大于余量的情况，需要复制之前的结果）；而优化后不需要（只遍历物品重量到余量，自动跳过无法取的情况，之前的结果只是不被覆盖，不需要显式复制），实际上空间优化的同时也优化了时间开销（复杂度相同）</li>
+</ul>
+<h5 id="0-1">0-1 背包</h5>
+<p><strong>核心特点</strong>：有 n 种物品，每种物品只有一个，每个物品有自己的重量和价值</p>
+<p><strong>关键难点</strong>：难点在于问题转化，不会那么直白得提问，需要化归</p>
+<p>🎯 <strong>状态转移套路</strong>：</p>
+<ul>
+<li>拿不下就不拿：<code>if(j&lt;w[i]) dp[i][j]=dp[i-1][j]</code></li>
+<li>拿得下再决定：<code>else dp[i][j]=g(dp[i-1][j], dp[i-1][j-w[i]]+v[i])</code>，其中 <code>g</code> 是价值函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：<code>max</code>，<code>min</code>，<code>||</code>，<code>+</code></li>
+<li>求值：<code>dp[i][j]=max(dp[i-1][j],dp[i-1][j-w[i]]+v[i])</code></li>
+</ul>
+<p><a href="https://leetcode.cn/problems/partition-equal-subset-sum/description">416. 分割等和子集 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：能否将数组分割成两个和相等的子集？</p>
+<ul>
+<li><strong>问题分析</strong>：寻找是否存在和为 <code>sum/2</code> 的子集</li>
+<li><strong>状态定义</strong>：<code>dp[i][j]</code> 表示前 <code>i</code> 个数字中选出和为 <code>j</code> 的存在性。</li>
+<li><strong>状态转移方程</strong>：</li>
+<li>拿不下就不拿：<code>if(j&lt;nums[i-1]) dp[i][j]=dp[i-1][j];</code></li>
+<li>
+<p>拿得下再决定拿不拿：<code>else dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];</code></p>
+</li>
+<li>
+<p><strong>最终目标</strong>：<code>do[n][p]</code></p>
+</li>
+<li><strong>边界条件与限制</strong>：<code>dp[0][0]=true</code> 和 <code>sum</code> 必须是偶数</li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<ul>
+<li><strong>空间优化</strong>：<code>dp[i][j]</code> 仅依赖于 <code>dp[i-1][j]</code> 和 <code>dp[i-1][j-nums[i-1]]</code>，即上一行的数据</li>
+<li><code>dp[j]</code>：容量为 <code>j</code> 时的可行性</li>
+<li><code>dp[j] = dp[j] || dp[j-nums[i]];</code></li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/target-sum/">494. 目标和 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：<code>nums</code>每个数字前添加 <code>+</code> 或 <code>-</code>，使得表达式的运算结果等于 <code>target</code>，求共有多少种组合方式</p>
+<ul>
+<li><strong>问题分析</strong>：设正数子集为 P，负数子集为 N；已知：</li>
+<li><code>P-N=target</code></li>
+<li><code>P+N=sum(nums)</code></li>
+<li>联立得：<code>P=(target+sum(nums))/2</code>，将问题转化为：在数组中选取若干数，使得它们的和等于 <code>P</code>（01 背包）</li>
+<li><strong>状态定义</strong>：<code>dp[i][j]</code>表示前 <code>i</code> 个数字中选出和为 <code>j</code> 的方案数。</li>
+<li><strong>状态转移方程</strong>：</li>
+<li>当 <code>j</code> 小于 <code>nums[i]</code> 时，不选择：<code>dp[i][j] = dp[i-1][j]</code></li>
+<li>否则，合并是否选择的结果：<code>dp[i][j] = dp[i-1][j]+dp[i-1][j - nums[i]]</code></li>
+<li><strong>最终目标</strong>：<code>dp[n][p]</code></li>
+<li><strong>边界条件与限制</strong>：</li>
+<li><strong>必要条件</strong>：<code>target+sum(nums)</code> 必须是非负偶数，且 <code>sum(nums)&gt;=target</code></li>
+<li><strong>初始化</strong>：<code>dp[0][0]=1</code>（空集合和为0的方案数为1）</li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<ul>
+<li><strong>空间优化</strong>：<code>dp[i][j]</code> 仅依赖于 <code>dp[i-1][j]</code> 和 <code>dp[i-1][j-nums[i-1]]</code>，即上一行的数据</li>
+<li><code>dp[j]</code>：容量为 <code>j</code> 时的方案数</li>
+<li><code>dp[j]=dp[j]+dp[j-nums[i]];</code></li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/ones-and-zeroes/description/">474. 一和零 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：给定一个二进制字符串数组 <code>strs</code> 和两个整数 <code>m</code> 和 <code>n</code>，分别表示允许使用的 <code>0</code> 和 <code>1</code> 的最大数量。要求找出并返回能组成的最大子集的大小，该子集中 <code>0</code> 和 <code>1</code> 的数量不超过 <code>m</code> 和 <code>n</code>。</p>
+<p>（当你已经熟悉了 0-1 背包的空间优化，就应该直接把它作为入手点了，不需要再从普通情况入手，无非就三部曲：1.背包里面没有 i，2.容量倒序，3.下界为物品重量)</p>
+<p>（注意，并不是所有背包问题都可以空间优化，当且仅当不存在多维约束（标准背包）且不用记录路径的问题可以）</p>
+<ul>
+<li><strong>问题分析</strong>：题目中给出了两个费用，这是<strong>二维 0-1 背包问题</strong></li>
+<li><strong>状态定义</strong>：<code>dp[j][k]</code> 表示使用 <code>j</code> 个 <code>0</code> 和 <code>k</code> 个 <code>1</code> 时能组成的最大子集大小</li>
+<li><strong>状态转移</strong>：对于每个字符串，统计其 <code>0</code> 的数量 <code>zeros</code> 和 <code>1</code> 的数量 <code>ones</code></li>
+<li><strong>最终目标</strong>：<code>dp[m][n]</code></li>
+<li><strong>边界条件与限制</strong>：<code>dp[0][0]=0</code></li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<h5 id="_22">完全背包</h5>
+<p><strong>核心特点</strong>：有 n 种物品，每种物品可以重复使用，每个物品有自己的重量和价值</p>
+<p><strong>关键难点</strong>：难点在于问题转化，不会那么直白得提问，需要化归</p>
+<p>🎯 <strong>状态转移套路</strong>：</p>
+<ul>
+<li>拿不下就不拿：<code>if(j&lt;w[i]) dp[i][j]=dp[i-1][j]</code></li>
+<li>拿得下再决定：<code>else dp[i][j]=g(dp[i-1][j], dp[i-1][j-w[i]]+v[i])</code>，其中 <code>g</code> 是价值函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：<code>max</code>，<code>min</code>，<code>||</code></li>
+<li>求值：<code>dp[i][j]=max(dp[i-1][j],dp[i-1][j-w[i]]+v[i])</code></li>
+<li>空间优化：与 0-1 背包不同，因为完全背包允许重复选择，所以允许覆盖，可以正序更新</li>
+</ul>
+<p><a href="https://leetcode.cn/problems/coin-change/description/">322. 零钱兑换 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：假设有无限数量的硬币，面额为 <code>coins</code>，需要凑出总金额 <code>amount</code>。求最少需要多少枚硬币？</p>
+<ul>
+<li><strong>问题分析</strong>：经典的完全背包，“无限数量” 求 “最少”</li>
+<li><strong>状态定义</strong>：<code>dp[i][j]</code>表示前 <code>i</code> 种硬币中凑出金额为 <code>w</code> 的最少硬币数。</li>
+<li><strong>状态转移方程</strong>：</li>
+<li>当 <code>j</code> 小于 <code>coins[i-1]</code> 时，不选择：<code>dp[i][j] = dp[i-1][j]</code></li>
+<li>否则，比较决定是否选择：<code>dp[i][j] = min(dp[i-1][j],dp[i][j-coins[i-1]] + 1)</code></li>
+<li><strong>最终目标</strong>：<code>dp[n][p]</code></li>
+<li><strong>边界条件与限制</strong>：</li>
+<li><strong>初始化</strong>：<code>dp[0][0]=0</code>，<code>dp[0][j]=INT_MAX</code></li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<ul>
+<li><strong>空间优化</strong>：<code>dp[i][j]</code> 仅依赖于 <code>dp[i-1][j]</code> 和 <code>dp[i][j - coins[i-1]]</code></li>
+<li><code>dp[j]</code>：凑出金额 <code>j</code> 所需的最少硬币数</li>
+<li><code>dp[j] = min(dp[j],dp[j - coins[i]]+1)</code>，正序更新</li>
+</ul>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/word-break/description/">139. 单词拆分 - 力扣（LeetCode）</a></p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/perfect-squares/">279. 完全平方数 - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<pre><code>
+</code></pre>
+<p><a href="https://leetcode.cn/problems/coin-change-ii/description/">518. 零钱兑换 II - 力扣（LeetCode）</a></p>
+<pre><code>
+</code></pre>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
+def find_lower_bound(nums, target):
+    left, right = 0, len(nums) - 1
+    i = len(nums)  # 初始化假设所有元素都小于target
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] &gt;= target:
+            i = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return i - 1 if i != 0 else -1
+# 递归版本
+def find_lower_bound(nums, target, left, right):
+    if left &gt; right:
+        return right  # 返回比target小的最大元素的索引
+    mid = (left + right) // 2
+    if nums[mid] &gt;= target:
+        return find_lower_bound(nums, target, left, mid - 1)
+    else:
+        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
+int findLowerBound(vector&amp; nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    int i = nums.size();  // 初始化假设所有元素都小于target
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] &gt;= target) {
+            i = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return i == 0 ? -1 : i - 1;
+}
+// 递归版本
+int findLowerBound(vector&amp; nums, int target, int left, int right) {
+    if (left &gt; right) {
+        return right;  // 返回比target小的最大元素的索引
+    }
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &gt;= target) {
+        return findLowerBound(nums, target, left, mid - 1);
+    } else {
+        return findLowerBound(nums, target, mid + 1, right);
+    }
+}</code></pre>
+</div>
+</div>
+</p>
+<ul>
+<li><a href="https://leetcode.cn/problems/profitable-schemes/">879. 盈利计划 - 力扣（LeetCode）</a></li>
+</ul>
+<h4 id="dp_3">状态机 DP</h4>
+<p><strong>核心特点</strong>：问题中存在<strong>多个互斥的状态</strong>，且每个状态会根据操作切换到另一个状态，形成清晰的<strong>状态转移图</strong>。例如，股票买卖中的「持有」和「不持有」状态，打家劫舍中的「偷」和「不偷」状态。</p>
+<p>🎯 <strong>状态定义套路</strong></p>
+<ol>
+<li><strong>定义状态维度</strong>：</li>
+<li><code>dp[i][s]</code>: 表示在第 <code>i</code> 个阶段（如第i天）处于状态 <code>s</code> 时的最优解。</li>
+<li>状态 <code>s</code> 通常用数字或布尔值表示（如 <code>0</code> 和 <code>1</code> 表示是否持有股票）。</li>
+<li><strong>多维状态扩展</strong>：</li>
+<li>若存在额外限制（如交易次数），需增加维度：<code>dp[i][k][s]</code>。</li>
+<li><strong>示例</strong>：股票买卖IV中，<code>dp[i][k][1]</code> 表示第i天已交易k次且持有股票的最大利润。</li>
+</ol>
+<p>🎯 <strong>状态转移套路</strong></p>
+<ol>
+<li><strong>绘制状态转移图</strong>：</li>
+<li>明确每个状态如何转换到其他状态。</li>
+<li><strong>示例</strong>（含冷冻期的股票买卖）：<ul>
+<li>状态 <code>0</code>（不持有，非冷冻期）← 保持不持有 或 从冷冻期转移</li>
+<li>状态 <code>1</code>（持有） ← 保持持有 或 从不持有状态买入</li>
+<li>状态 <code>2</code>（冷冻期） ← 从持有状态卖出</li>
+</ul>
+</li>
+<li><strong>状态转移方程</strong>：</li>
+<li>根据状态转移图，为每个状态写出递推式。</li>
+</ol>
+<p><strong>空间优化</strong>：</p>
+<ol>
+<li><strong>滚动数组压缩</strong>：若当前状态仅依赖前一状态，可用变量代替数组。</li>
+<li><strong>降维处理</strong>：</li>
+<li>若状态维度较高但部分维度可合并，可减少维度。</li>
+<li><strong>示例</strong>：当交易次数 <code>k</code> 较大时，可压缩为奇偶滚动（如 <code>dp[2][k]</code>）。</li>
+</ol>
+<h5 id="_23">一维动态规划</h5>
+<ul>
+<li>启蒙题：</li>
+<li><a href="https://leetcode.cn/problems/climbing-stairs/description">70. 爬楼梯 - 力扣（LeetCode）</a></li>
+<li><a href="https://leetcode.cn/problems/house-robber/">198. 打家劫舍 - 力扣（LeetCode）</a></li>
+</ul>
+<h4 id="_24">数学技巧</h4>
+<h5 id="_25">矩阵旋转</h5>
+<p>旋转 90° 公式：$m[i][j]=m[j][n-1-i]$</p></section>
     </main>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
