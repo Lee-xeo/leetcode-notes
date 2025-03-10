@@ -4,7 +4,7 @@
 
 ## 常用工具包
 
-#### 二分查找
+### 二分查找
 
 注：在以下算法中，`if` 递归条件中改为非严格符号，就能处理有相同元素时的问题
 
@@ -210,11 +210,7 @@ pass
 
 [287. 寻找重复数 - 力扣（LeetCode）](https://leetcode.cn/problems/find-the-duplicate-number/)
 
-#### 数组元素的相互抵消运算
 
-异或运算：[136. 只出现一次的数字 - 力扣（LeetCode）](https://leetcode.cn/problems/single-number/)
-
-摩尔投票：[169. 多数元素 - 力扣（LeetCode）](https://leetcode.cn/problems/majority-element/description/)
 
 ### 滑动窗口
 
@@ -432,11 +428,13 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 [581. 最短无序连续子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/description/)
 
-#### 单调队列
+
+
+### 单调队列
 
 [239. 滑动窗口最大值 - 力扣（LeetCode）](https://leetcode.cn/problems/sliding-window-maximum/description)
 
-#### 前缀和
+### 前缀和
 
 [560. 和为 K 的子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/subarray-sum-equals-k/description)
 
@@ -444,7 +442,7 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 
 
-### 动态规划
+## 动态规划
 
 ### DP 问题分类大观
 
@@ -457,7 +455,7 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 | 问题在**树形结构**上操作                                     | **树形DP**   |
 | 存在多个**互斥状态**，状态间有明确的转移规则。               | **状态机DP** |
 
-#### 线性 DP
+### 线性 DP
 
 **核心特点**：状态与序列位置直接相关
 
@@ -467,20 +465,33 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 - `dp[i]`：**以第 i 个元素结尾**的某种最优解
 
-##### 连续子数组问题
+#### 连续子数组问题
 
-🎯 **状态定义**：`dp[i]`：以第 i 个元素结尾的最大子数组和
+🎯 **状态定义**：`dp[i]`：以第 i 个元素**结尾**的子数组问题
 
-**状态转移**：`dp[i]=max(nums[i], dp[i-1] + nums[i])`：要么尾追，要么单开
+**状态转移**：`dp[i]=f(nums[i], g(dp[i-1],nums[i]))`：要么追加，要么单开，其中 `f` 是状态选择函数，`g` 是状态计算函数
 
-**空间优化**：因为只关注前驱，只保留 `pre` 即可
+**空间优化**：如果只关注前驱，只保留 `pre` 即可
 
 [53. 最大子数组和 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-subarray/description)
 
 **问题**：找出一个具有最大和的连续非空子数组
 
+- **问题分析**：
+  - 连续 -> 连续子数组问题（要么追加，要么单开）
+  - 最大和 -> 状态转移 `f:max`，`g:+`
+- **状态定义**：`dp[i]`：以第 i 个元素结尾的最大子数组和
+- **状态转移方程**：`dp[i] = max(nums[i],dp[i-1]+nums[i]);`
+- **最终目标**：`max(dp)`
+- **边界条件与限制**：`dp[0] = nums[0]` 
+
 ```python
-pass
+def maxSubArray(self, nums: List[int]) -> int:
+    dp = [0]*len(nums)
+    dp[0] = nums[0];
+    for i in range(1, len(nums)):
+        dp[i] = max(nums[i],dp[i-1]+nums[i])
+    return max(dp)
 ```
 
 ```c++
@@ -496,30 +507,73 @@ int maxSubArray(vector<int>& nums) {
 }
 ```
 
+- **空间优化**：只关注直接前驱，考虑使用前驱变量或者直接原地修改
 
+```python
+def maxSubArray(self, nums: List[int]) -> int:
+    for i in range(1, len(nums)):
+        nums[i] += max(nums[i - 1], 0)
+    return max(nums)
+```
+
+```c++
+int maxSubArray(vector<int>& nums) {
+    int maxn = nums[0];
+    for(int i=1;i<nums.size();i++){
+        nums[i] += max(nums[i-1],0);
+        if(maxn<nums[i]) maxn=nums[i];
+    }
+    return maxn;
+}
+```
 
 [152. 乘积最大子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-product-subarray/description)
 
 **问题**：找出一个具有最大乘积的连续非空子数组
 
+- **问题分析**：
+  - 连续 -> 连续子数组问题（要么追加，要么单开）
+  - 最大乘积 -> 状态转移 `f:max`，`g:*`
+  - 问题特性：对于乘法，负数会逆转结果，所以只维护最大值是不行的，还要考虑负半轴的最小值
+- **状态定义**：`dp[i]`：以第 i 个元素结尾的最大子数组乘积
+- **状态转移方程**：单开显然不用讨论，讨论追加情况，各自再加上当前数比较
+  - 当前元素为**正**数：
+    - **最大乘积**（`dp[i]`）可能是前一个最大乘积乘以当前数
+    - **最小乘积**（`mindp[i]`）可能是前一个最小乘积乘以当前数
+  - 当前元素为**负**数：
+    - **最大乘积**（`dp[i]`）可能由前一个最小乘积（负数）乘以当前数（负负得正）得到
+    - **最小乘积**（`mindp[i]`）可能由前一个最大乘积（正数）乘以当前数得到
+- **最终目标**：`max(dp)`
+- **边界条件与限制**：`dp[0] = nums[0]` 
+
 ```python
-pass
+def maxProduct(self, nums: List[int]) -> int:
+    dp = [nums[0]] * len(nums)
+    mindp = [nums[0]] * len(nums)
+    for i in range(1,len(nums)):
+        if nums[i] > 0: # 正数
+            mindp[i] = min(mindp[i-1]*nums[i], nums[i])
+            dp[i] = max(dp[i-1]*nums[i], nums[i])
+        else: # 负数
+            mindp[i] = min(dp[i-1]*nums[i], nums[i])
+            dp[i] = max(mindp[i-1]*nums[i], nums[i])
+    return max(dp)
 ```
 
 ```c++
 int maxProduct(vector<int>& nums) {
     int n = nums.size();
     vector<int> dp(n, 0), neg(n,0);
-    dp[0] = nums[0], neg[0]=nums[0];
+    dp[0] = nums[0], mindp[0]=nums[0];
     int res = dp[0];
     for(int i=1;i<n;i++){
         if(nums[i]>0){
-            neg[i] = min(neg[i-1]*nums[i], nums[i]); // 默认neg是负数
+            neg[i] = min(mindp[i-1]*nums[i], nums[i]); // 默认neg是负数
             dp[i] = max(dp[i-1]*nums[i], nums[i]);
         }   
         else{
             neg[i] = min(dp[i-1]*nums[i], nums[i]); // 默认dp是负数
-            dp[i] = max(neg[i-1]*nums[i],dp[i-1]*nums[i]);
+            dp[i] = max(mindp[i-1]*nums[i], nums[i]);
         }
         if(res<dp[i]) res = dp[i];
     }
@@ -527,7 +581,39 @@ int maxProduct(vector<int>& nums) {
 }
 ```
 
-##### 最长递增子序列问题 LIS
+- **空间优化**
+
+```python
+def maxProduct(self, nums: List[int]) -> int:
+    dp = nums
+    maxdp = dp[0]
+    mindp = dp[0]
+    for i in range(1,len(nums)):
+        tempmaxdp = max(nums[i], maxdp*nums[i], mindp*nums[i])
+        tempmindp = min(nums[i], mindp*nums[i], maxdp*nums[i])
+        maxdp = tempmaxdp
+        mindp = tempmindp
+        dp[i] = max(dp[i-1], maxdp)
+    return dp[-1]
+```
+
+```c++
+
+```
+
+[91. 解码方法 - 力扣（LeetCode）](https://leetcode.cn/problems/decode-ways/description/)
+
+```python
+
+```
+
+```c++
+
+```
+
+
+
+#### 最长递增子序列问题 LIS
 
 最基础的暴力 DP：
 
@@ -542,7 +628,7 @@ def lengthOfLIS(nums):
 ```
 
 ```c++
-c
+
 ```
 
 基础模型：**二分法求 LIS 长度**：
@@ -589,11 +675,9 @@ c
 
 
 
-##### 逆序问题
+#### 逆序问题
 
 **核心特点**：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）
-
-
 
 [2140. 解决智力问题 - 力扣（LeetCode）](https://leetcode.cn/problems/solving-questions-with-brainpower)
 
@@ -619,7 +703,7 @@ long long mostPoints(vector<vector<int>>& questions) {
 
 
 
-##### 双序列问题
+#### 双序列问题
 
 **核心特点**：
 
@@ -632,13 +716,53 @@ long long mostPoints(vector<vector<int>>& questions) {
 
 - `dp[i][j]`：表示处理到**第一个序列的第 i 个元素**和**第二个序列的第 j 个元素**时的最优解
 
-##### 双序列表格法
-
-常用技巧：字符串填充前导 0 或前导空，便于边界处理
+常用技巧：**双序列表格法**＋字符串填充前导 0 或前导空字符，便于边界处理
 
 [72. 编辑距离 - 力扣（LeetCode）](https://leetcode.cn/problems/edit-distance/description/)
 
+**问题**：给你两个单词 `word1` 和 `word2`， 请返回将 `word1` 转换成 `word2` 所使用的最少操作数（插入，删除，替换）
+
+
+
 <img src="./figure/5.png" alt="5" style="zoom:65%;" />
+
+```python
+def minDistance(self, word1: str, word2: str) -> int:
+    if word2=="":   return len(word1)
+    if word1=="":   return len(word2)
+    dp = [[0 for j in range(len(word2)+1)] for i in range(len(word1)+1)]
+    # 边界
+    for i in range(1,len(word1)+1): dp[i][0] = dp[i-1][0]+1
+    for j in range(1,len(word2)+1): dp[0][j] = dp[0][j-1]+1
+
+    for i in range(1,len(word1)+1):
+        for j in range(1,len(word2)+1):
+            if word1[i-1]==word2[j-1]: dp[i][j]=dp[i-1][j-1]
+        else: dp[i][j]=min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1
+
+    return dp[-1][-1]
+```
+
+```c++
+int minDistance(string word1, string word2) {
+    int n = word1.size(), m = word2.size();
+    if(n==0 || m==0) return max(n,m);
+    vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+    // dp[i][j] = dp[i-1][j-1], w[i]==w[j], 不编辑
+    // dp[i][j] = min(dp[i-1][j],dp[i][j-1])+1 编辑
+    // 边界
+    for(int i=0;i<n+1;i++) dp[i][0] = i;
+    for(int j=0;j<m+1;j++) dp[0][j] = j;
+
+    for(int i=1;i<n+1;i++){
+        for(int j=1;j<m+1;j++){
+            if(word1[i-1]==word2[j-1])  dp[i][j] = dp[i-1][j-1];
+            else dp[i][j] = min(min(dp[i-1][j],dp[i][j-1]),dp[i-1][j-1])+1;
+        }
+    }
+    return dp[n][m];
+}
+```
 
 [97. 交错字符串 - 力扣（LeetCode）](https://leetcode.cn/problems/interleaving-string/?envType=study-plan-v2&envId=top-interview-150)
 
@@ -647,8 +771,6 @@ long long mostPoints(vector<vector<int>>& questions) {
 [1035. 不相交的线 - 力扣（LeetCode）](https://leetcode.cn/problems/uncrossed-lines)
 
 [1143. 最长公共子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-common-subsequence)
-
-
 
 
 
@@ -663,7 +785,7 @@ long long mostPoints(vector<vector<int>>& questions) {
 
 - **`dp[i][j]`**: 表示到达网格位置`(i,j)`时的最优解（如路径数、最小代价）
 
-#### 区间DP：子区间最优解
+### 区间DP：子区间最优解
 
 **核心特点**：操作对象是区间，最外层循环是子区间长度，下一层循环是子区间起点
 
@@ -673,7 +795,7 @@ long long mostPoints(vector<vector<int>>& questions) {
 
 🎯 **状态转移套路**：`dp[i,j] = max/min{dp[i,j], dp[i, k] + dp[k+1, j] + cost}`
 
-##### 回文串类型
+#### 回文串类型
 
 [5. 最长回文子串 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-substring/)
 
@@ -751,7 +873,7 @@ int minInsertions(string s) {
 
 
 
-##### 分割点类型
+#### 分割点类型
 
 [312. 戳气球 - 力扣（LeetCode）](https://leetcode.cn/problems/burst-balloons/description/)
 
@@ -811,7 +933,7 @@ int mergeStones(vector<int>& stones, int k) {
 
 
 
-#### 背包问题：选择与容量
+### 背包问题：选择与容量
 
 **核心特点**：物品选择 + 容量限制（在有约束的情况下，对某个元素**要么拿要么不拿**）
 
@@ -827,7 +949,7 @@ int mergeStones(vector<int>& stones, int k) {
 - 优化前，`i` 的遍历范围是`[1,n]`，`dp` 数组的尺寸是 `[n+1][p+1]`；优化后 `i` 的遍历范围是 `[0,n-1]`，`dp` 数组的尺寸是 `[p+1]`
 - 优化前，需要判断背包余量和物品重量的关系（二维表格全遍历，存在物品重量大于余量的情况，需要复制之前的结果）；而优化后不需要（只遍历物品重量到余量，自动跳过无法取的情况，之前的结果只是不被覆盖，不需要显式复制），实际上空间优化的同时也优化了时间开销（复杂度相同）
 
-##### 0-1 背包
+#### 0-1 背包
 
 **核心特点**：有 n 种物品，每种物品只有一个，每个物品有自己的重量和价值
 
@@ -849,7 +971,7 @@ int mergeStones(vector<int>& stones, int k) {
   - 拿不下就不拿：`if(j<nums[i-1]) dp[i][j]=dp[i-1][j];`
   - 拿得下再决定拿不拿：`else dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];`
 
-- **最终目标**：`do[n][p]`
+- **最终目标**：`dp[n][p]`
 - **边界条件与限制**：`dp[0][0]=true` 和 `sum` 必须是偶数
 
 ```python
@@ -1009,7 +1131,7 @@ int findMaxForm(vector<string>& strs, int m, int n) {
 }
 ```
 
-##### 完全背包
+#### 完全背包
 
 **核心特点**：有 n 种物品，每种物品可以重复使用，每个物品有自己的重量和价值
 
@@ -1135,7 +1257,7 @@ int change(int amount, vector<int>& coins) {
 
 
 
-#### 状态机 DP
+### 状态机 DP
 
 **核心特点**：问题中存在**多个互斥的状态**，且每个状态会根据操作切换到另一个状态，形成清晰的**状态转移图**。例如，股票买卖中的「持有」和「不持有」状态，打家劫舍中的「偷」和「不偷」状态。
 
@@ -1166,19 +1288,15 @@ int change(int amount, vector<int>& coins) {
    - 若状态维度较高但部分维度可合并，可减少维度。
    - **示例**：当交易次数 `k` 较大时，可压缩为奇偶滚动（如 `dp[2][k]`）。
 
+[70. 爬楼梯 - 力扣（LeetCode）](https://leetcode.cn/problems/climbing-stairs/description)
 
+## 技巧
 
+#### 数组元素的相互抵消运算
 
+异或运算：[136. 只出现一次的数字 - 力扣（LeetCode）](https://leetcode.cn/problems/single-number/)
 
-
-
-##### 一维动态规划
-
-- 启蒙题：
-  - [70. 爬楼梯 - 力扣（LeetCode）](https://leetcode.cn/problems/climbing-stairs/description)
-  - [198. 打家劫舍 - 力扣（LeetCode）](https://leetcode.cn/problems/house-robber/)
-
-
+摩尔投票：[169. 多数元素 - 力扣（LeetCode）](https://leetcode.cn/problems/majority-element/description/)
 
 #### 数学技巧
 

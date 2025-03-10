@@ -40,8 +40,8 @@
     <ul>
         <li><a href="#_1">常用工具包</a></li>
         <ul>
+            <li><a href="#_2">二分查找</a></li>
             <ul>
-                <li><a href="#_2">二分查找</a></li>
                 <ul>
                     <li><a href="#-1">查找给定值，存在则返回索引，否则返回-1：</a></li>
                     <li><a href="#_3">查找比给定值小的最大元素（下界）:</a></li>
@@ -52,43 +52,44 @@
                     <li><a href="#_6">取链表中点</a></li>
                     <li><a href="#_7">找环形入口</a></li>
                 </ul>
-                <li><a href="#_8">数组元素的相互抵消运算</a></li>
             </ul>
-            <li><a href="#_9">滑动窗口</a></li>
-            <li><a href="#_10">单调栈</a></li>
-            <ul>
-                <li><a href="#_11">单调队列</a></li>
-                <li><a href="#_12">前缀和</a></li>
-            </ul>
-            <li><a href="#_13">动态规划</a></li>
+            <li><a href="#_8">滑动窗口</a></li>
+            <li><a href="#_9">单调栈</a></li>
+            <li><a href="#_10">单调队列</a></li>
+            <li><a href="#_11">前缀和</a></li>
+        </ul>
+        <li><a href="#_12">动态规划</a></li>
+        <ul>
             <li><a href="#dp">DP 问题分类大观</a></li>
+            <li><a href="#dp_1">线性 DP</a></li>
             <ul>
-                <li><a href="#dp_1">线性 DP</a></li>
+                <li><a href="#_13">连续子数组问题</a></li>
+                <li><a href="#lis">最长递增子序列问题 LIS</a></li>
+                <li><a href="#_14">逆序问题</a></li>
+                <li><a href="#_15">双序列问题</a></li>
                 <ul>
-                    <li><a href="#_14">连续子数组问题</a></li>
-                    <li><a href="#lis">最长递增子序列问题 LIS</a></li>
-                    <li><a href="#_15">逆序问题</a></li>
-                    <li><a href="#_16">双序列问题</a></li>
-                    <li><a href="#_17">双序列表格法</a></li>
-                    <li><a href="#_18">二维线性问题</a></li>
+                    <li><a href="#_16">二维线性问题</a></li>
                 </ul>
-                <li><a href="#dp_2">区间DP：子区间最优解</a></li>
+            </ul>
+            <li><a href="#dp_2">区间DP：子区间最优解</a></li>
+            <ul>
+                <li><a href="#_17">回文串类型</a></li>
+                <li><a href="#_18">分割点类型</a></li>
+            </ul>
+            <li><a href="#_19">背包问题：选择与容量</a></li>
+            <ul>
+                <li><a href="#0-1">0-1 背包</a></li>
+                <li><a href="#_20">完全背包</a></li>
+            </ul>
+            <li><a href="#dp_3">状态机 DP</a></li>
+        </ul>
+        <li><a href="#_21">技巧</a></li>
+        <ul>
+            <ul>
+                <li><a href="#_22">数组元素的相互抵消运算</a></li>
+                <li><a href="#_23">数学技巧</a></li>
                 <ul>
-                    <li><a href="#_19">回文串类型</a></li>
-                    <li><a href="#_20">分割点类型</a></li>
-                </ul>
-                <li><a href="#_21">背包问题：选择与容量</a></li>
-                <ul>
-                    <li><a href="#0-1">0-1 背包</a></li>
-                    <li><a href="#_22">完全背包</a></li>
-                </ul>
-                <li><a href="#dp_3">状态机 DP</a></li>
-                <ul>
-                    <li><a href="#_23">一维动态规划</a></li>
-                </ul>
-                <li><a href="#_24">数学技巧</a></li>
-                <ul>
-                    <li><a href="#_25">矩阵旋转</a></li>
+                    <li><a href="#_24">矩阵旋转</a></li>
                 </ul>
             </ul>
         </ul>
@@ -102,7 +103,7 @@
         <section id="leetcode"><h1 id="leetcode">LeetCode 算法笔记</h1>
 <p>服务于机考</p>
 <h2 id="_1">常用工具包</h2>
-<h4 id="_2">二分查找</h4>
+<h3 id="_2">二分查找</h3>
 <p>注：在以下算法中，<code>if</code> 递归条件中改为非严格符号，就能处理有相同元素时的问题</p>
 <h5 id="-1">查找给定值，存在则返回索引，否则返回-1：</h5>
 <p>
@@ -319,13 +320,10 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/find-the-duplicate-number/">287. 寻找重复数 - 力扣（LeetCode）</a></p>
-<h4 id="_8">数组元素的相互抵消运算</h4>
-<p>异或运算：<a href="https://leetcode.cn/problems/single-number/">136. 只出现一次的数字 - 力扣（LeetCode）</a></p>
-<p>摩尔投票：<a href="https://leetcode.cn/problems/majority-element/description/">169. 多数元素 - 力扣（LeetCode）</a></p>
-<h3 id="_9">滑动窗口</h3>
+<h3 id="_8">滑动窗口</h3>
 <p>滑动窗口仅适用于单调数组，即右扩展</p>
 <p><a href="https://leetcode.cn/problems/minimum-window-substring/description">76. 最小覆盖子串 - 力扣（LeetCode）</a></p>
-<h3 id="_10">单调栈</h3>
+<h3 id="_9">单调栈</h3>
 <p>​   在 $O(n)$ 内解决 “ 左 / 右边下一个更大 / 更小元素 ” 问题（广义：在一维数组中找第一个满足某种条件的数）：</p>
 <ul>
 <li>单调递增栈：从栈顶到栈底递增（口诀：<strong>递增栈找第一大</strong>）</li>
@@ -547,12 +545,12 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p><a href="https://leetcode.cn/problems/remove-k-digits/description/">402. 移掉 K 位数字 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/remove-duplicate-letters/">316. 去除重复字母 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/description/">581. 最短无序连续子数组 - 力扣（LeetCode）</a></p>
-<h4 id="_11">单调队列</h4>
+<h3 id="_10">单调队列</h3>
 <p><a href="https://leetcode.cn/problems/sliding-window-maximum/description">239. 滑动窗口最大值 - 力扣（LeetCode）</a></p>
-<h4 id="_12">前缀和</h4>
+<h3 id="_11">前缀和</h3>
 <p><a href="https://leetcode.cn/problems/subarray-sum-equals-k/description">560. 和为 K 的子数组 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/path-sum-iii/description">437. 路径总和 III - 力扣（LeetCode）</a></p>
-<h3 id="_13">动态规划</h3>
+<h2 id="_12">动态规划</h2>
 <h3 id="dp">DP 问题分类大观</h3>
 <table>
 <thead>
@@ -588,19 +586,28 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </tr>
 </tbody>
 </table>
-<h4 id="dp_1">线性 DP</h4>
+<h3 id="dp_1">线性 DP</h3>
 <p><strong>核心特点</strong>：状态与序列位置直接相关</p>
 <p><strong>经典问题</strong>：最长递增子序列（LIS）、最大子数组和</p>
 <p>🎯 <strong>状态定义套路</strong>：</p>
 <ul>
 <li><code>dp[i]</code>：<strong>以第 i 个元素结尾</strong>的某种最优解</li>
 </ul>
-<h5 id="_14">连续子数组问题</h5>
-<p>🎯 <strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素结尾的最大子数组和</p>
-<p><strong>状态转移</strong>：<code>dp[i]=max(nums[i], dp[i-1] + nums[i])</code>：要么尾追，要么单开</p>
-<p><strong>空间优化</strong>：因为只关注前驱，只保留 <code>pre</code> 即可</p>
+<h4 id="_13">连续子数组问题</h4>
+<p>🎯 <strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素<strong>结尾</strong>的子数组问题</p>
+<p><strong>状态转移</strong>：<code>dp[i]=f(nums[i], g(dp[i-1],nums[i]))</code>：要么追加，要么单开，其中 <code>f</code> 是状态选择函数，<code>g</code> 是状态计算函数</p>
+<p><strong>空间优化</strong>：如果只关注前驱，只保留 <code>pre</code> 即可</p>
 <p><a href="https://leetcode.cn/problems/maximum-subarray/description">53. 最大子数组和 - 力扣（LeetCode）</a></p>
 <p><strong>问题</strong>：找出一个具有最大和的连续非空子数组</p>
+<ul>
+<li><strong>问题分析</strong>：</li>
+<li>连续 -&gt; 连续子数组问题（要么追加，要么单开）</li>
+<li>最大和 -&gt; 状态转移 <code>f:max</code>，<code>g:+</code></li>
+<li><strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素结尾的最大子数组和</li>
+<li><strong>状态转移方程</strong>：<code>dp[i] = max(nums[i],dp[i-1]+nums[i]);</code></li>
+<li><strong>最终目标</strong>：<code>max(dp)</code></li>
+<li><strong>边界条件与限制</strong>：<code>dp[0] = nums[0]</code> </li>
+</ul>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -608,7 +615,12 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxSubArray(self, nums: List[int]) -&gt; int:
+    dp = [0]*len(nums)
+    dp[0] = nums[0];
+    for i in range(1, len(nums)):
+        dp[i] = max(nums[i],dp[i-1]+nums[i])
+    return max(dp)</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxSubArray(vector&lt;int&gt;&amp; nums) {
     vector&lt;int&gt; dp(nums.size());
     dp[0] = nums[0];
@@ -622,8 +634,9 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<p><a href="https://leetcode.cn/problems/maximum-product-subarray/description">152. 乘积最大子数组 - 力扣（LeetCode）</a></p>
-<p><strong>问题</strong>：找出一个具有最大乘积的连续非空子数组</p>
+<ul>
+<li><strong>空间优化</strong>：只关注直接前驱，考虑使用前驱变量或者直接原地修改</li>
+</ul>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -631,20 +644,74 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxSubArray(self, nums: List[int]) -&gt; int:
+    for i in range(1, len(nums)):
+        nums[i] += max(nums[i - 1], 0)
+    return max(nums)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxSubArray(vector&lt;int&gt;&amp; nums) {
+    int maxn = nums[0];
+    for(int i=1;i&lt;nums.size();i++){
+        nums[i] += max(nums[i-1],0);
+        if(maxn&lt;nums[i]) maxn=nums[i];
+    }
+    return maxn;
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/maximum-product-subarray/description">152. 乘积最大子数组 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：找出一个具有最大乘积的连续非空子数组</p>
+<ul>
+<li><strong>问题分析</strong>：</li>
+<li>连续 -&gt; 连续子数组问题（要么追加，要么单开）</li>
+<li>最大乘积 -&gt; 状态转移 <code>f:max</code>，<code>g:*</code></li>
+<li>问题特性：对于乘法，负数会逆转结果，所以只维护最大值是不行的，还要考虑负半轴的最小值</li>
+<li><strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素结尾的最大子数组乘积</li>
+<li><strong>状态转移方程</strong>：单开显然不用讨论，讨论追加情况，各自再加上当前数比较</li>
+<li>当前元素为<strong>正</strong>数：<ul>
+<li><strong>最大乘积</strong>（<code>dp[i]</code>）可能是前一个最大乘积乘以当前数</li>
+<li><strong>最小乘积</strong>（<code>mindp[i]</code>）可能是前一个最小乘积乘以当前数</li>
+</ul>
+</li>
+<li>当前元素为<strong>负</strong>数：<ul>
+<li><strong>最大乘积</strong>（<code>dp[i]</code>）可能由前一个最小乘积（负数）乘以当前数（负负得正）得到</li>
+<li><strong>最小乘积</strong>（<code>mindp[i]</code>）可能由前一个最大乘积（正数）乘以当前数得到</li>
+</ul>
+</li>
+<li><strong>最终目标</strong>：<code>max(dp)</code></li>
+<li><strong>边界条件与限制</strong>：<code>dp[0] = nums[0]</code> </li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxProduct(self, nums: List[int]) -&gt; int:
+    dp = [nums[0]] * len(nums)
+    mindp = [nums[0]] * len(nums)
+    for i in range(1,len(nums)):
+        if nums[i] &gt; 0: # 正数
+            mindp[i] = min(mindp[i-1]*nums[i], nums[i])
+            dp[i] = max(dp[i-1]*nums[i], nums[i])
+        else: # 负数
+            mindp[i] = min(dp[i-1]*nums[i], nums[i])
+            dp[i] = max(mindp[i-1]*nums[i], nums[i])
+    return max(dp)</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProduct(vector&lt;int&gt;&amp; nums) {
     int n = nums.size();
     vector&lt;int&gt; dp(n, 0), neg(n,0);
-    dp[0] = nums[0], neg[0]=nums[0];
+    dp[0] = nums[0], mindp[0]=nums[0];
     int res = dp[0];
     for(int i=1;i&lt;n;i++){
         if(nums[i]&gt;0){
-            neg[i] = min(neg[i-1]*nums[i], nums[i]); // 默认neg是负数
+            neg[i] = min(mindp[i-1]*nums[i], nums[i]); // 默认neg是负数
             dp[i] = max(dp[i-1]*nums[i], nums[i]);
         }   
         else{
             neg[i] = min(dp[i-1]*nums[i], nums[i]); // 默认dp是负数
-            dp[i] = max(neg[i-1]*nums[i],dp[i-1]*nums[i]);
+            dp[i] = max(mindp[i-1]*nums[i], nums[i]);
         }
         if(res&lt;dp[i]) res = dp[i];
     }
@@ -653,7 +720,45 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h5 id="lis">最长递增子序列问题 LIS</h5>
+<ul>
+<li><strong>空间优化</strong></li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxProduct(self, nums: List[int]) -&gt; int:
+    dp = nums
+    maxdp = dp[0]
+    mindp = dp[0]
+    for i in range(1,len(nums)):
+        tempmaxdp = max(nums[i], maxdp*nums[i], mindp*nums[i])
+        tempmindp = min(nums[i], mindp*nums[i], maxdp*nums[i])
+        maxdp = tempmaxdp
+        mindp = tempmindp
+        dp[i] = max(dp[i-1], maxdp)
+    return dp[-1]</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/decode-ways/description/">91. 解码方法 - 力扣（LeetCode）</a></p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
+</div>
+</div>
+</p>
+<h4 id="lis">最长递增子序列问题 LIS</h4>
 <p>最基础的暴力 DP：</p>
 <p>
 <div class="code-container">
@@ -669,7 +774,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
             if nums[j] &lt; nums[i]:
                 dp[i] = max(dp[i], dp[j] + 1)
     return max(dp)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">c</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
 </div>
 </div>
 </p>
@@ -700,7 +805,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p>​   排序中有个细节，却是点睛之笔，如果两个信封宽度相等，要按高度逆序排序 。 无论宽高，当严格大于时，才可以认为装的下。在宽相等的多个信封中，LIS 求解时只能取一个。 此时的局部逆序，则保证了 LIS 序列中最多从中取一个</p>
 <p>​   更多的，还有三维衍生问题：</p>
 <p><a href="https://leetcode.cn/problems/pile-box-lcci/description/">面试题 08.13. 堆箱子 - 力扣（LeetCode）</a></p>
-<h5 id="_15">逆序问题</h5>
+<h4 id="_14">逆序问题</h4>
 <p><strong>核心特点</strong>：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）</p>
 <p><a href="https://leetcode.cn/problems/solving-questions-with-brainpower">2140. 解决智力问题 - 力扣（LeetCode）</a></p>
 <p>
@@ -727,7 +832,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h5 id="_16">双序列问题</h5>
+<h4 id="_15">双序列问题</h4>
 <p><strong>核心特点</strong>：</p>
 <ul>
 <li>操作对象是<strong>两个序列</strong>（如字符串、数组）</li>
@@ -738,15 +843,57 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <ul>
 <li><code>dp[i][j]</code>：表示处理到<strong>第一个序列的第 i 个元素</strong>和<strong>第二个序列的第 j 个元素</strong>时的最优解</li>
 </ul>
-<h5 id="_17">双序列表格法</h5>
-<p>常用技巧：字符串填充前导 0 或前导空，便于边界处理</p>
+<p>常用技巧：<strong>双序列表格法</strong>＋字符串填充前导 0 或前导空字符，便于边界处理</p>
 <p><a href="https://leetcode.cn/problems/edit-distance/description/">72. 编辑距离 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：给你两个单词 <code>word1</code> 和 <code>word2</code>， 请返回将 <code>word1</code> 转换成 <code>word2</code> 所使用的最少操作数（插入，删除，替换）</p>
 <p><img alt="5" src="./figure/5.png" style="zoom:65%;"/></p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def minDistance(self, word1: str, word2: str) -&gt; int:
+    if word2=="":   return len(word1)
+    if word1=="":   return len(word2)
+    dp = [[0 for j in range(len(word2)+1)] for i in range(len(word1)+1)]
+    # 边界
+    for i in range(1,len(word1)+1): dp[i][0] = dp[i-1][0]+1
+    for j in range(1,len(word2)+1): dp[0][j] = dp[0][j-1]+1
+
+    for i in range(1,len(word1)+1):
+        for j in range(1,len(word2)+1):
+            if word1[i-1]==word2[j-1]: dp[i][j]=dp[i-1][j-1]
+        else: dp[i][j]=min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1
+
+    return dp[-1][-1]</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int minDistance(string word1, string word2) {
+    int n = word1.size(), m = word2.size();
+    if(n==0 || m==0) return max(n,m);
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1,vector&lt;int&gt;(m+1,0));
+    // dp[i][j] = dp[i-1][j-1], w[i]==w[j], 不编辑
+    // dp[i][j] = min(dp[i-1][j],dp[i][j-1])+1 编辑
+    // 边界
+    for(int i=0;i&lt;n+1;i++) dp[i][0] = i;
+    for(int j=0;j&lt;m+1;j++) dp[0][j] = j;
+
+    for(int i=1;i&lt;n+1;i++){
+        for(int j=1;j&lt;m+1;j++){
+            if(word1[i-1]==word2[j-1])  dp[i][j] = dp[i-1][j-1];
+            else dp[i][j] = min(min(dp[i-1][j],dp[i][j-1]),dp[i-1][j-1])+1;
+        }
+    }
+    return dp[n][m];
+}</code></pre>
+</div>
+</div>
+</p>
 <p><a href="https://leetcode.cn/problems/interleaving-string/?envType=study-plan-v2&amp;envId=top-interview-150">97. 交错字符串 - 力扣（LeetCode）</a></p>
 <p><img alt="4" src="./figure/4.png" style="zoom:35%;"/></p>
 <p><a href="https://leetcode.cn/problems/uncrossed-lines">1035. 不相交的线 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/longest-common-subsequence">1143. 最长公共子序列 - 力扣（LeetCode）</a></p>
-<h5 id="_18">二维线性问题</h5>
+<h5 id="_16">二维线性问题</h5>
 <p><strong>核心特点</strong>：</p>
 <ul>
 <li>问题场景在<strong>二维网格</strong>中（如矩阵、棋盘）</li>
@@ -756,12 +903,12 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <ul>
 <li><strong><code>dp[i][j]</code></strong>: 表示到达网格位置<code>(i,j)</code>时的最优解（如路径数、最小代价）</li>
 </ul>
-<h4 id="dp_2">区间DP：子区间最优解</h4>
+<h3 id="dp_2">区间DP：子区间最优解</h3>
 <p><strong>核心特点</strong>：操作对象是区间，最外层循环是子区间长度，下一层循环是子区间起点</p>
 <p><strong>经典问题</strong>：矩阵连乘、回文子串、戳气球</p>
 <p>🎯 <strong>状态定义套路</strong>：<code>dp[i][j]</code>：区间 <code>[i,j]</code> 上的最优解</p>
 <p>🎯 <strong>状态转移套路</strong>：<code>dp[i,j] = max/min{dp[i,j], dp[i, k] + dp[k+1, j] + cost}</code></p>
-<h5 id="_19">回文串类型</h5>
+<h4 id="_17">回文串类型</h4>
 <p><a href="https://leetcode.cn/problems/longest-palindromic-substring/">5. 最长回文子串 - 力扣（LeetCode）</a></p>
 <p>
 <div class="code-container">
@@ -845,7 +992,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h5 id="_20">分割点类型</h5>
+<h4 id="_18">分割点类型</h4>
 <p><a href="https://leetcode.cn/problems/burst-balloons/description/">312. 戳气球 - 力扣（LeetCode）</a></p>
 <p>
 <div class="code-container">
@@ -908,7 +1055,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h4 id="_21">背包问题：选择与容量</h4>
+<h3 id="_19">背包问题：选择与容量</h3>
 <p><strong>核心特点</strong>：物品选择 + 容量限制（在有约束的情况下，对某个元素<strong>要么拿要么不拿</strong>）</p>
 <p><strong>经典问题</strong>：01背包、完全背包、分割等和子集</p>
 <p>🎯 <strong>状态定义套路</strong>：<code>dp[i][w]</code>：前 i 个物品，容量为 w 时的最优解（实际定义数组需要以 n+1 和 w+1 为尺寸）</p>
@@ -919,7 +1066,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <li>优化前，<code>i</code> 的遍历范围是<code>[1,n]</code>，<code>dp</code> 数组的尺寸是 <code>[n+1][p+1]</code>；优化后 <code>i</code> 的遍历范围是 <code>[0,n-1]</code>，<code>dp</code> 数组的尺寸是 <code>[p+1]</code></li>
 <li>优化前，需要判断背包余量和物品重量的关系（二维表格全遍历，存在物品重量大于余量的情况，需要复制之前的结果）；而优化后不需要（只遍历物品重量到余量，自动跳过无法取的情况，之前的结果只是不被覆盖，不需要显式复制），实际上空间优化的同时也优化了时间开销（复杂度相同）</li>
 </ul>
-<h5 id="0-1">0-1 背包</h5>
+<h4 id="0-1">0-1 背包</h4>
 <p><strong>核心特点</strong>：有 n 种物品，每种物品只有一个，每个物品有自己的重量和价值</p>
 <p><strong>关键难点</strong>：难点在于问题转化，不会那么直白得提问，需要化归</p>
 <p>🎯 <strong>状态转移套路</strong>：</p>
@@ -939,7 +1086,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p>拿得下再决定拿不拿：<code>else dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];</code></p>
 </li>
 <li>
-<p><strong>最终目标</strong>：<code>do[n][p]</code></p>
+<p><strong>最终目标</strong>：<code>dp[n][p]</code></p>
 </li>
 <li><strong>边界条件与限制</strong>：<code>dp[0][0]=true</code> 和 <code>sum</code> 必须是偶数</li>
 </ul>
@@ -1118,7 +1265,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h5 id="_22">完全背包</h5>
+<h4 id="_20">完全背包</h4>
 <p><strong>核心特点</strong>：有 n 种物品，每种物品可以重复使用，每个物品有自己的重量和价值</p>
 <p><strong>关键难点</strong>：难点在于问题转化，不会那么直白得提问，需要化归</p>
 <p>🎯 <strong>状态转移套路</strong>：</p>
@@ -1255,7 +1402,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <ul>
 <li><a href="https://leetcode.cn/problems/profitable-schemes/">879. 盈利计划 - 力扣（LeetCode）</a></li>
 </ul>
-<h4 id="dp_3">状态机 DP</h4>
+<h3 id="dp_3">状态机 DP</h3>
 <p><strong>核心特点</strong>：问题中存在<strong>多个互斥的状态</strong>，且每个状态会根据操作切换到另一个状态，形成清晰的<strong>状态转移图</strong>。例如，股票买卖中的「持有」和「不持有」状态，打家劫舍中的「偷」和「不偷」状态。</p>
 <p>🎯 <strong>状态定义套路</strong></p>
 <ol>
@@ -1286,14 +1433,13 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <li>若状态维度较高但部分维度可合并，可减少维度。</li>
 <li><strong>示例</strong>：当交易次数 <code>k</code> 较大时，可压缩为奇偶滚动（如 <code>dp[2][k]</code>）。</li>
 </ol>
-<h5 id="_23">一维动态规划</h5>
-<ul>
-<li>启蒙题：</li>
-<li><a href="https://leetcode.cn/problems/climbing-stairs/description">70. 爬楼梯 - 力扣（LeetCode）</a></li>
-<li><a href="https://leetcode.cn/problems/house-robber/">198. 打家劫舍 - 力扣（LeetCode）</a></li>
-</ul>
-<h4 id="_24">数学技巧</h4>
-<h5 id="_25">矩阵旋转</h5>
+<p><a href="https://leetcode.cn/problems/climbing-stairs/description">70. 爬楼梯 - 力扣（LeetCode）</a></p>
+<h2 id="_21">技巧</h2>
+<h4 id="_22">数组元素的相互抵消运算</h4>
+<p>异或运算：<a href="https://leetcode.cn/problems/single-number/">136. 只出现一次的数字 - 力扣（LeetCode）</a></p>
+<p>摩尔投票：<a href="https://leetcode.cn/problems/majority-element/description/">169. 多数元素 - 力扣（LeetCode）</a></p>
+<h4 id="_23">数学技巧</h4>
+<h5 id="_24">矩阵旋转</h5>
 <p>旋转 90° 公式：$m[i][j]=m[j][n-1-i]$</p></section>
     </main>
     
