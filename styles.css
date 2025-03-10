@@ -251,6 +251,15 @@ a:hover {
     display: block;
 }
 
+/* 代码高亮样式提升 */
+pre {
+    background-color: var(--paper-code-bg) !important;
+    border: 1px solid var(--paper-border);
+    border-radius: 4px;
+    padding: 15px;
+    overflow-x: auto;
+}
+
 code {
     font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 0.9em;
@@ -311,12 +320,14 @@ tr:nth-child(even) {
     background-color: rgba(248, 245, 228, 0.5);
 }
 
-/* 代码高亮样式调整 */
+/* Highlight.js 主题定制 */
 .hljs {
-    background: var(--paper-code-bg) !important;
+    background-color: var(--paper-code-bg) !important;
     color: #5c4b3c !important;
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
 }
-
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-title,
@@ -324,26 +335,32 @@ tr:nth-child(even) {
 .hljs-doctag,
 .hljs-name,
 .hljs-strong {
-    color: #8b5d33 !important;
+    color: #859900 !important;
+    font-weight: bold;
 }
-
+.hljs-type {
+    color: #3b7dd1 !important;
+    font-weight: bold;
+}
+.hljs-number {
+    color: #d33682 !important;
+}
 .hljs-comment {
     color: #998066 !important;
+    font-style: italic;
 }
-
 .hljs-string,
 .hljs-title,
 .hljs-section,
 .hljs-built_in,
 .hljs-literal,
-.hljs-type,
 .hljs-addition,
 .hljs-tag,
 .hljs-quote,
 .hljs-name,
 .hljs-selector-id,
 .hljs-selector-class {
-    color: #7a6c4e !important;
+    color: #2aa198 !important;
 }
 
 .hljs-meta,
@@ -356,7 +373,7 @@ tr:nth-child(even) {
 .hljs-template-variable,
 .hljs-link,
 .hljs-bullet {
-    color: #8c7d61 !important;
+    color: #966483 !important;
 }
 
 /* 添加纸张质感 */

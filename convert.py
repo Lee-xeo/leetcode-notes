@@ -6,11 +6,10 @@
 使用说明：
 1. 将此脚本与需要转换的LeetCode笔记.md文件放在同一目录下
 2. 确保template.html文件在同一目录
-3. 运行脚本即可生成index.html和code文件夹
+3. 运行脚本即可生成index.html
 """
 
 import re
-import os
 import markdown
 from bs4 import BeautifulSoup
 

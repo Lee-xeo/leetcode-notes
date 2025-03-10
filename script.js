@@ -2,41 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化语法高亮
     hljs.highlightAll();
     
-    // 生成目录
-    generateTableOfContents();
-
     // 侧边栏宽度调整功能
     setupSidebarResize();
 
     // 为所有代码标签按钮添加事件监听器
     setupCodeTabs();
 });
-
-// 生成目录
-function generateTableOfContents() {
-    const toc = document.getElementById('toc');
-    const sections = document.querySelectorAll('main section');
-    
-    sections.forEach(section => {
-        const heading = section.querySelector('h2, h3, h4');
-        if (heading) {
-            const item = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = `#${section.id}`;
-            link.textContent = heading.textContent;
-            
-            // 根据标题级别添加缩进
-            if (heading.tagName === 'H3') {
-                item.style.marginLeft = '15px';
-            } else if (heading.tagName === 'H4') {
-                item.style.marginLeft = '30px';
-            }
-            
-            item.appendChild(link);
-            toc.appendChild(item);
-        }
-    });
-}
 
 // 添加侧边栏宽度调整功能
 function setupSidebarResize() {
