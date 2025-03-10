@@ -665,7 +665,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </ul>
 <p><a href="https://leetcode.cn/problems/longest-increasing-subsequence/description">300. 最长递增子序列 - 力扣（LeetCode）</a></p>
 <p>万能建模：DAG 模型，可用于 LIS 进阶问题</p>
-<p><img alt="1" src=".figure/1.png" style="zoom:50%;"/></p>
+<p><img alt="1" src="./figure/1.png" style="zoom:50%;"/></p>
 <p>​   建模思路：</p>
 <ul>
 <li>数据结构：二维数组，每一层用一个列表，每个列表内部是有序的</li>
@@ -675,11 +675,11 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p>用法：</p>
 <p><strong>求最长递增子序列的个数</strong></p>
 <p>​   思路：子序列个数 = 到达子序列末节点的路径个数，每次插入新元素，都需要检查前一层队列中，是自己前驱的个数和，元素构造为：<code>val, num</code></p>
-<p><img alt="2" src=".figure/2.png" style="zoom:50%;"/></p>
+<p><img alt="2" src="./figure/2.png" style="zoom:50%;"/></p>
 <p><a href="https://leetcode.cn/problems/number-of-longest-increasing-subsequence">673. 最长递增子序列的个数 - 力扣（LeetCode）</a></p>
 <p><strong>俄罗斯套娃信封问题</strong></p>
 <p>​   LIS 问题的二维延伸，特点在于，你可以按照其中一个特征排序，另一个特征就会无序，随后在无序的特征维上做 LIS</p>
-<p><img alt="3" src=".figure/3.png" style="zoom:50%;"/></p>
+<p><img alt="3" src="./figure/3.png" style="zoom:50%;"/></p>
 <p>​   排序中有个细节，却是点睛之笔，如果两个信封宽度相等，要按高度逆序排序 。 无论宽高，当严格大于时，才可以认为装的下。在宽相等的多个信封中，LIS 求解时只能取一个。 此时的局部逆序，则保证了 LIS 序列中最多从中取一个</p>
 <p>​   更多的，还有三维衍生问题：</p>
 <p><a href="https://leetcode.cn/problems/pile-box-lcci/description/">面试题 08.13. 堆箱子 - 力扣（LeetCode）</a></p>
@@ -724,9 +724,9 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <h5 id="_17">双序列表格法</h5>
 <p>常用技巧：字符串填充前导 0 或前导空，便于边界处理</p>
 <p><a href="https://leetcode.cn/problems/edit-distance/description/">72. 编辑距离 - 力扣（LeetCode）</a></p>
-<p><img alt="5" src=".figure/5.png" style="zoom:65%;"/></p>
+<p><img alt="5" src="./figure/5.png" style="zoom:65%;"/></p>
 <p><a href="https://leetcode.cn/problems/interleaving-string/?envType=study-plan-v2&amp;envId=top-interview-150">97. 交错字符串 - 力扣（LeetCode）</a></p>
-<p><img alt="4" src=".figure/4.png" style="zoom:35%;"/></p>
+<p><img alt="4" src="./figure/4.png" style="zoom:35%;"/></p>
 <p><a href="https://leetcode.cn/problems/uncrossed-lines">1035. 不相交的线 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/longest-common-subsequence">1143. 最长公共子序列 - 力扣（LeetCode）</a></p>
 <h5 id="_18">二维线性问题</h5>

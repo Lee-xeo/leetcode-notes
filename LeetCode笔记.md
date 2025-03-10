@@ -557,7 +557,7 @@ c
 
 万能建模：DAG 模型，可用于 LIS 进阶问题
 
-<img src=".figure/1.png" alt="1" style="zoom:50%;" />
+<img src="./figure/1.png" alt="1" style="zoom:50%;" />
 
 ​	建模思路：
 
@@ -571,7 +571,7 @@ c
 
 ​	思路：子序列个数 = 到达子序列末节点的路径个数，每次插入新元素，都需要检查前一层队列中，是自己前驱的个数和，元素构造为：`val, num`
 
-<img src=".figure/2.png" alt="2" style="zoom:50%;" />
+<img src="./figure/2.png" alt="2" style="zoom:50%;" />
 
 [673. 最长递增子序列的个数 - 力扣（LeetCode）](https://leetcode.cn/problems/number-of-longest-increasing-subsequence)
 
@@ -579,7 +579,7 @@ c
 
 ​	LIS 问题的二维延伸，特点在于，你可以按照其中一个特征排序，另一个特征就会无序，随后在无序的特征维上做 LIS
 
-<img src=".figure/3.png" alt="3" style="zoom:50%;" />
+<img src="./figure/3.png" alt="3" style="zoom:50%;" />
 
 ​	排序中有个细节，却是点睛之笔，如果两个信封宽度相等，要按高度逆序排序 。 无论宽高，当严格大于时，才可以认为装的下。在宽相等的多个信封中，LIS 求解时只能取一个。 此时的局部逆序，则保证了 LIS 序列中最多从中取一个
 
@@ -638,11 +638,11 @@ long long mostPoints(vector<vector<int>>& questions) {
 
 [72. 编辑距离 - 力扣（LeetCode）](https://leetcode.cn/problems/edit-distance/description/)
 
-<img src=".figure/5.png" alt="5" style="zoom:65%;" />
+<img src="./figure/5.png" alt="5" style="zoom:65%;" />
 
 [97. 交错字符串 - 力扣（LeetCode）](https://leetcode.cn/problems/interleaving-string/?envType=study-plan-v2&envId=top-interview-150)
 
-<img src=".figure/4.png" alt="4" style="zoom:35%;" />
+<img src="./figure/4.png" alt="4" style="zoom:35%;" />
 
 [1035. 不相交的线 - 力扣（LeetCode）](https://leetcode.cn/problems/uncrossed-lines)
 
