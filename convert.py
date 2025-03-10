@@ -83,6 +83,22 @@ class CodeBlockExtractor:
         
         # 替换Markdown中的代码块
         result_md = md_content
+        placeholder_mapping = {}
+        code_index = 0
+        
+        for i in range(len(matches)):
+            if i in processed_blocks:
+                match = matches[i]
+                match_lang = map_language(match.group(1))
+                
+                # 如果是Python+C++对的第二个，跳过
+                if i > 0 and i - 1 in processed_blocks and \
+                map_language(matches[i-1].group(1)) == 'python' and match_lang == 'cpp':
+                    continue
+                    
+                # 记录当前位置对应的代码对索引
+                placeholder_mapping[i] = code_index
+                code_index += 1
         
         # 从后向前替换，以避免位置变化
         for i in reversed(range(len(matches))):
@@ -90,14 +106,14 @@ class CodeBlockExtractor:
                 match = matches[i]
                 start, end = match.span()
                 match_lang = map_language(match.group(1))
-                # 如果是Python+C++对的第一个，则替换为代码容器
-                # 如果是对的第二个，则删除
-                # 如果是单独的代码块，则替换为代码容器
-                if i > 0 and i - 1 in processed_blocks and map_language(matches[i-1].group(1)) == 'python' and match_lang == 'cpp':
-                    # 是Python+C++对的第二个 (C++)，删除
+                
+                # 如果是Python+C++对的第二个 (C++)，删除
+                if i > 0 and i - 1 in processed_blocks and \
+                map_language(matches[i-1].group(1)) == 'python' and match_lang == 'cpp':
                     result_md = result_md[:start] + "" + result_md[end:]
                 else:
-                    pair_index = sum(1 for j in processed_blocks if j <= i and (j == 0 or j - 1 not in processed_blocks))
+                    # 使用映射表获取正确的索引
+                    pair_index = placeholder_mapping[i]
                     placeholder = f"<code-placeholder index='{pair_index}'></code-placeholder>"
                     result_md = result_md[:start] + placeholder + result_md[end:]
         
@@ -109,6 +125,12 @@ class CodeBlockExtractor:
             return ""
         
         python_code, cpp_code = self.code_pairs[index]
+        
+        # 如果代码为空，添加默认内容
+        if not python_code.strip():
+            python_code = "# 此部分代码待实现"
+        if not cpp_code.strip():
+            cpp_code = "// 此部分代码待实现"
         
         # 生成代码容器HTML
         return f"""

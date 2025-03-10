@@ -114,51 +114,55 @@
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
+def binary_search(nums, target):
     left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
     while left &lt;= right:
         mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] &lt; target:
             left = mid + 1
-    return i - 1 if i != 0 else -1
+        else:
+            right = mid - 1
+    return -1
 # 递归版本
-def find_lower_bound(nums, target, left, right):
+def binary_search(nums, target, left, right):
     if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
+        return -1
     mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
+    if nums[mid] == target:
+        return mid
+    elif nums[mid] &lt; target:
+        return binary_search(nums, target, mid + 1, right)
     else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+        return binary_search(nums, target, left, mid - 1)</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
+int binarySearch(vector&amp; nums, int target) {
     int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
     while (left &lt;= right) {
         int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
+        if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] &lt; target) {
             left = mid + 1;
+        } else {
+            right = mid - 1;
         }
     }
-    return i == 0 ? -1 : i - 1;
+    return -1;
 }
 // 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
+int binarySearch(vector&amp; nums, int target, int left, int right) {
     if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
+        return -1;
     }
     int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
+    if (nums[mid] == target) {
+        return mid;
+    } else if (nums[mid] &lt; target) {
+        return binarySearch(nums, target, mid + 1, right);
     } else {
-        return findLowerBound(nums, target, mid + 1, right);
+        return binarySearch(nums, target, left, mid - 1);
     }
 }</code></pre>
 </div>
@@ -232,51 +236,51 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 </div>
 <div class="code-blocks">
 <pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
+def find_upper_bound(nums, target):
     left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
+    i = len(nums)  # 初始化假设所有元素都小于等于target
     while left &lt;= right:
         mid = (left + right) // 2
-        if nums[mid] &gt;= target:
+        if nums[mid] &gt; target:
             i = mid
             right = mid - 1
         else:
             left = mid + 1
-    return i - 1 if i != 0 else -1
+    return i if i != len(nums) else -1
 # 递归版本
-def find_lower_bound(nums, target, left, right):
+def find_upper_bound(nums, target, left, right):
     if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
+        return left if left &lt; len(nums) else -1  # 返回比target大的最小元素的索引
     mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
+    if nums[mid] &gt; target:
+        return find_upper_bound(nums, target, left, mid - 1)
     else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
+        return find_upper_bound(nums, target, mid + 1, right)</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
+int findUpperBound(vector&amp; nums, int target) {
     int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
+    int i = nums.size();  // 初始化假设所有元素都小于等于target
     while (left &lt;= right) {
         int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
+        if (nums[mid] &gt; target) {
             i = mid;
             right = mid - 1;
         } else {
             left = mid + 1;
         }
     }
-    return i == 0 ? -1 : i - 1;
+    return i != nums.size() ? i : -1;
 }
 // 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
+int findUpperBound(vector&amp; nums, int target, int left, int right) {
     if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
+        return left &lt; nums.size() ? left : -1;  // 返回比target大的最小元素的索引
     }
     int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
+    if (nums[mid] &gt; target) {
+        return findUpperBound(nums, target, left, mid - 1);
     } else {
-        return findLowerBound(nums, target, mid + 1, right);
+        return findUpperBound(nums, target, mid + 1, right);
     }
 }</code></pre>
 </div>
@@ -291,54 +295,14 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">while fast and fast.next:
+	fast, slow = fast.next.next, slow.next
+mid = slow.next</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">while (fast != nullptr &amp;&amp; fast-&gt;next != nullptr) {
+    fast = fast-&gt;next-&gt;next;
+    slow = slow-&gt;next;
 }
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
@@ -350,54 +314,8 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">2</code></pre>
 </div>
 </div>
 </p>
@@ -435,54 +353,12 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">12</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">while 栈非空 and 单调性不满足（这里是排除，排除不严格结果就严格）:
+  	出栈
+  if 栈空:	边界处理
+  esle: r[i]=栈顶
+  无条件入栈 a[i]</code></pre>
 </div>
 </div>
 </p>
@@ -497,53 +373,27 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">def next_greater(nums):
+    greater_stack = []
+    answer = [-1]*len(nums)	# 初始化全 -1
+    for i in range(len(nums)):
+        while greater_stack and nums[i]&gt;nums[greater_stack[-1]]: # 栈底在末位
+            index = greater_stack.pop()
+            answer[index] = nums[i]
+        greater_stack.append(i)
+    return answer</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">vector nextGreater(vector&amp; nums) {
+    stack greaterStack;
+    vector answer(nums.size(), -1);  // 初始化全 -1
+    for (int i = 0; i &lt; nums.size(); i++) {
+        while (!greaterStack.empty() &amp;&amp; nums[i] &gt; nums[greaterStack.top()]) { // 栈底在末位
+            int index = greaterStack.top();
+            greaterStack.pop();
+            answer[index] = nums[i];
         }
+        greaterStack.push(i);
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
+    return answer;
 }</code></pre>
 </div>
 </div>
@@ -563,54 +413,41 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
+<pre class="code-block active" data-lang="python"><code class="language-python">def trap(height):
+    n = len(height)
+    h = 0
+    l, r, res = [0] * n, [0] * n, [0] * n
+    for i in range(n):
+        l[i] = h
+        if height[i] &gt; h:
+            h = height[i]
+    h = 0
+    for i in range(n-1, -1, -1):
+        r[i] = h
+        if height[i] &gt; h:
+            h = height[i]
+    ans = 0
+    for i in range(n):
+        res[i] = min(l[i], r[i]) - height[i]
+        if res[i] &gt; 0:
+            ans += res[i]
+    return ans</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int trap(vector<int>&amp; height) {
+    int n = height.size();
+    int h = 0;
+    vector<int> l(n), r(n), res(n);
+    for(int i=0;i<n;i++){ if(height[i]="" l[i]="h;">h) h = height[i];
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
+    h = 0;
+    for(int i=n-1;i&gt;=0;i--){
+        r[i] = h;
+        if(height[i]&gt;h) h = height[i];
     }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
+    int ans = 0;
+    for(int i=0;i<n;i++){ -="" height[i];="" if(res[i]="" r[i])="" res[i]="min(l[i],">0) ans+=res[i];
     }
-}</code></pre>
+    return ans;
+}</n;i++){></n;i++){></int></int></code></pre>
 </div>
 </div>
 </p>
@@ -623,54 +460,54 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
+<pre class="code-block active" data-lang="python"><code class="language-python">def largestRectangleArea(self, heights):
+    # 对于i列，矩形大小为：左边最远不小于自己的，右边最远不小于自己的
+    n = len(heights)
+    if n == 0:
+        return heights[0]  
+    s = []
+    left, right = [0] * n, [0] * n       
+    # 从左往右，找左边严格小,严格单调递减栈
+    for i in range(n):
+        while s and heights[s[-1]] &gt;= heights[i]:
+            s.pop()
+        left[i] = -1 if not s else s[-1]
+        s.append(i)
+    s = []
+    # 从右往左，找右边严格小,严格单调递减栈
+    for i in range(n-1, -1, -1):
+        while s and heights[s[-1]] &gt;= heights[i]:
+            s.pop()
+        right[i] = n if not s else s[-1]
+        s.append(i)
+    # 计算答案
+    maxa = 0
+    for i in range(n):
+        maxa = max(maxa, heights[i] * (right[i] - left[i] - 1))  
+    return maxa</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int largestRectangleArea(vector<int>&amp; heights) {
+    // 对于i列，矩形大小为：左边最远不小于自己的，右边最远不小于自己的
+    int n = heights.size();
+    if(n==0) return heights[0];
+    stack<int> s;
+    vector<int> left(n), right(n);
+    // 从左往右，找左边严格小,严格单调递减栈
+    for(int i=0;i<n;i++){ &&="" heights[s.top()]="" while(!s.empty()="">=heights[i])	s.pop();
+        if(s.empty())   left[i] = -1;
+        else    left[i] = s.top();
+        s.push(i); 
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
+    while(!s.empty()) s.pop();
+    // 从右往左，找右边严格小,严格单调递减栈
+    for(int i=n-1;i&gt;=0;i--){
+        while(!s.empty() &amp;&amp; heights[s.top()]&gt;=heights[i])	s.pop();
+        if(s.empty())   right[i] = n;
+        else    right[i] = s.top();
+        s.push(i); 
     }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    // 计算答案
+    int maxa = 0;
+    for(int i=0;i<n;i++){ code="" heights[i]*(right[i]-left[i]-1));="" maxa="max(maxa," maxa;="" return="" }="" }<=""></n;i++){></n;i++){></int></int></int></code></pre>
 </div>
 </div>
 </p>
@@ -683,54 +520,18 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">vector<int> dailyTemperatures(vector<int>&amp; temperatures) {
+    int n = temperatures.size();
+    vector<int> ans(n, 0);
+    stack<int> s; // 只存储索引，不需要结构体
+    for (int i = n - 1; i &gt;= 0; i--) {
+        while (!s.empty() &amp;&amp; temperatures[i] &gt;= temperatures[s.top()])	s.pop();
+        if (!s.empty())	ans[i] = s.top() - i;
+        s.push(i);
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return ans;
+}</int></int></int></int></code></pre>
 </div>
 </div>
 </p>
@@ -792,8 +593,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <p><strong>空间优化</strong>：因为只关注前驱，只保留 <code>pre</code> 即可</p>
 <p><a href="https://leetcode.cn/problems/maximum-subarray/description">53. 最大子数组和 - 力扣（LeetCode）</a></p>
 <p><strong>问题</strong>：找出一个具有最大和的连续非空子数组</p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -801,61 +600,17 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxSubArray(vector<int>&amp; nums) {
+    vector<int> dp(nums.size());
+    dp[0] = nums[0];
+    int maxn = dp[0];
+    for(int i=1;i<nums.size();i++){ code="" dp[i]="max(nums[i],dp[i-1]+nums[i]);" if(maxn<dp[i])="" maxn="dp[i];" maxn;="" return="" }="" }<=""></nums.size();i++){></int></int></code></pre>
 </div>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/maximum-product-subarray/description">152. 乘积最大子数组 - 力扣（LeetCode）</a></p>
 <p><strong>问题</strong>：找出一个具有最大乘积的连续非空子数组</p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -863,61 +618,26 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProduct(vector<int>&amp; nums) {
+    int n = nums.size();
+    vector<int> dp(n, 0), neg(n,0);
+    dp[0] = nums[0], neg[0]=nums[0];
+    int res = dp[0];
+    for(int i=1;i<n;i++){ if(nums[i]="">0){
+            neg[i] = min(neg[i-1]*nums[i], nums[i]); // 默认neg是负数
+            dp[i] = max(dp[i-1]*nums[i], nums[i]);
+        }   
+        else{
+            neg[i] = min(dp[i-1]*nums[i], nums[i]); // 默认dp是负数
+            dp[i] = max(neg[i-1]*nums[i],dp[i-1]*nums[i]);
         }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+        if(res<dp[i]) code="" res="dp[i];" res;="" return="" }="" }<=""></dp[i])></n;i++){></int></int></code></pre>
 </div>
 </div>
 </p>
 <h5 id="lis">最长递增子序列问题 LIS</h5>
 <p>最基础的暴力 DP：</p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -925,54 +645,14 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">def lengthOfLIS(nums):
+    dp = [1] * len(nums)  # dp[i]：以nums[i]结尾的最长递增子序列长度
+    for i in range(len(nums)):
+        for j in range(i):
+            if nums[j] &lt; nums[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+    return max(dp)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">c</code></pre>
 </div>
 </div>
 </p>
@@ -1013,54 +693,20 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
+<pre class="code-block active" data-lang="python"><code class="language-python">def mostPoints(self, questions: List[List[int]]) -&gt; int:
+    n = len(questions)
+    dp=[0]*(n+1) # 最后一个作为0哨兵
+    for i in range(n-1,-1,-1):
+        dp[i] = max(dp[i+1],questions[i][0]+dp[min(n,i+questions[i][1]+1)])
+    return dp[0]</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">long long mostPoints(vector<vector<int>&gt;&amp; questions) {
+    int n = questions.size();
+    vector<long long=""> dp(n+1, 0); // 最后一个作为0哨兵
+    for(int i=n-1;i&gt;=0;i--){
+        dp[i]=max(dp[i+1], dp[min(n, i + questions[i][1] + 1)]+questions[i][0]);
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return dp[0];
+}</long></vector<int></code></pre>
 </div>
 </div>
 </p>
@@ -1100,8 +746,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <p>🎯 <strong>状态转移套路</strong>：<code>dp[i,j] = max/min{dp[i,j], dp[i, k] + dp[k+1, j] + cost}</code></p>
 <h5 id="_19">回文串类型</h5>
 <p><a href="https://leetcode.cn/problems/longest-palindromic-substring/">5. 最长回文子串 - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1109,60 +753,25 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">string longestPalindrome(string s) {
+    // dp[i][j]: s[i..j] 是回文串
+    // dp[i][j] = dp[i+1][j-1], s[i]==s[j]
+    int n = s.size();
+    vector<vector<bool>&gt; dp(n, vector<bool>(n, false));
+    int resi=0, reslen=1;
+    for(int i=0;i<n;i++) &&="" dp[i][i]="true;" dp[i][j]="dp[i+1][j-1];" else="" for(int="" i="0;i&lt;=n-len;i++){" if(dp[i][j]="" if(i="j-1)" if(s[i]="s[j]){" int="" j="i+len-1;" j-i+1="" len="2的情况" }="">reslen){
+                reslen = j-i+1;
+                resi = i;
+            }
         }
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return s.substr(resi, reslen);
+}</n;i++)></bool></vector<bool></code></pre>
 </div>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/longest-palindromic-subsequence/description/">516. 最长回文子序列 - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1170,60 +779,15 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int longestPalindromeSubseq(string s) {
+    int n = s.size();
+    vector<vector<int>&gt; dp(n,vector<int>(n,0));
+    for(int i=0;i<n;i++) code="" dp[0][n-1];="" dp[i][i]="1;" dp[i][j]="max(dp[i][j-1],dp[i+1][j]);" else="" for(int="" i="0;i&lt;=n-len;i++){" if(s[i]="s[j])" int="" j="i+len-1;" len="2;len&lt;=n;len++){" return="" }="" }<=""></n;i++)></int></vector<int></code></pre>
 </div>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/">1312. 让字符串成为回文串的最少插入次数 - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1231,61 +795,24 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int minInsertions(string s) {
+    int n = s.size();
+    vector<vector<int>&gt; dp(n,vector<int>(n,0));
+    for(int len=2;len&lt;=n;len++){
+        for(int i=0;i&lt;=n-len;i++){
+            int j = i+len-1;
+            if(s[i]==s[j])  dp[i][j]=dp[i+1][j-1];
+            else    dp[i][j]=min(dp[i][j-1],dp[i+1][j])+1;
         }
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return dp[0][n-1];
+}</int></vector<int></code></pre>
 </div>
 </div>
 </p>
 <h5 id="_20">分割点类型</h5>
 <p><a href="https://leetcode.cn/problems/burst-balloons/description/">312. 戳气球 - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1293,60 +820,20 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxCoins(vector<int>&amp; nums) {
+    // 我也不知道为什么是区间dp
+    // dp[i][j]: 考虑开子区间的最优解
+    // dp[i][k]: k 是最后一个戳爆的气球
+    nums.insert(nums.begin(),1);
+    nums.push_back(1);
+    int n = nums.size();
+    vector<vector<int>&gt; dp(n+1, vector<int>(n+1, 0));
+    for(int len=2;len<n;len++) code="" dp[0][n-1];="" dp[i][i+len]="max(dp[i][i+len]," dp[i][k]+nums[i]*nums[k]*nums[i+len]+dp[k][i+len]);="" for(int="" i="0;i&lt;n-len;i++)" k="i+1;k&lt;i+len;k++)" return="" }<="" 区间dp特点：最外层是区间长度=""></n;len++)></int></vector<int></int></code></pre>
 </div>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/minimum-cost-to-merge-stones/description/">1000. 合并石头的最低成本 - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1354,54 +841,15 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int mergeStones(vector<int>&amp; stones, int k) {
+    // 区间dp
+    int n = stones.size();
+    if((n-1)%(k-1)!=0) return -1;
+
+    vector<int> prefix(n+1,0);// 计算前缀和，便于计算代价
+    for(int i=0;i<n;i++) +="" 1]="prefix[i]" prefix[i="" stones[i];="" vector<vector<int="">&gt; dp(n, vector<int>(n,99999));
+    for(int i=0;i<n;i++) %="" ((j="" (k="" +="" -="" 1)="0)" 1]="" code="" dp[0][n-1];="" dp[i][i]="0;" dp[i][j]="" dp[i][p]="" dp[p+1][j]);="" for(int="" i="0;i&lt;=n-len;i++){" i)="" if="" int="" j="i+len-1;" len="2;len&lt;=n;len++){" p="i;p&lt;j;p+=k-1)" prefix[i];="" return="" }="" }<="" 如果当前区间长度满足可以合并成一堆的条件，加上合并的成本="" 尝试所有可能的分割点=""></n;i++)></int></n;i++)></int></int></code></pre>
 </div>
 </div>
 </p>
@@ -1440,8 +888,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 </li>
 <li><strong>边界条件与限制</strong>：<code>dp[0][0]=true</code> 和 <code>sum</code> 必须是偶数</li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1449,54 +895,14 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector<int>&amp; nums) {
+    int sum = 0, n=nums.size();
+    for(int i=0;i<n;i++) false;="" if(sum%2!="0)" int="" p="sum/2;" return="" sum+="nums[i];" vector<vector<int="">&gt; dp(n+1,vector<int>(p+1,false));
+    dp[0][0]=true;
+    for(int i=1;i&lt;=n;i++){
+        for(int j=0;j&lt;=p;j++){
+            if(j<nums[i-1]) code="" dp[i-1][j-nums[i-1]];="" dp[i][j]="dp[i-1][j]" dp[n][p];="" else="" return="" ||="" }="" }<=""></nums[i-1])></int></n;i++)></int></code></pre>
 </div>
 </div>
 </p>
@@ -1505,8 +911,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <li><code>dp[j]</code>：容量为 <code>j</code> 时的可行性</li>
 <li><code>dp[j] = dp[j] || dp[j-nums[i]];</code></li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1514,54 +918,17 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector<int>&amp; nums) {
+    int sum = 0, n=nums.size();
+    for(int i=0;i<n;i++) =2;="" false;="" if(sum%2!="0)" return="" sum="" sum+="nums[i];" vector<int=""> dp(sum+1,false);
+    dp[0]=true;
+    for(int i=0;i<n;i++){ for(int="" j="sum;j">=nums[i];j--){
+            dp[j] = dp[j] || dp[j-nums[i]];
         }
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return dp[sum];
+}</n;i++){></n;i++)></int></code></pre>
 </div>
 </div>
 </p>
@@ -1581,8 +948,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <li><strong>必要条件</strong>：<code>target+sum(nums)</code> 必须是非负偶数，且 <code>sum(nums)&gt;=target</code></li>
 <li><strong>初始化</strong>：<code>dp[0][0]=1</code>（空集合和为0的方案数为1）</li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1590,54 +955,15 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector<int>&amp; nums, int target) {
+    int n = nums.size();
+    int p=0;
+    for(int i=0;i<n;i++) +="target;" 0;="" =2;="" if(p%2!="0" if(p<target)="" p="" p+="nums[i];" p<0)="" return="" vector<vector<int="" ||="">&gt; dp(n+1, vector<int>(p+1,0));
+    dp[0][0]=1; // 空组和为0，相当于有一种方案 
+    for(int i=1;i&lt;=n;i++){
+        for(int j=0;j&lt;=p;j++){
+            if(j<nums[i-1]) code="" dp[i][j]="dp[i-1][j]+dp[i-1][j-nums[i-1]];" dp[n][p];="" else="" return="" }="" }<="" 不选这个数方案数+选这个数方案数="" 没法选=""></nums[i-1])></int></n;i++)></int></code></pre>
 </div>
 </div>
 </p>
@@ -1646,8 +972,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <li><code>dp[j]</code>：容量为 <code>j</code> 时的方案数</li>
 <li><code>dp[j]=dp[j]+dp[j-nums[i]];</code></li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1655,54 +979,20 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector<int>&amp; nums, int target) {
+    // `P=(target+sum(nums))/2`
+    // 将问题转化为：在数组中选取若干数，使得它们的和等于 `P`（01 背包）
+    int n = nums.size();
+    int p=0;
+    for(int i=0;i<n;i++) +="target;" 0;="" =2;="" if(p%2!="0" if(p<target)="" p="" p+="nums[i];" p<0)="" return="" vector<int="" ||=""> dp(p+1,0);
+    dp[0]=1; // 空组和为0，相当于有一种方案 
+    for(int i=0;i<n;i++){ for(int="" j="p;j">=nums[i];j--){
+            dp[j]=dp[j]+dp[j-nums[i]]; //不选这个数方案数+选这个数方案数
         }
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return dp[p];
+}</n;i++){></n;i++)></int></code></pre>
 </div>
 </div>
 </p>
@@ -1717,8 +1007,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <li><strong>最终目标</strong>：<code>dp[m][n]</code></li>
 <li><strong>边界条件与限制</strong>：<code>dp[0][0]=0</code></li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1726,54 +1014,18 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int findMaxForm(vector<string>&amp; strs, int m, int n) {
+    vector<vector<int>&gt; dp(m+1,vector<int>(n+1,0));
+    dp[0][0]=0;
+    for(int i=0;i<strs.size();i++){ )="" else="" for(int="" if(strs[i][j]="0" int="" j="m;j" one="0;" one++;="" zero="0," zero++;="" }="">=zero;j--){
+            for(int k=n;k&gt;=one;k--){
+                dp[j][k]=max(dp[j][k], dp[j-zero][k-one]+1);
+            }
         }
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return dp[m][n];
+}</strs.size();i++){></int></vector<int></string></code></pre>
 </div>
 </div>
 </p>
@@ -1799,8 +1051,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <li><strong>边界条件与限制</strong>：</li>
 <li><strong>初始化</strong>：<code>dp[0][0]=0</code>，<code>dp[0][j]=INT_MAX</code></li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1808,54 +1058,13 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector<int>&amp; coins, int amount) {
+    int n = coins.size();
+    vector<vector<int>&gt; dp(n+1,vector<int>(amount+1,INT_MAX-1));
+    dp[0][0]=0;
+    for(int i=1;i&lt;=n;i++){ //遍历物品
+        for(int j=0;j<amount+1;j++){ -1="" :="" code="" dp[i][j-coins[i-1]]+1);="" dp[i][j]="min(dp[i-1][j]," dp[n][amount]="INT_MAX-1?" dp[n][amount];="" else="" if(j<coins[i-1])="" return="" }="" }<="" 遍历容量=""></amount+1;j++){></int></vector<int></int></code></pre>
 </div>
 </div>
 </p>
@@ -1864,8 +1073,6 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <li><code>dp[j]</code>：凑出金额 <code>j</code> 所需的最少硬币数</li>
 <li><code>dp[j] = min(dp[j],dp[j - coins[i]]+1)</code>，正序更新</li>
 </ul>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1873,54 +1080,11 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector<int>&amp; coins, int amount) {
+    vector<int> dp(amount+1,INT_MAX-1);
+    dp[0]=0;
+    for(int i=0;i<coins.size();i++){ -1="" :="" code="" dp[amount]="INT_MAX-1?" dp[amount];="" dp[j-coins[i]]+1);="" dp[j]="min(dp[j]," for(int="" j="coins[i];j&lt;amount+1;j++){" return="" }="" }<="" 遍历容量="" 遍历物品=""></coins.size();i++){></int></int></code></pre>
 </div>
 </div>
 </p>
@@ -1932,65 +1096,27 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">bool wordBreak(string s, vector<string>&amp; wordDict) {
+    // dp[i]:考虑前i个字母的结果
+    int n = s.size();
+    vector<bool> dp(n+1, false);
+    dp[0] = true;
+    for(int i=0;i&lt;=n;i++){ // 遍历容量
+        for (const string&amp; word : wordDict) { // 遍历物品
+            int len = word.size();  // 检查长度是否足够，且子串匹配
+            if (i &gt;= len &amp;&amp; dp[i - len] &amp;&amp; s.substr(i - len, len) == word) {
+                dp[i] = true;
+                break; // 找到一个可行解即可跳过其他单词
+            }
         }
     }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+    return dp[n];
+}</bool></string></code></pre>
 </div>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/perfect-squares/">279. 完全平方数 - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
-<pre><code>
-</code></pre>
-<p><a href="https://leetcode.cn/problems/coin-change-ii/description/">518. 零钱兑换 II - 力扣（LeetCode）</a></p>
-<pre><code>
-</code></pre>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -1998,54 +1124,25 @@ int findLowerBound(vector&amp; nums, int target, int left, int right) {
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if nums[mid] &gt;= target:
-            i = mid
-            right = mid - 1
-        else:
-            left = mid + 1
-    return i - 1 if i != 0 else -1
-# 递归版本
-def find_lower_bound(nums, target, left, right):
-    if left &gt; right:
-        return right  # 返回比target小的最大元素的索引
-    mid = (left + right) // 2
-    if nums[mid] &gt;= target:
-        return find_lower_bound(nums, target, left, mid - 1)
-    else:
-        return find_lower_bound(nums, target, mid + 1, right)</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 迭代版本
-int findLowerBound(vector&amp; nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
-    while (left &lt;= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] &gt;= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    return i == 0 ? -1 : i - 1;
-}
-// 递归版本
-int findLowerBound(vector&amp; nums, int target, int left, int right) {
-    if (left &gt; right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] &gt;= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
-}</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">c</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/coin-change-ii/description/">518. 零钱兑换 II - 力扣（LeetCode）</a></p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int change(int amount, vector<int>&amp; coins) {
+    int n = coins.size();
+    vector<double> dp(amount+1, 0);
+    dp[0] = 1;
+    for(int i=0;i<n;i++){ +="" code="" dp[amount];="" dp[j-coins[i]];="" dp[j]="dp[j]" for(int="" j="coins[i];j&lt;=amount;j++)" return="" }="" }<=""></n;i++){></double></int></code></pre>
 </div>
 </div>
 </p>

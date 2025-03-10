@@ -201,11 +201,11 @@ ListNode* mid = slow->next;
 ##### 找环形入口
 
 ```python
-
+pass
 ```
 
 ```c++
-
+2
 ```
 
 [287. 寻找重复数 - 力扣（LeetCode）](https://leetcode.cn/problems/find-the-duplicate-number/)
@@ -241,7 +241,7 @@ ListNode* mid = slow->next;
 - 再记模板：单调栈三部曲
 
   ```python
-  
+  12
   ```
 
   ```c++
@@ -407,7 +407,7 @@ int largestRectangleArea(vector<int>& heights) {
 单调栈经典例题，提醒一下：单调栈经常存储的是**下标**，而属性信息则使用下标查表
 
 ```python
-
+pass
 ```
 
 ```c++
@@ -479,8 +479,8 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 **问题**：找出一个具有最大和的连续非空子数组
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -502,8 +502,8 @@ int maxSubArray(vector<int>& nums) {
 
 **问题**：找出一个具有最大乘积的连续非空子数组
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -531,10 +531,6 @@ int maxProduct(vector<int>& nums) {
 
 最基础的暴力 DP：
 
-```
-
-```
-
 ```python
 def lengthOfLIS(nums):
     dp = [1] * len(nums)  # dp[i]：以nums[i]结尾的最长递增子序列长度
@@ -543,6 +539,10 @@ def lengthOfLIS(nums):
             if nums[j] < nums[i]:
                 dp[i] = max(dp[i], dp[j] + 1)
     return max(dp)
+```
+
+```c++
+c
 ```
 
 基础模型：**二分法求 LIS 长度**：
@@ -677,8 +677,8 @@ long long mostPoints(vector<vector<int>>& questions) {
 
 [5. 最长回文子串 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-substring/)
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -708,8 +708,8 @@ string longestPalindrome(string s) {
 
 [516. 最长回文子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -730,8 +730,8 @@ int longestPalindromeSubseq(string s) {
 
 [1312. 让字符串成为回文串的最少插入次数 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/)
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -755,8 +755,8 @@ int minInsertions(string s) {
 
 [312. 戳气球 - 力扣（LeetCode）](https://leetcode.cn/problems/burst-balloons/description/)
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -780,8 +780,8 @@ int maxCoins(vector<int>& nums) {
 
 [1000. 合并石头的最低成本 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-cost-to-merge-stones/description/)
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -853,8 +853,8 @@ int mergeStones(vector<int>& stones, int k) {
 - **最终目标**：`do[n][p]`
 - **边界条件与限制**：`dp[0][0]=true` 和 `sum` 必须是偶数
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -879,8 +879,8 @@ bool canPartition(vector<int>& nums) {
   - `dp[j]`：容量为 `j` 时的可行性
   - `dp[j] = dp[j] || dp[j-nums[i]];`
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -917,8 +917,8 @@ bool canPartition(vector<int>& nums) {
   - **必要条件**：`target+sum(nums)` 必须是非负偶数，且 `sum(nums)>=target`
   - **初始化**：`dp[0][0]=1`（空集合和为0的方案数为1）
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -946,8 +946,8 @@ int findTargetSumWays(vector<int>& nums, int target) {
   - `dp[j]`：容量为 `j` 时的方案数
   - `dp[j]=dp[j]+dp[j-nums[i]];`
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -986,8 +986,8 @@ int findTargetSumWays(vector<int>& nums, int target) {
 - **最终目标**：`dp[m][n]`
 - **边界条件与限制**：`dp[0][0]=0`
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -1036,8 +1036,8 @@ int findMaxForm(vector<string>& strs, int m, int n) {
 - **边界条件与限制**：
   - **初始化**：`dp[0][0]=0`，`dp[0][j]=INT_MAX`
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -1059,8 +1059,8 @@ int coinChange(vector<int>& coins, int amount) {
   - `dp[j]`：凑出金额 `j` 所需的最少硬币数
   - `dp[j] = min(dp[j],dp[j - coins[i]]+1)`，正序更新
 
-```
-
+```python
+pass
 ```
 
 ```c++
@@ -1079,7 +1079,7 @@ int coinChange(vector<int>& coins, int amount) {
 [139. 单词拆分 - 力扣（LeetCode）](https://leetcode.cn/problems/word-break/description/)
 
 ```python
-
+pass
 ```
 
 ```c++
@@ -1103,18 +1103,18 @@ bool wordBreak(string s, vector<string>& wordDict) {
 
 [279. 完全平方数 - 力扣（LeetCode）](https://leetcode.cn/problems/perfect-squares/)
 
+```python
+pass
 ```
 
-```
-
-```
-
+```c++
+c
 ```
 
 [518. 零钱兑换 II - 力扣（LeetCode）](https://leetcode.cn/problems/coin-change-ii/description/)
 
-```
-
+```python
+pass
 ```
 
 ```c++
