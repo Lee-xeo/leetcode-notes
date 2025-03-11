@@ -314,8 +314,8 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">2</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
 </div>
 </div>
 </p>
@@ -350,7 +350,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">12</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">while 栈非空 and 单调性不满足（这里是排除，排除不严格结果就严格）:
   	出栈
   if 栈空:	边界处理
@@ -526,7 +526,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">vector&lt;int&gt; dailyTemperatures(vector&lt;int&gt;&amp; temperatures) {
     int n = temperatures.size();
     vector&lt;int&gt; ans(n, 0);
@@ -589,10 +589,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <h3 id="dp_1">线性 DP</h3>
 <p><strong>核心特点</strong>：状态与序列位置直接相关</p>
 <p><strong>经典问题</strong>：最长递增子序列（LIS）、最大子数组和</p>
-<p>🎯 <strong>状态定义套路</strong>：</p>
-<ul>
-<li><code>dp[i]</code>：<strong>以第 i 个元素结尾</strong>的某种最优解</li>
-</ul>
+<p>🎯 <strong>状态定义套路</strong>：<code>dp[i]</code>：<strong>以第 i 个元素结尾</strong>的某种最优解</p>
 <h4 id="_13">连续子数组问题</h4>
 <p>🎯 <strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素<strong>结尾</strong>的子数组问题</p>
 <p><strong>状态转移</strong>：<code>dp[i]=f(nums[i], g(dp[i-1],nums[i]))</code>：要么追加，要么单开，其中 <code>f</code> 是状态选择函数，<code>g</code> 是状态计算函数</p>
@@ -807,7 +804,23 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p><a href="https://leetcode.cn/problems/pile-box-lcci/description/">面试题 08.13. 堆箱子 - 力扣（LeetCode）</a></p>
 <h4 id="_14">逆序问题</h4>
 <p><strong>核心特点</strong>：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）</p>
+<p>🎯 <strong>状态定义套路</strong>：<code>dp[i]</code>：<strong>以第 i 个元素开始</strong>的某种最优解</p>
 <p><a href="https://leetcode.cn/problems/solving-questions-with-brainpower">2140. 解决智力问题 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>： 按顺序解决问题，针对每个问题选择 <strong>解决</strong> 或者 <strong>跳过</strong> 操作，每个问题有分数和屏蔽值，会屏蔽后续的 k 个问题</p>
+<ul>
+<li><strong>问题分析</strong>：模拟解答过程，发现是否解答这个问题取决于其屏蔽的问题价值和自身哪个大，即关注后续，倒序 DP</li>
+<li><strong>状态定义</strong>：<code>dp[i]</code> 表示从第 <code>i</code> 个问题开始的最优解</li>
+<li><strong>状态转移方程</strong>：</li>
+<li>跳过：<code>dp[i]=dp[i+1]</code></li>
+<li>不跳过，其后续 k 个问题会被屏蔽，故看 <code>dp[i+k+1]</code>：<code>dp[i] = dp[i+k+1]+p[i]</code></li>
+<li>
+<p>最后目标是求 <code>max</code></p>
+</li>
+<li>
+<p><strong>最终目标</strong>：<code>dp0]</code></p>
+</li>
+<li><strong>边界条件与限制</strong>：跳过头的问题都需要额外处理，使用末尾的零哨兵算法会更会简洁</li>
+</ul>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -828,6 +841,63 @@ ListNode* mid = slow-&gt;next;</code></pre>
         dp[i]=max(dp[i+1], dp[min(n, i + questions[i][1] + 1)]+questions[i][0]);
     }
     return dp[0];
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/dungeon-game/description/">174. 地下城游戏 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：只 <strong>向右</strong> 或 <strong>向下</strong> 移动一步，点数不能降至 0 或以下，从左上角走到右下角</p>
+<ul>
+<li><strong>问题分析</strong>：目标状态是固定的，且从左上角开始和从任意点开始没有本质区别（子问题结构），我们尝试模拟问题求解，发现当前格中需要有的血量是从终点开始向前推导的（逆序 DP）</li>
+<li><strong>状态定义</strong>：<code>dp[i][j]</code> 表示前从 <code>[i,j]</code>出发到终点所需要的最少血量</li>
+<li><strong>状态转移方程</strong>：无论格子中的点数的正负，顺着走永远都是求 <code>+</code>，反过来就是求 <code>-</code></li>
+<li>如果求 <code>-</code> 后大于 0：说明骑士按最低标准不会死亡，可行</li>
+<li>
+<p>否则：说明骑士按最低标准无法存活，则至少为 1</p>
+</li>
+<li>
+<p><strong>最终目标</strong>：<code>dp[0][0]</code></p>
+</li>
+<li><strong>边界条件与限制</strong>：终点要是 1，两边单向处理</li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def calculateMinimumHP(self, dungeon: List[List[int]]) -&gt; int:
+    n = len(dungeon)
+    m = len(dungeon[0])
+    dp = [[0]*m for _ in range(n)]
+    dp[n-1][m-1] = 1-dungeon[n-1][m-1] if dungeon[n-1][m-1]&lt;=0 else 1
+    for i in range(n-2,-1,-1):
+        dp[i][m-1] = max(dp[i+1][m-1]-dungeon[i][m-1], 1)
+    for j in range(m-2,-1,-1):
+        dp[n-1][j] = max(dp[n-1][j+1]-dungeon[n-1][j], 1)
+
+    for i in range(n-2,-1,-1):
+        for j in range(m-2,-1,-1):
+            dp[i][j] = min(max(dp[i+1][j]-dungeon[i][j], 1),
+                           max(dp[i][j+1]-dungeon[i][j], 1))
+    return dp[0][0]</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int calculateMinimumHP(vector&lt;vector&lt;int&gt;&gt;&amp; dungeon) {
+    int n = dungeon.size(), m = dungeon[0].size();
+    vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(m,0));
+    dp[n-1][m-1] = dungeon[n-1][m-1]&lt;=0? 1-dungeon[n-1][m-1]:1;
+    for(int i=n-2;i&gt;=0;i--) 
+        dp[i][m-1] = max(dp[i+1][m-1]-dungeon[i][m-1], 1);
+    for(int j=m-2;j&gt;=0;j--) 
+        dp[n-1][j] = max(dp[n-1][j+1]-dungeon[n-1][j], 1);
+
+    for(int i=n-2;i&gt;=0;i--){
+        for(int j=m-2;j&gt;=0;j--){
+            dp[i][j] = min(max(dp[i+1][j]-dungeon[i][j], 1),
+                           max(dp[i][j+1]-dungeon[i][j], 1));
+        }
+    }
+    return dp[0][0];
 }</code></pre>
 </div>
 </div>
@@ -917,7 +987,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">string longestPalindrome(string s) {
     // dp[i][j]: s[i..j] 是回文串
     // dp[i][j] = dp[i+1][j-1], s[i]==s[j]
@@ -951,7 +1021,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int longestPalindromeSubseq(string s) {
     int n = s.size();
     vector&lt;vector&lt;int&gt;&gt; dp(n,vector&lt;int&gt;(n,0));
@@ -976,7 +1046,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int minInsertions(string s) {
     int n = s.size();
     vector&lt;vector&lt;int&gt;&gt; dp(n,vector&lt;int&gt;(n,0));
@@ -1028,7 +1098,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int mergeStones(vector&lt;int&gt;&amp; stones, int k) {
     // 区间dp
     int n = stones.size();
@@ -1097,7 +1167,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector&lt;int&gt;&amp; nums) {
     int sum = 0, n=nums.size();
     for(int i=0;i&lt;n;i++) sum+=nums[i];
@@ -1128,7 +1198,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">bool canPartition(vector&lt;int&gt;&amp; nums) {
     int sum = 0, n=nums.size();
     for(int i=0;i&lt;n;i++) sum+=nums[i];
@@ -1169,7 +1239,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector&lt;int&gt;&amp; nums, int target) {
     int n = nums.size();
     int p=0;
@@ -1203,7 +1273,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int findTargetSumWays(vector&lt;int&gt;&amp; nums, int target) {
     // `P=(target+sum(nums))/2`
     // 将问题转化为：在数组中选取若干数，使得它们的和等于 `P`（01 背包）
@@ -1244,7 +1314,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int findMaxForm(vector&lt;string&gt;&amp; strs, int m, int n) {
     vector&lt;vector&lt;int&gt;&gt; dp(m+1,vector&lt;int&gt;(n+1,0));
     dp[0][0]=0;
@@ -1294,7 +1364,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector&lt;int&gt;&amp; coins, int amount) {
     int n = coins.size();
     vector&lt;vector&lt;int&gt;&gt; dp(n+1,vector&lt;int&gt;(amount+1,INT_MAX-1));
@@ -1322,7 +1392,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int coinChange(vector&lt;int&gt;&amp; coins, int amount) {
     vector&lt;int&gt; dp(amount+1,INT_MAX-1);
     dp[0]=0;
@@ -1344,7 +1414,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">bool wordBreak(string s, vector&lt;string&gt;&amp; wordDict) {
     // dp[i]:考虑前i个字母的结果
     int n = s.size();
@@ -1372,8 +1442,8 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">c</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
 </div>
 </div>
 </p>
@@ -1385,7 +1455,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python">pass</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
 <pre class="code-block" data-lang="cpp"><code class="language-cpp">int change(int amount, vector&lt;int&gt;&amp; coins) {
     int n = coins.size();
     vector&lt;double&gt; dp(amount+1, 0);
@@ -1402,6 +1472,18 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <ul>
 <li><a href="https://leetcode.cn/problems/profitable-schemes/">879. 盈利计划 - 力扣（LeetCode）</a></li>
 </ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
+</div>
+</div>
+</p>
 <h3 id="dp_3">状态机 DP</h3>
 <p><strong>核心特点</strong>：问题中存在<strong>多个互斥的状态</strong>，且每个状态会根据操作切换到另一个状态，形成清晰的<strong>状态转移图</strong>。例如，股票买卖中的「持有」和「不持有」状态，打家劫舍中的「偷」和「不偷」状态。</p>
 <p>🎯 <strong>状态定义套路</strong></p>

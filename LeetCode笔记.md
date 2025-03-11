@@ -201,11 +201,11 @@ ListNode* mid = slow->next;
 ##### 找环形入口
 
 ```python
-pass
+
 ```
 
 ```c++
-2
+
 ```
 
 [287. 寻找重复数 - 力扣（LeetCode）](https://leetcode.cn/problems/find-the-duplicate-number/)
@@ -237,7 +237,7 @@ pass
 - 再记模板：单调栈三部曲
 
   ```python
-  12
+  
   ```
 
   ```c++
@@ -403,7 +403,7 @@ int largestRectangleArea(vector<int>& heights) {
 单调栈经典例题，提醒一下：单调栈经常存储的是**下标**，而属性信息则使用下标查表
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -461,9 +461,7 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 **经典问题**：最长递增子序列（LIS）、最大子数组和
 
-🎯 **状态定义套路**：
-
-- `dp[i]`：**以第 i 个元素结尾**的某种最优解
+🎯 **状态定义套路**：`dp[i]`：**以第 i 个元素结尾**的某种最优解
 
 #### 连续子数组问题
 
@@ -679,7 +677,21 @@ def lengthOfLIS(nums):
 
 **核心特点**：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）
 
+🎯 **状态定义套路**：`dp[i]`：**以第 i 个元素开始**的某种最优解
+
 [2140. 解决智力问题 - 力扣（LeetCode）](https://leetcode.cn/problems/solving-questions-with-brainpower)
+
+**问题**： 按顺序解决问题，针对每个问题选择 **解决** 或者 **跳过** 操作，每个问题有分数和屏蔽值，会屏蔽后续的 k 个问题
+
+- **问题分析**：模拟解答过程，发现是否解答这个问题取决于其屏蔽的问题价值和自身哪个大，即关注后续，倒序 DP
+- **状态定义**：`dp[i]` 表示从第 `i` 个问题开始的最优解
+- **状态转移方程**：
+  - 跳过：`dp[i]=dp[i+1]`
+  - 不跳过，其后续 k 个问题会被屏蔽，故看 `dp[i+k+1]`：`dp[i] = dp[i+k+1]+p[i]`
+  - 最后目标是求 `max`
+
+- **最终目标**：`dp0]`
+- **边界条件与限制**：跳过头的问题都需要额外处理，使用末尾的零哨兵算法会更会简洁
 
 ```python
 def mostPoints(self, questions: List[List[int]]) -> int:
@@ -701,7 +713,56 @@ long long mostPoints(vector<vector<int>>& questions) {
 }
 ```
 
+[174. 地下城游戏 - 力扣（LeetCode）](https://leetcode.cn/problems/dungeon-game/description/)
 
+**问题**：只 **向右** 或 **向下** 移动一步，点数不能降至 0 或以下，从左上角走到右下角
+
+- **问题分析**：目标状态是固定的，且从左上角开始和从任意点开始没有本质区别（子问题结构），我们尝试模拟问题求解，发现当前格中需要有的血量是从终点开始向前推导的（逆序 DP）
+- **状态定义**：`dp[i][j]` 表示前从 `[i,j] `出发到终点所需要的最少血量
+- **状态转移方程**：无论格子中的点数的正负，顺着走永远都是求 `+`，反过来就是求 `-`
+  - 如果求 `-` 后大于 0：说明骑士按最低标准不会死亡，可行
+  - 否则：说明骑士按最低标准无法存活，则至少为 1
+
+- **最终目标**：`dp[0][0]`
+- **边界条件与限制**：终点要是 1，两边单向处理
+
+```python
+def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
+    n = len(dungeon)
+    m = len(dungeon[0])
+    dp = [[0]*m for _ in range(n)]
+    dp[n-1][m-1] = 1-dungeon[n-1][m-1] if dungeon[n-1][m-1]<=0 else 1
+    for i in range(n-2,-1,-1):
+        dp[i][m-1] = max(dp[i+1][m-1]-dungeon[i][m-1], 1)
+    for j in range(m-2,-1,-1):
+        dp[n-1][j] = max(dp[n-1][j+1]-dungeon[n-1][j], 1)
+
+    for i in range(n-2,-1,-1):
+        for j in range(m-2,-1,-1):
+            dp[i][j] = min(max(dp[i+1][j]-dungeon[i][j], 1),
+                           max(dp[i][j+1]-dungeon[i][j], 1))
+    return dp[0][0]
+```
+
+```c++
+int calculateMinimumHP(vector<vector<int>>& dungeon) {
+    int n = dungeon.size(), m = dungeon[0].size();
+    vector<vector<int>> dp(n, vector<int>(m,0));
+    dp[n-1][m-1] = dungeon[n-1][m-1]<=0? 1-dungeon[n-1][m-1]:1;
+    for(int i=n-2;i>=0;i--) 
+        dp[i][m-1] = max(dp[i+1][m-1]-dungeon[i][m-1], 1);
+    for(int j=m-2;j>=0;j--) 
+        dp[n-1][j] = max(dp[n-1][j+1]-dungeon[n-1][j], 1);
+
+    for(int i=n-2;i>=0;i--){
+        for(int j=m-2;j>=0;j--){
+            dp[i][j] = min(max(dp[i+1][j]-dungeon[i][j], 1),
+                           max(dp[i][j+1]-dungeon[i][j], 1));
+        }
+    }
+    return dp[0][0];
+}
+```
 
 #### 双序列问题
 
@@ -800,7 +861,7 @@ int minDistance(string word1, string word2) {
 [5. 最长回文子串 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-substring/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -831,7 +892,7 @@ string longestPalindrome(string s) {
 [516. 最长回文子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -853,7 +914,7 @@ int longestPalindromeSubseq(string s) {
 [1312. 让字符串成为回文串的最少插入次数 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -902,7 +963,7 @@ int maxCoins(vector<int>& nums) {
 [1000. 合并石头的最低成本 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-cost-to-merge-stones/description/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -975,7 +1036,7 @@ int mergeStones(vector<int>& stones, int k) {
 - **边界条件与限制**：`dp[0][0]=true` 和 `sum` 必须是偶数
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1001,7 +1062,7 @@ bool canPartition(vector<int>& nums) {
   - `dp[j] = dp[j] || dp[j-nums[i]];`
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1039,7 +1100,7 @@ bool canPartition(vector<int>& nums) {
   - **初始化**：`dp[0][0]=1`（空集合和为0的方案数为1）
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1068,7 +1129,7 @@ int findTargetSumWays(vector<int>& nums, int target) {
   - `dp[j]=dp[j]+dp[j-nums[i]];`
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1108,7 +1169,7 @@ int findTargetSumWays(vector<int>& nums, int target) {
 - **边界条件与限制**：`dp[0][0]=0`
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1158,7 +1219,7 @@ int findMaxForm(vector<string>& strs, int m, int n) {
   - **初始化**：`dp[0][0]=0`，`dp[0][j]=INT_MAX`
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1181,7 +1242,7 @@ int coinChange(vector<int>& coins, int amount) {
   - `dp[j] = min(dp[j],dp[j - coins[i]]+1)`，正序更新
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1200,7 +1261,7 @@ int coinChange(vector<int>& coins, int amount) {
 [139. 单词拆分 - 力扣（LeetCode）](https://leetcode.cn/problems/word-break/description/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1225,17 +1286,17 @@ bool wordBreak(string s, vector<string>& wordDict) {
 [279. 完全平方数 - 力扣（LeetCode）](https://leetcode.cn/problems/perfect-squares/)
 
 ```python
-pass
+
 ```
 
 ```c++
-c
+
 ```
 
 [518. 零钱兑换 II - 力扣（LeetCode）](https://leetcode.cn/problems/coin-change-ii/description/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1253,7 +1314,13 @@ int change(int amount, vector<int>& coins) {
 
 - [879. 盈利计划 - 力扣（LeetCode）](https://leetcode.cn/problems/profitable-schemes/)
 
+```python
 
+```
+
+```c++
+
+```
 
 
 
