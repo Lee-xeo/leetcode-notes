@@ -38,7 +38,7 @@
 <ul>
     <li><a href="#leetcode">LeetCode 算法笔记</a></li>
     <ul>
-        <li><a href="#_1">常用工具包</a></li>
+        <li><a href="#_1">工具类</a></li>
         <ul>
             <li><a href="#_2">二分查找</a></li>
             <ul>
@@ -58,38 +58,39 @@
             <li><a href="#_10">单调队列</a></li>
             <li><a href="#_11">前缀和</a></li>
         </ul>
-        <li><a href="#_12">动态规划</a></li>
+        <li><a href="#_12">树</a></li>
+        <li><a href="#_13">动态规划</a></li>
         <ul>
             <li><a href="#dp">DP 问题分类大观</a></li>
             <li><a href="#dp_1">线性 DP</a></li>
             <ul>
-                <li><a href="#_13">连续子数组问题</a></li>
+                <li><a href="#_14">连续子数组问题</a></li>
                 <li><a href="#lis">最长递增子序列问题 LIS</a></li>
-                <li><a href="#_14">逆序问题</a></li>
-                <li><a href="#_15">双序列问题</a></li>
+                <li><a href="#_15">逆序问题</a></li>
+                <li><a href="#_16">双序列问题</a></li>
                 <ul>
-                    <li><a href="#_16">二维线性问题</a></li>
+                    <li><a href="#_17">二维线性问题</a></li>
                 </ul>
             </ul>
             <li><a href="#dp_2">区间DP：子区间最优解</a></li>
             <ul>
-                <li><a href="#_17">回文串类型</a></li>
-                <li><a href="#_18">分割点类型</a></li>
+                <li><a href="#_18">回文串类型</a></li>
+                <li><a href="#_19">分割点类型</a></li>
             </ul>
-            <li><a href="#_19">背包问题：选择与容量</a></li>
+            <li><a href="#_20">背包问题：选择与容量</a></li>
             <ul>
                 <li><a href="#0-1">0-1 背包</a></li>
-                <li><a href="#_20">完全背包</a></li>
+                <li><a href="#_21">完全背包</a></li>
             </ul>
             <li><a href="#dp_3">状态机 DP</a></li>
         </ul>
-        <li><a href="#_21">技巧</a></li>
+        <li><a href="#_22">技巧</a></li>
         <ul>
             <ul>
-                <li><a href="#_22">数组元素的相互抵消运算</a></li>
-                <li><a href="#_23">数学技巧</a></li>
+                <li><a href="#_23">数组元素的相互抵消运算</a></li>
+                <li><a href="#_24">数学技巧</a></li>
                 <ul>
-                    <li><a href="#_24">矩阵旋转</a></li>
+                    <li><a href="#_25">矩阵旋转</a></li>
                 </ul>
             </ul>
         </ul>
@@ -101,8 +102,8 @@
     
     <main id="content">
         <section id="leetcode"><h1 id="leetcode">LeetCode 算法笔记</h1>
-<p>服务于机考</p>
-<h2 id="_1">常用工具包</h2>
+<p>自用算法笔记，服务于机考；可以当作题单使用</p>
+<h2 id="_1">工具类</h2>
 <h3 id="_2">二分查找</h3>
 <p>注：在以下算法中，<code>if</code> 递归条件中改为非严格符号，就能处理有相同元素时的问题</p>
 <h5 id="-1">查找给定值，存在则返回索引，否则返回-1：</h5>
@@ -322,6 +323,11 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p><a href="https://leetcode.cn/problems/find-the-duplicate-number/">287. 寻找重复数 - 力扣（LeetCode）</a></p>
 <h3 id="_8">滑动窗口</h3>
 <p>滑动窗口仅适用于单调数组，即右扩展</p>
+<p>滑动窗口双指针的核心逻辑：</p>
+<ul>
+<li>右指针右移：扩展窗口，为了满足覆盖目标</li>
+<li>左指针左移：缩小窗口，为了满足最小约束</li>
+</ul>
 <p><a href="https://leetcode.cn/problems/minimum-window-substring/description">76. 最小覆盖子串 - 力扣（LeetCode）</a></p>
 <h3 id="_9">单调栈</h3>
 <p>​   在 $O(n)$ 内解决 “ 左 / 右边下一个更大 / 更小元素 ” 问题（广义：在一维数组中找第一个满足某种条件的数）：</p>
@@ -340,7 +346,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p>先记住口诀：减小增大（顺着的）</p>
 </li>
 <li>
-<p>再记模板：单调栈三部曲</p>
+<p>再记模板：单调栈三部曲（重在理解）</p>
 </li>
 </ul>
 <p>
@@ -550,7 +556,33 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <h3 id="_11">前缀和</h3>
 <p><a href="https://leetcode.cn/problems/subarray-sum-equals-k/description">560. 和为 K 的子数组 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/path-sum-iii/description">437. 路径总和 III - 力扣（LeetCode）</a></p>
-<h2 id="_12">动态规划</h2>
+<h2 id="_12">树</h2>
+<p><a href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/">124. 二叉树中的最大路径和 - 力扣（LeetCode）</a></p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxsum(self, p):
+    if p == None: return 0
+    left = max(self.maxsum(p.left), 0)
+    right = max(self.maxsum(p.right), 0)
+    price = p.val + left + right
+    self.maxn = max(self.maxn, price)
+    return p.val + max(left, right)
+
+def maxPathSum(self, root: Optional[TreeNode]) -&gt; int:
+    # 最大和的思想往往转变为对正数的无条件合并
+    self.maxn = float("-inf")
+    self.maxsum(root)
+    return self.maxn</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
+</div>
+</div>
+</p>
+<h2 id="_13">动态规划</h2>
 <h3 id="dp">DP 问题分类大观</h3>
 <table>
 <thead>
@@ -590,7 +622,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p><strong>核心特点</strong>：状态与序列位置直接相关</p>
 <p><strong>经典问题</strong>：最长递增子序列（LIS）、最大子数组和</p>
 <p>🎯 <strong>状态定义套路</strong>：<code>dp[i]</code>：<strong>以第 i 个元素结尾</strong>的某种最优解</p>
-<h4 id="_13">连续子数组问题</h4>
+<h4 id="_14">连续子数组问题</h4>
 <p>🎯 <strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个元素<strong>结尾</strong>的子数组问题</p>
 <p><strong>状态转移</strong>：<code>dp[i]=f(nums[i], g(dp[i-1],nums[i]))</code>：要么追加，要么单开，其中 <code>f</code> 是状态选择函数，<code>g</code> 是状态计算函数</p>
 <p><strong>空间优化</strong>：如果只关注前驱，只保留 <code>pre</code> 即可</p>
@@ -743,6 +775,17 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </p>
 <p><a href="https://leetcode.cn/problems/decode-ways/description/">91. 解码方法 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：计算并返回 <strong>解码</strong> 方法的 <strong>总数</strong> </p>
+<ul>
+<li><strong>问题分析</strong>：解码是一个顺序问题，显然是序列 DP</li>
+<li><strong>状态定义</strong>：<code>dp[i]</code>：以第 i 个字符结尾的最大解码总数</li>
+<li><strong>状态转移方程</strong>：解码只有两种情况：考了当前字符和考虑前两个字符</li>
+<li>当前字符非 <code>0</code>：<code>dp[i-1]</code></li>
+<li>前两个字符范围合法：<code>dp[i-2]</code></li>
+<li>二者各自成立时候进行求和</li>
+<li><strong>最终目标</strong>：<code>(n)</code></li>
+<li><strong>边界条件与限制</strong>：<code>dp[i] = 0</code> </li>
+</ul>
 <p>
 <div class="code-container">
 <div class="code-tabs">
@@ -750,11 +793,31 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <button class="tab-btn" data-lang="cpp">C++</button>
 </div>
 <div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
+<pre class="code-block active" data-lang="python"><code class="language-python">def numDecodings(self, s: str) -&gt; int:
+    n = len(s)
+    s = " " + s
+    dp = [0]*(n+1)
+    dp[0] = 1
+    for i in range(1,n+1):
+        if '1'&lt;=s[i]&lt;='9': dp[i] = dp[i-1]
+        if '10'&lt;= (s[i-1]+s[i]) &lt;='26': dp[i] += dp[i-2]
+    return dp[n]</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int numDecodings(string s) {
+    int n = s.size();
+    s = " " + s; // 空格哨兵，统一讨论前导0问题
+    vector&lt;int&gt; dp(n + 1,0);
+    dp[0] = 1;        
+    for(int i = 1; i &lt; n + 1; i++) {
+        int a = s[i] - '0', b = (s[i - 1] - '0') * 10 + s[i] - '0';
+        if(1 &lt;= a &amp;&amp; a &lt;= 9) dp[i] = dp[i - 1];
+        if(10 &lt;= b &amp;&amp; b &lt;= 26) dp[i] += dp[i - 2];
+    }
+    return dp[n];
+}</code></pre>
 </div>
 </div>
 </p>
+<p><a href="https://leetcode.cn/problems/distinct-subsequences/description/">115. 不同的子序列 - 力扣（LeetCode）</a></p>
 <h4 id="lis">最长递增子序列问题 LIS</h4>
 <p>最基础的暴力 DP：</p>
 <p>
@@ -802,7 +865,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p>​   排序中有个细节，却是点睛之笔，如果两个信封宽度相等，要按高度逆序排序 。 无论宽高，当严格大于时，才可以认为装的下。在宽相等的多个信封中，LIS 求解时只能取一个。 此时的局部逆序，则保证了 LIS 序列中最多从中取一个</p>
 <p>​   更多的，还有三维衍生问题：</p>
 <p><a href="https://leetcode.cn/problems/pile-box-lcci/description/">面试题 08.13. 堆箱子 - 力扣（LeetCode）</a></p>
-<h4 id="_14">逆序问题</h4>
+<h4 id="_15">逆序问题</h4>
 <p><strong>核心特点</strong>：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）</p>
 <p>🎯 <strong>状态定义套路</strong>：<code>dp[i]</code>：<strong>以第 i 个元素开始</strong>的某种最优解</p>
 <p><a href="https://leetcode.cn/problems/solving-questions-with-brainpower">2140. 解决智力问题 - 力扣（LeetCode）</a></p>
@@ -902,7 +965,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h4 id="_15">双序列问题</h4>
+<h4 id="_16">双序列问题</h4>
 <p><strong>核心特点</strong>：</p>
 <ul>
 <li>操作对象是<strong>两个序列</strong>（如字符串、数组）</li>
@@ -963,7 +1026,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p><img alt="4" src="./figure/4.png" style="zoom:35%;"/></p>
 <p><a href="https://leetcode.cn/problems/uncrossed-lines">1035. 不相交的线 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/longest-common-subsequence">1143. 最长公共子序列 - 力扣（LeetCode）</a></p>
-<h5 id="_16">二维线性问题</h5>
+<h5 id="_17">二维线性问题</h5>
 <p><strong>核心特点</strong>：</p>
 <ul>
 <li>问题场景在<strong>二维网格</strong>中（如矩阵、棋盘）</li>
@@ -978,7 +1041,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <p><strong>经典问题</strong>：矩阵连乘、回文子串、戳气球</p>
 <p>🎯 <strong>状态定义套路</strong>：<code>dp[i][j]</code>：区间 <code>[i,j]</code> 上的最优解</p>
 <p>🎯 <strong>状态转移套路</strong>：<code>dp[i,j] = max/min{dp[i,j], dp[i, k] + dp[k+1, j] + cost}</code></p>
-<h4 id="_17">回文串类型</h4>
+<h4 id="_18">回文串类型</h4>
 <p><a href="https://leetcode.cn/problems/longest-palindromic-substring/">5. 最长回文子串 - 力扣（LeetCode）</a></p>
 <p>
 <div class="code-container">
@@ -1013,6 +1076,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
+<p><a href="https://leetcode.cn/problems/shortest-palindrome/description/">214. 最短回文串 - 力扣（LeetCode）</a></p>
 <p><a href="https://leetcode.cn/problems/longest-palindromic-subsequence/description/">516. 最长回文子序列 - 力扣（LeetCode）</a></p>
 <p>
 <div class="code-container">
@@ -1062,7 +1126,8 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h4 id="_18">分割点类型</h4>
+<p><a href="https://leetcode.cn/problems/palindrome-partitioning-ii/description/">132. 分割回文串 II - 力扣（LeetCode）</a></p>
+<h4 id="_19">分割点类型</h4>
 <p><a href="https://leetcode.cn/problems/burst-balloons/description/">312. 戳气球 - 力扣（LeetCode）</a></p>
 <p>
 <div class="code-container">
@@ -1125,7 +1190,7 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h3 id="_19">背包问题：选择与容量</h3>
+<h3 id="_20">背包问题：选择与容量</h3>
 <p><strong>核心特点</strong>：物品选择 + 容量限制（在有约束的情况下，对某个元素<strong>要么拿要么不拿</strong>）</p>
 <p><strong>经典问题</strong>：01背包、完全背包、分割等和子集</p>
 <p>🎯 <strong>状态定义套路</strong>：<code>dp[i][w]</code>：前 i 个物品，容量为 w 时的最优解（实际定义数组需要以 n+1 和 w+1 为尺寸）</p>
@@ -1139,10 +1204,10 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <h4 id="0-1">0-1 背包</h4>
 <p><strong>核心特点</strong>：有 n 种物品，每种物品只有一个，每个物品有自己的重量和价值</p>
 <p><strong>关键难点</strong>：难点在于问题转化，不会那么直白得提问，需要化归</p>
-<p>🎯 <strong>状态转移套路</strong>：</p>
+<p>🎯 <strong>状态转移套路</strong>：<code>dp[i][j]=f(dp[i-1][j], dp[i-1][j-w[i]]+v[i])</code>，01 背包由于 ”只能拿一次” 的特点，其前驱状态都需要从 <code>dp[i-1][...]</code> 中进行转移，而不会考虑相同 <code>i</code> 的其它状态</p>
 <ul>
 <li>拿不下就不拿：<code>if(j&lt;w[i]) dp[i][j]=dp[i-1][j]</code></li>
-<li>拿得下再决定：<code>else dp[i][j]=g(dp[i-1][j], dp[i-1][j-w[i]]+v[i])</code>，其中 <code>g</code> 是价值函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：<code>max</code>，<code>min</code>，<code>||</code>，<code>+</code></li>
+<li>拿得下再决定：<code>else dp[i][j]=f(dp[i-1][j], dp[i-1][j-w[i]]+v[i])</code>，其中 <code>f</code> 是转移函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：<code>max</code>，<code>min</code>，<code>||</code>，<code>+</code></li>
 <li>求值：<code>dp[i][j]=max(dp[i-1][j],dp[i-1][j-w[i]]+v[i])</code></li>
 </ul>
 <p><a href="https://leetcode.cn/problems/partition-equal-subset-sum/description">416. 分割等和子集 - 力扣（LeetCode）</a></p>
@@ -1335,10 +1400,83 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<h4 id="_20">完全背包</h4>
+<p><a href="https://leetcode.cn/problems/profitable-schemes/">879. 盈利计划 - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：总有 <code>n</code> 名员工，第 <code>i</code> 种工作会产生 <code>profit[i]</code> 的利润，它要求 <code>group[i]</code> 名成员共同参与。如果成员参与了其中一项工作，就不能参与另一项工作。工作的任何至少产生 <code>minProfit</code> 利润的子集称为 <strong>盈利计划</strong> 。并且工作的成员总数最多为 <code>n</code> 。有多少种计划可以选择？因为答案很大，所以 <strong>返回结果模</strong> <code>10^9 + 7</code> <strong>的值</strong>。</p>
+<ul>
+<li><strong>问题分析</strong>：各个工作的用人求和 &lt;=n，利润 &gt;= minProfit，是<strong>双限制的背包问题</strong>；背包内容是方案数（求和）；一种工作只能选一次，认为是 01 背包</li>
+<li><strong>状态定义</strong>：<code>dp[i][j][k]</code>：前i个工作，容量为 j,利润至少为 k 的方案数</li>
+<li><strong>状态转移</strong>：</li>
+<li>不选：<code>dp[i-1][j][k]</code></li>
+<li>选：<code>dp[i-1][j-group[i-1]][max(k-profit[i-1], 0)]</code></li>
+<li>状态选择函数：<code>+</code></li>
+<li><strong>最终目标</strong>：<code>dp[m][n][minProfit]</code></li>
+<li><strong>边界条件与限制</strong>：<code>dp[0][j][0]=1</code>：不使用任何物品，且利润为 0 的方案数唯一，且与人数无关</li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int mod = (int)1e9+7;
+int profitableSchemes(int n, int minProfit, vector&lt;int&gt;&amp; group, vector&lt;int&gt;&amp; profit) {
+    // dp[i][j][k] = dp[i-1][j][k] + dp[i-1][j-g[i]][k-p[i]]+1
+    int m = group.size();
+    vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt; dp(m+1, vector&lt;vector&lt;int&gt;&gt;(n+1, vector&lt;int&gt;(minProfit+1)));
+    for(int j=0;j&lt;=n;j++)    dp[0][j][0]=1;
+
+    for(int i=1;i&lt;=m;i++){
+        for(int j=0;j&lt;=n;j++){
+            for(int k=0;k&lt;=minProfit;k++){
+                if(j&gt;=group[i-1])
+                    dp[i][j][k] = dp[i-1][j][k] + dp[i-1][j-group[i-1]][max(k-profit[i-1], 0)];
+                else dp[i][j][k] = dp[i-1][j][k];
+                if(dp[i][j][k]&gt;mod) dp[i][j][k]-=mod;
+            }
+        }
+    }
+    return dp[m][n][minProfit];
+}</code></pre>
+</div>
+</div>
+</p>
+<p><strong>空间优化</strong>：</p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int mod = (int)1e9+7;
+int profitableSchemes(int n, int minProfit, vector&lt;int&gt;&amp; group, vector&lt;int&gt;&amp; profit) {
+    // dp[j][k]: 容量为 j, 利润至少为 k 的方案数
+    // dp[j][k] = dp[i-1][j][k] + dp[i-1][j-g[i]][k-p[i]]+1
+    int m = group.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1, vector&lt;int&gt;(minProfit+1));
+    for(int j=0;j&lt;=n;j++)    dp[j][0]=1;
+
+    for(int i=1;i&lt;=m;i++){
+        for(int j=n;j&gt;=group[i-1];j--){
+            for(int k=minProfit;k&gt;=0;k--){
+                dp[j][k] += dp[j-group[i-1]][max(k-profit[i-1], 0)];
+                if(dp[j][k]&gt;mod) dp[j][k]-=mod;
+            }
+        }
+    }
+    return dp[n][minProfit];
+}</code></pre>
+</div>
+</div>
+</p>
+<h4 id="_21">完全背包</h4>
 <p><strong>核心特点</strong>：有 n 种物品，每种物品可以重复使用，每个物品有自己的重量和价值</p>
 <p><strong>关键难点</strong>：难点在于问题转化，不会那么直白得提问，需要化归</p>
-<p>🎯 <strong>状态转移套路</strong>：</p>
+<p>🎯 <strong>状态转移套路</strong>：<code>dp[i][j]=f(dp[i-1][j], dp[i][j-w[i]]+v[i])</code>，完全背包由于 ”能拿无限次” 的特点，其前驱状态从 <code>dp[i-1][j]</code> 和 <code>dp[i][...]</code> 中进行转移，具体证明可以参考：</p>
+<p><img alt="6" src="figure/6.png" style="zoom:50%;"/></p>
 <ul>
 <li>拿不下就不拿：<code>if(j&lt;w[i]) dp[i][j]=dp[i-1][j]</code></li>
 <li>拿得下再决定：<code>else dp[i][j]=g(dp[i-1][j], dp[i-1][j-w[i]]+v[i])</code>，其中 <code>g</code> 是价值函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：<code>max</code>，<code>min</code>，<code>||</code></li>
@@ -1469,21 +1607,6 @@ ListNode* mid = slow-&gt;next;</code></pre>
 </div>
 </div>
 </p>
-<ul>
-<li><a href="https://leetcode.cn/problems/profitable-schemes/">879. 盈利计划 - 力扣（LeetCode）</a></li>
-</ul>
-<p>
-<div class="code-container">
-<div class="code-tabs">
-<button class="tab-btn active" data-lang="python">Python</button>
-<button class="tab-btn" data-lang="cpp">C++</button>
-</div>
-<div class="code-blocks">
-<pre class="code-block active" data-lang="python"><code class="language-python"># 此部分代码待实现</code></pre>
-<pre class="code-block" data-lang="cpp"><code class="language-cpp">// 此部分代码待实现</code></pre>
-</div>
-</div>
-</p>
 <h3 id="dp_3">状态机 DP</h3>
 <p><strong>核心特点</strong>：问题中存在<strong>多个互斥的状态</strong>，且每个状态会根据操作切换到另一个状态，形成清晰的<strong>状态转移图</strong>。例如，股票买卖中的「持有」和「不持有」状态，打家劫舍中的「偷」和「不偷」状态。</p>
 <p>🎯 <strong>状态定义套路</strong></p>
@@ -1493,7 +1616,6 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <li>状态 <code>s</code> 通常用数字或布尔值表示（如 <code>0</code> 和 <code>1</code> 表示是否持有股票）。</li>
 <li><strong>多维状态扩展</strong>：</li>
 <li>若存在额外限制（如交易次数），需增加维度：<code>dp[i][k][s]</code>。</li>
-<li><strong>示例</strong>：股票买卖IV中，<code>dp[i][k][1]</code> 表示第i天已交易k次且持有股票的最大利润。</li>
 </ol>
 <p>🎯 <strong>状态转移套路</strong></p>
 <ol>
@@ -1516,12 +1638,176 @@ ListNode* mid = slow-&gt;next;</code></pre>
 <li><strong>示例</strong>：当交易次数 <code>k</code> 较大时，可压缩为奇偶滚动（如 <code>dp[2][k]</code>）。</li>
 </ol>
 <p><a href="https://leetcode.cn/problems/climbing-stairs/description">70. 爬楼梯 - 力扣（LeetCode）</a></p>
-<h2 id="_21">技巧</h2>
-<h4 id="_22">数组元素的相互抵消运算</h4>
+<p><a href="https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/description/">123. 买卖股票的最佳时机 III - 力扣（LeetCode）</a></p>
+<p><strong>问题</strong>：最多可以完成 <strong>两笔</strong> 交易，不能参与多笔交易</p>
+<ul>
+<li>
+<p><strong>状态定义</strong>：<code>dp[i][j]</code>：在第 <code>i</code> 天以状态 <code>j</code> 获得的最大利润</p>
+</li>
+<li>
+<p>未进行过任何操作（起始态，可以不定义）</p>
+</li>
+<li>只进行过一次买操作 <code>buy1</code></li>
+<li>进行了一次买操作和一次卖操作，即完成了一笔交易 <code>sell1</code></li>
+<li>在完成了一笔交易的前提下，进行了第二次买操作 <code>buy2</code></li>
+<li>
+<p>完成了全部两笔交易 <code>sell2</code></p>
+</li>
+<li>
+<p><strong>状态转移</strong>：根据 <code>i-1</code> 天的状态和利润来决定 <code>i</code> 天的状态，同时我们追求最大利润，选择函数自然是 <code>max</code></p>
+</li>
+<li>
+<p>昨天是起始态：要么转移到 <code>buy1</code>；要么什么都不做：<code>dp[i][0]=max(-prices[i], dp[i-1][0])</code></p>
+</li>
+<li>昨天是 <code>buy1</code>：要么转移到 <code>sell1</code>；要么什么都不做：<code>dp[i][1]=max(dp[i-1][0]+prices[i], dp[i-1][1])</code></li>
+<li>昨天是 <code>sell1</code>：要么转移到 <code>buy2</code>；要么什么都不做：<code>dp[i][2]=max(dp[i-1][1]-prices[i], dp[i-1][2])</code></li>
+<li>昨天是 <code>buy2</code>：要么转移到 <code>sell2</code>；要么什么都不做：<code>dp[i][3]=max(dp[i-1][2]+prices[i], dp[i-1][3])</code></li>
+</ul>
+<p>可以发现，这是一个单向的状态转移，实际上并不困难。注意一个细节，状态转移中所谓的 ”不变“ 指的本质上是状态不变，而不是利润不变，后者只是顺带的效果，因此 <code>max</code> 的对象是昨天的同状态，而不是昨天的前驱状态</p>
+<ul>
+<li>
+<p><strong>最终目标</strong>：最大利润可能在一次或两次交易后，或者不交易：<code>max(dp[n-1][1], dp[n-1][3], 0)</code></p>
+</li>
+<li>
+<p><strong>边界条件与限制</strong>：我们需要通过最小值初始化代表状态还没有发生，以在 <code>max</code> 中自动屏蔽掉未到达的状态</p>
+</li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxProfit(self, prices: List[int]) -&gt; int:
+    n = len(prices)
+    dp = [[0] * 4 for _ in range(n)]
+    dp[0][0] = -prices[0]  # 第一次买入后的利润
+    dp[0][1] = 0           # 第一次卖出后的利润
+    dp[0][2] = -float('inf') # 第二次买入后的利润，初始不可达
+    dp[0][3] = -float('inf') # 第二次卖出后的利润，初始不可达
+
+    for i in range(1, n):
+        # 第一次买入状态：保持或当天买入
+        dp[i][0] = max(dp[i-1][0], -prices[i])
+        # 第一次卖出状态：保持或当天卖出第一次买入的股票
+        dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i])
+        # 第二次买入状态：保持或当天买入，基于第一次卖出后的利润
+        dp[i][2] = max(dp[i-1][2], dp[i-1][1] - prices[i])
+        # 第二次卖出状态：保持或当天卖出第二次买入的股票
+        dp[i][3] = max(dp[i-1][3], dp[i-1][2] + prices[i])
+     return max(dp[-1][1], dp[-1][3], 0)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProfit(vector&lt;int&gt;&amp; prices) {
+    int n = prices.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(4, 0));
+    dp[0][0] = -prices[0];  // 第一次买入后的利润
+    dp[0][1] = 0;           // 第一次卖出后的利润
+    dp[0][2] = INT_MIN; // 第二次买入后的利润，初始不可达
+    dp[0][3] = INT_MIN; // 第二次卖出后的利润，初始不可达
+    for(int i=1;i&lt;n;i++){
+        // 第一次买入状态：保持或当天买入
+        dp[i][0] = max(dp[i-1][0], -prices[i]);
+        // 第一次卖出状态：保持或当天卖出第一次买入的股票
+        dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i]);
+        // 第二次买入状态：保持或当天买入，基于第一次卖出后的利润
+        dp[i][2] = max(dp[i-1][2], dp[i-1][1] - prices[i]);
+        // 第二次卖出状态：保持或当天卖出第二次买入的股票
+        dp[i][3] = max(dp[i-1][3], dp[i-1][2] + prices[i]);
+    }
+    return max(max(dp[n-1][1], dp[n-1][3]), 0);
+}</code></pre>
+</div>
+</div>
+</p>
+<p><strong>空间优化</strong>：注意到状态转移只依赖前一天，可以在遍历的过程中丢弃掉之前的数据，压缩优化</p>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxProfit(self, prices: List[int]) -&gt; int:
+    n = len(prices)
+    buy1 = -prices[0]  # 第一次买入后的利润
+    sell1 = 0           # 第一次卖出后的利润
+    buy2 = -float('inf') # 第二次买入后的利润，初始不可达
+    sell2 = -float('inf') # 第二次卖出后的利润，初始不可达
+
+    for i in range(1, n):
+        buy1 = max(buy1, -prices[i])
+        sell1 = max(sell1, buy1 + prices[i])
+        buy2 = max(buy2, sell1 - prices[i])
+        sell2 = max(sell2, buy2 + prices[i])
+    return max(sell1, sell2, 0)</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProfit(vector&lt;int&gt;&amp; prices) {
+    int n = prices.size();
+    int buy1 = -prices[0];  // 第一次买入后的利润
+    int sell1 = 0;           // 第一次卖出后的利润
+    int buy2 = INT_MIN; // 第二次买入后的利润，初始不可达
+    int sell2 = INT_MIN; // 第二次卖出后的利润，初始不可达
+    for(int i=1;i&lt;n;i++){
+        buy1 = max(buy1, -prices[i]);            
+        sell1 = max(sell1, buy1 + prices[i]);            
+        buy2 = max(buy2, sell1 - prices[i]);
+        sell2 = max(sell2, buy2 + prices[i]);
+    }
+    return max(max(sell1, sell2), 0);
+}</code></pre>
+</div>
+</div>
+</p>
+<p><a href="https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/description/">188. 买卖股票的最佳时机 IV - 力扣（LeetCode）</a></p>
+<p><strong>通解扩展</strong>：我们可以发现，如果交易数量的限制扩展到 k 次，我们不可能给出静态的 k 组买卖状态，则自然地我们需要一个数组来维护 “k 个状态组”。在空间优化前它实际上已经出现在 <code>dp</code> 数组的第二维度上，而优化后我们也可以使用 <code>buy[k]</code> 和 <code>sell[k]</code> 来表现 </p>
+<ul>
+<li><code>buy[j]</code>：表示进行第 <code>j</code> 次买入后的最大利润</li>
+<li>当前可以是保持之前的买入状态（不操作）。</li>
+<li>或者在完成前 <code>j-1</code> 次交易后，以当前价格买入股票，即 <code>sell[j-1] - price</code>。</li>
+<li>转移方程：<code>buy[j] = max(buy[j], sell[j-1] - price)</code></li>
+<li><code>buy</code> 数组初始化为负无穷，表示初始时无法进行任何交易。</li>
+<li><code>sell[j]</code>：表示进行第 <code>j</code> 次卖出后的最大利润</li>
+<li>当前可以是保持之前的卖出状态（不操作）。</li>
+<li>或者在当前买入后，以当前价格卖出股票，即 <code>buy[j] + price</code>。</li>
+<li>转移方程：<code>sell[j] = max(sell[j], buy[j] + price)</code></li>
+<li><code>sell</code> 数组初始化为 0，表示交易的利润为 0</li>
+</ul>
+<p>
+<div class="code-container">
+<div class="code-tabs">
+<button class="tab-btn active" data-lang="python">Python</button>
+<button class="tab-btn" data-lang="cpp">C++</button>
+</div>
+<div class="code-blocks">
+<pre class="code-block active" data-lang="python"><code class="language-python">def maxProfit(self, k: int, prices: List[int]) -&gt; int:
+    n = len(prices)
+    buy = [-float('inf')] * (k+1)
+    sell = [0] * (k+1)
+    for i in range(0, n):
+        for j in range(1, k+1):
+            buy[j] = max(buy[j], sell[j-1]-prices[i])
+            sell[j] = max(sell[j], buy[j]+prices[i])
+    return sell[k]</code></pre>
+<pre class="code-block" data-lang="cpp"><code class="language-cpp">int maxProfit(int k, vector&lt;int&gt;&amp; prices) {
+    int n = prices.size();
+    vector&lt;int&gt; buy(k+1, INT_MIN);
+    vector&lt;int&gt; sell(k+1, 0);
+    for(int i=0;i&lt;n;i++){
+        for(int j=1;j&lt;=k;j++){
+            buy[j]=max(buy[j], sell[j-1]-prices[i]);
+            sell[j]=max(sell[j], buy[j]+prices[i]);
+        }
+    }
+    return sell[k];
+}</code></pre>
+</div>
+</div>
+</p>
+<h2 id="_22">技巧</h2>
+<h4 id="_23">数组元素的相互抵消运算</h4>
 <p>异或运算：<a href="https://leetcode.cn/problems/single-number/">136. 只出现一次的数字 - 力扣（LeetCode）</a></p>
 <p>摩尔投票：<a href="https://leetcode.cn/problems/majority-element/description/">169. 多数元素 - 力扣（LeetCode）</a></p>
-<h4 id="_23">数学技巧</h4>
-<h5 id="_24">矩阵旋转</h5>
+<h4 id="_24">数学技巧</h4>
+<h5 id="_25">矩阵旋转</h5>
 <p>旋转 90° 公式：$m[i][j]=m[j][n-1-i]$</p></section>
     </main>
     

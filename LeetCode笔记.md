@@ -1,8 +1,8 @@
 # LeetCode 算法笔记
 
-服务于机考
+自用算法笔记，服务于机考；可以当作题单使用
 
-## 常用工具包
+## 工具类
 
 ### 二分查找
 
@@ -216,6 +216,11 @@ ListNode* mid = slow->next;
 
 滑动窗口仅适用于单调数组，即右扩展
 
+滑动窗口双指针的核心逻辑：
+
+- 右指针右移：扩展窗口，为了满足覆盖目标
+- 左指针左移：缩小窗口，为了满足最小约束
+
 [76. 最小覆盖子串 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-window-substring/description)
 
 ### 单调栈
@@ -234,7 +239,7 @@ ListNode* mid = slow->next;
 
 - 先记住口诀：减小增大（顺着的）
 
-- 再记模板：单调栈三部曲
+- 再记模板：单调栈三部曲（重在理解）
 
   ```python
   
@@ -440,6 +445,28 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 [437. 路径总和 III - 力扣（LeetCode）](https://leetcode.cn/problems/path-sum-iii/description)
 
+## 树
+
+
+
+[124. 二叉树中的最大路径和 - 力扣（LeetCode）](https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/)
+
+```python
+def maxsum(self, p):
+    if p == None: return 0
+    left = max(self.maxsum(p.left), 0)
+    right = max(self.maxsum(p.right), 0)
+    price = p.val + left + right
+    self.maxn = max(self.maxn, price)
+    return p.val + max(left, right)
+
+def maxPathSum(self, root: Optional[TreeNode]) -> int:
+    # 最大和的思想往往转变为对正数的无条件合并
+    self.maxn = float("-inf")
+    self.maxsum(root)
+    return self.maxn
+```
+
 
 
 ## 动态规划
@@ -601,13 +628,45 @@ def maxProduct(self, nums: List[int]) -> int:
 
 [91. 解码方法 - 力扣（LeetCode）](https://leetcode.cn/problems/decode-ways/description/)
 
-```python
+**问题**：计算并返回 **解码** 方法的 **总数** 
 
+- **问题分析**：解码是一个顺序问题，显然是序列 DP
+- **状态定义**：`dp[i]`：以第 i 个字符结尾的最大解码总数
+- **状态转移方程**：解码只有两种情况：考了当前字符和考虑前两个字符
+  - 当前字符非 `0`：`dp[i-1]`
+  - 前两个字符范围合法：`dp[i-2]`
+  - 二者各自成立时候进行求和
+- **最终目标**：`(n)`
+- **边界条件与限制**：`dp[i] = 0` 
+
+```python
+def numDecodings(self, s: str) -> int:
+    n = len(s)
+    s = " " + s
+    dp = [0]*(n+1)
+    dp[0] = 1
+    for i in range(1,n+1):
+        if '1'<=s[i]<='9': dp[i] = dp[i-1]
+        if '10'<= (s[i-1]+s[i]) <='26': dp[i] += dp[i-2]
+    return dp[n]
 ```
 
 ```c++
-
+int numDecodings(string s) {
+    int n = s.size();
+    s = " " + s; // 空格哨兵，统一讨论前导0问题
+    vector<int> dp(n + 1,0);
+    dp[0] = 1;        
+    for(int i = 1; i < n + 1; i++) {
+        int a = s[i] - '0', b = (s[i - 1] - '0') * 10 + s[i] - '0';
+        if(1 <= a && a <= 9) dp[i] = dp[i - 1];
+        if(10 <= b && b <= 26) dp[i] += dp[i - 2];
+    }
+    return dp[n];
+}
 ```
+
+[115. 不同的子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/distinct-subsequences/description/)
 
 
 
@@ -889,6 +948,10 @@ string longestPalindrome(string s) {
 }
 ```
 
+[214. 最短回文串 - 力扣（LeetCode）](https://leetcode.cn/problems/shortest-palindrome/description/)
+
+
+
 [516. 最长回文子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
 
 ```python
@@ -932,7 +995,7 @@ int minInsertions(string s) {
 }
 ```
 
-
+[132. 分割回文串 II - 力扣（LeetCode）](https://leetcode.cn/problems/palindrome-partitioning-ii/description/)
 
 #### 分割点类型
 
@@ -1016,10 +1079,10 @@ int mergeStones(vector<int>& stones, int k) {
 
 **关键难点**：难点在于问题转化，不会那么直白得提问，需要化归
 
-🎯 **状态转移套路**：
+🎯 **状态转移套路**：`dp[i][j]=f(dp[i-1][j], dp[i-1][j-w[i]]+v[i])`，01 背包由于 ”只能拿一次” 的特点，其前驱状态都需要从 `dp[i-1][...]` 中进行转移，而不会考虑相同 `i` 的其它状态
 
 - 拿不下就不拿：`if(j<w[i]) dp[i][j]=dp[i-1][j]`
-- 拿得下再决定：`else dp[i][j]=g(dp[i-1][j], dp[i-1][j-w[i]]+v[i])`，其中 `g` 是价值函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：`max`，`min`，`||`，`+`
+- 拿得下再决定：`else dp[i][j]=f(dp[i-1][j], dp[i-1][j-w[i]]+v[i])`，其中 `f` 是转移函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：`max`，`min`，`||`，`+`
 - 求值：`dp[i][j]=max(dp[i-1][j],dp[i-1][j-w[i]]+v[i])`
 
 [416. 分割等和子集 - 力扣（LeetCode）](https://leetcode.cn/problems/partition-equal-subset-sum/description)
@@ -1192,13 +1255,83 @@ int findMaxForm(vector<string>& strs, int m, int n) {
 }
 ```
 
+[879. 盈利计划 - 力扣（LeetCode）](https://leetcode.cn/problems/profitable-schemes/)
+
+**问题**：总有 `n` 名员工，第 `i` 种工作会产生 `profit[i]` 的利润，它要求 `group[i]` 名成员共同参与。如果成员参与了其中一项工作，就不能参与另一项工作。工作的任何至少产生 `minProfit` 利润的子集称为 **盈利计划** 。并且工作的成员总数最多为 `n` 。有多少种计划可以选择？因为答案很大，所以 **返回结果模** `10^9 + 7` **的值**。
+
+- **问题分析**：各个工作的用人求和 <=n，利润 >= minProfit，是**双限制的背包问题**；背包内容是方案数（求和）；一种工作只能选一次，认为是 01 背包
+- **状态定义**：`dp[i][j][k]`：前i个工作，容量为 j,利润至少为 k 的方案数
+- **状态转移**：
+  - 不选：`dp[i-1][j][k]`
+  - 选：`dp[i-1][j-group[i-1]][max(k-profit[i-1], 0)]`
+  - 状态选择函数：`+`
+- **最终目标**：`dp[m][n][minProfit]`
+- **边界条件与限制**：`dp[0][j][0]=1`：不使用任何物品，且利润为 0 的方案数唯一，且与人数无关
+
+```python
+
+```
+
+```c++
+int mod = (int)1e9+7;
+int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
+    // dp[i][j][k] = dp[i-1][j][k] + dp[i-1][j-g[i]][k-p[i]]+1
+    int m = group.size();
+    vector<vector<vector<int>>> dp(m+1, vector<vector<int>>(n+1, vector<int>(minProfit+1)));
+    for(int j=0;j<=n;j++)    dp[0][j][0]=1;
+
+    for(int i=1;i<=m;i++){
+        for(int j=0;j<=n;j++){
+            for(int k=0;k<=minProfit;k++){
+                if(j>=group[i-1])
+                    dp[i][j][k] = dp[i-1][j][k] + dp[i-1][j-group[i-1]][max(k-profit[i-1], 0)];
+                else dp[i][j][k] = dp[i-1][j][k];
+                if(dp[i][j][k]>mod) dp[i][j][k]-=mod;
+            }
+        }
+    }
+    return dp[m][n][minProfit];
+}
+```
+
+**空间优化**：
+
+```python
+
+```
+
+```c++
+int mod = (int)1e9+7;
+int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
+    // dp[j][k]: 容量为 j, 利润至少为 k 的方案数
+    // dp[j][k] = dp[i-1][j][k] + dp[i-1][j-g[i]][k-p[i]]+1
+    int m = group.size();
+    vector<vector<int>> dp(n+1, vector<int>(minProfit+1));
+    for(int j=0;j<=n;j++)    dp[j][0]=1;
+
+    for(int i=1;i<=m;i++){
+        for(int j=n;j>=group[i-1];j--){
+            for(int k=minProfit;k>=0;k--){
+                dp[j][k] += dp[j-group[i-1]][max(k-profit[i-1], 0)];
+                if(dp[j][k]>mod) dp[j][k]-=mod;
+            }
+        }
+    }
+    return dp[n][minProfit];
+}
+```
+
+
+
 #### 完全背包
 
 **核心特点**：有 n 种物品，每种物品可以重复使用，每个物品有自己的重量和价值
 
 **关键难点**：难点在于问题转化，不会那么直白得提问，需要化归
 
-🎯 **状态转移套路**：
+🎯 **状态转移套路**：`dp[i][j]=f(dp[i-1][j], dp[i][j-w[i]]+v[i])`，完全背包由于 ”能拿无限次” 的特点，其前驱状态从 `dp[i-1][j]` 和 `dp[i][...]` 中进行转移，具体证明可以参考：
+
+<img src="figure/6.png" alt="6" style="zoom:50%;" />
 
 - 拿不下就不拿：`if(j<w[i]) dp[i][j]=dp[i-1][j]`
 - 拿得下再决定：`else dp[i][j]=g(dp[i-1][j], dp[i-1][j-w[i]]+v[i])`，其中 `g` 是价值函数，用于衡量拿和不拿哪一个状态对目标有利，常见有：`max`，`min`，`||`
@@ -1312,18 +1445,6 @@ int change(int amount, vector<int>& coins) {
 }
 ```
 
-- [879. 盈利计划 - 力扣（LeetCode）](https://leetcode.cn/problems/profitable-schemes/)
-
-```python
-
-```
-
-```c++
-
-```
-
-
-
 ### 状态机 DP
 
 **核心特点**：问题中存在**多个互斥的状态**，且每个状态会根据操作切换到另一个状态，形成清晰的**状态转移图**。例如，股票买卖中的「持有」和「不持有」状态，打家劫舍中的「偷」和「不偷」状态。
@@ -1335,7 +1456,6 @@ int change(int amount, vector<int>& coins) {
    - 状态 `s` 通常用数字或布尔值表示（如 `0` 和 `1` 表示是否持有股票）。
 2. **多维状态扩展**：
    - 若存在额外限制（如交易次数），需增加维度：`dp[i][k][s]`。
-   - **示例**：股票买卖IV中，`dp[i][k][1]` 表示第i天已交易k次且持有股票的最大利润。
 
 🎯 **状态转移套路**
 
@@ -1356,6 +1476,153 @@ int change(int amount, vector<int>& coins) {
    - **示例**：当交易次数 `k` 较大时，可压缩为奇偶滚动（如 `dp[2][k]`）。
 
 [70. 爬楼梯 - 力扣（LeetCode）](https://leetcode.cn/problems/climbing-stairs/description)
+
+
+
+[123. 买卖股票的最佳时机 III - 力扣（LeetCode）](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/description/)
+
+**问题**：最多可以完成 **两笔** 交易，不能参与多笔交易
+
+- **状态定义**：`dp[i][j]`：在第 `i` 天以状态 `j` 获得的最大利润
+
+  1. 未进行过任何操作（起始态，可以不定义）
+  2. 只进行过一次买操作 `buy1`
+  3. 进行了一次买操作和一次卖操作，即完成了一笔交易 `sell1`
+  4. 在完成了一笔交易的前提下，进行了第二次买操作 `buy2`
+  5. 完成了全部两笔交易 `sell2`
+
+- **状态转移**：根据 `i-1` 天的状态和利润来决定 `i` 天的状态，同时我们追求最大利润，选择函数自然是 `max`
+
+  1. 昨天是起始态：要么转移到 `buy1`；要么什么都不做：`dp[i][0]=max(-prices[i], dp[i-1][0])`
+  2. 昨天是 `buy1`：要么转移到 `sell1`；要么什么都不做：`dp[i][1]=max(dp[i-1][0]+prices[i], dp[i-1][1])`
+  3. 昨天是 `sell1`：要么转移到 `buy2`；要么什么都不做：`dp[i][2]=max(dp[i-1][1]-prices[i], dp[i-1][2])`
+  4. 昨天是 `buy2`：要么转移到 `sell2`；要么什么都不做：`dp[i][3]=max(dp[i-1][2]+prices[i], dp[i-1][3])`
+
+  可以发现，这是一个单向的状态转移，实际上并不困难。注意一个细节，状态转移中所谓的 ”不变“ 指的本质上是状态不变，而不是利润不变，后者只是顺带的效果，因此 `max` 的对象是昨天的同状态，而不是昨天的前驱状态
+
+- **最终目标**：最大利润可能在一次或两次交易后，或者不交易：`max(dp[n-1][1], dp[n-1][3], 0)`
+
+- **边界条件与限制**：我们需要通过最小值初始化代表状态还没有发生，以在 `max` 中自动屏蔽掉未到达的状态
+
+```python
+def maxProfit(self, prices: List[int]) -> int:
+    n = len(prices)
+    dp = [[0] * 4 for _ in range(n)]
+    dp[0][0] = -prices[0]  # 第一次买入后的利润
+    dp[0][1] = 0           # 第一次卖出后的利润
+    dp[0][2] = -float('inf') # 第二次买入后的利润，初始不可达
+    dp[0][3] = -float('inf') # 第二次卖出后的利润，初始不可达
+
+    for i in range(1, n):
+        # 第一次买入状态：保持或当天买入
+        dp[i][0] = max(dp[i-1][0], -prices[i])
+        # 第一次卖出状态：保持或当天卖出第一次买入的股票
+        dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i])
+        # 第二次买入状态：保持或当天买入，基于第一次卖出后的利润
+        dp[i][2] = max(dp[i-1][2], dp[i-1][1] - prices[i])
+        # 第二次卖出状态：保持或当天卖出第二次买入的股票
+        dp[i][3] = max(dp[i-1][3], dp[i-1][2] + prices[i])
+     return max(dp[-1][1], dp[-1][3], 0)
+```
+
+```c++
+int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    vector<vector<int>> dp(n, vector<int>(4, 0));
+    dp[0][0] = -prices[0];  // 第一次买入后的利润
+    dp[0][1] = 0;           // 第一次卖出后的利润
+    dp[0][2] = INT_MIN; // 第二次买入后的利润，初始不可达
+    dp[0][3] = INT_MIN; // 第二次卖出后的利润，初始不可达
+    for(int i=1;i<n;i++){
+        // 第一次买入状态：保持或当天买入
+        dp[i][0] = max(dp[i-1][0], -prices[i]);
+        // 第一次卖出状态：保持或当天卖出第一次买入的股票
+        dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i]);
+        // 第二次买入状态：保持或当天买入，基于第一次卖出后的利润
+        dp[i][2] = max(dp[i-1][2], dp[i-1][1] - prices[i]);
+        // 第二次卖出状态：保持或当天卖出第二次买入的股票
+        dp[i][3] = max(dp[i-1][3], dp[i-1][2] + prices[i]);
+    }
+    return max(max(dp[n-1][1], dp[n-1][3]), 0);
+}
+```
+
+**空间优化**：注意到状态转移只依赖前一天，可以在遍历的过程中丢弃掉之前的数据，压缩优化
+
+```python
+def maxProfit(self, prices: List[int]) -> int:
+    n = len(prices)
+    buy1 = -prices[0]  # 第一次买入后的利润
+    sell1 = 0           # 第一次卖出后的利润
+    buy2 = -float('inf') # 第二次买入后的利润，初始不可达
+    sell2 = -float('inf') # 第二次卖出后的利润，初始不可达
+
+    for i in range(1, n):
+        buy1 = max(buy1, -prices[i])
+        sell1 = max(sell1, buy1 + prices[i])
+        buy2 = max(buy2, sell1 - prices[i])
+        sell2 = max(sell2, buy2 + prices[i])
+    return max(sell1, sell2, 0)
+```
+
+```c++
+int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    int buy1 = -prices[0];  // 第一次买入后的利润
+    int sell1 = 0;           // 第一次卖出后的利润
+    int buy2 = INT_MIN; // 第二次买入后的利润，初始不可达
+    int sell2 = INT_MIN; // 第二次卖出后的利润，初始不可达
+    for(int i=1;i<n;i++){
+        buy1 = max(buy1, -prices[i]);            
+        sell1 = max(sell1, buy1 + prices[i]);            
+        buy2 = max(buy2, sell1 - prices[i]);
+        sell2 = max(sell2, buy2 + prices[i]);
+    }
+    return max(max(sell1, sell2), 0);
+}
+```
+
+[188. 买卖股票的最佳时机 IV - 力扣（LeetCode）](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/description/)
+
+**通解扩展**：我们可以发现，如果交易数量的限制扩展到 k 次，我们不可能给出静态的 k 组买卖状态，则自然地我们需要一个数组来维护 “k 个状态组”。在空间优化前它实际上已经出现在 `dp` 数组的第二维度上，而优化后我们也可以使用 `buy[k]` 和 `sell[k]` 来表现 
+
+- `buy[j]`：表示进行第 `j` 次买入后的最大利润
+  - 当前可以是保持之前的买入状态（不操作）。
+  - 或者在完成前 `j-1` 次交易后，以当前价格买入股票，即 `sell[j-1] - price`。
+  - 转移方程：`buy[j] = max(buy[j], sell[j-1] - price)`
+  - `buy` 数组初始化为负无穷，表示初始时无法进行任何交易。
+- `sell[j]`：表示进行第 `j` 次卖出后的最大利润
+  - 当前可以是保持之前的卖出状态（不操作）。
+  - 或者在当前买入后，以当前价格卖出股票，即 `buy[j] + price`。
+  - 转移方程：`sell[j] = max(sell[j], buy[j] + price)`
+  - `sell` 数组初始化为 0，表示交易的利润为 0
+
+```python
+def maxProfit(self, k: int, prices: List[int]) -> int:
+    n = len(prices)
+    buy = [-float('inf')] * (k+1)
+    sell = [0] * (k+1)
+    for i in range(0, n):
+        for j in range(1, k+1):
+            buy[j] = max(buy[j], sell[j-1]-prices[i])
+            sell[j] = max(sell[j], buy[j]+prices[i])
+    return sell[k]
+```
+
+```c++
+int maxProfit(int k, vector<int>& prices) {
+    int n = prices.size();
+    vector<int> buy(k+1, INT_MIN);
+    vector<int> sell(k+1, 0);
+    for(int i=0;i<n;i++){
+        for(int j=1;j<=k;j++){
+            buy[j]=max(buy[j], sell[j-1]-prices[i]);
+            sell[j]=max(sell[j], buy[j]+prices[i]);
+        }
+    }
+    return sell[k];
+}
+```
 
 ## 技巧
 
