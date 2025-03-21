@@ -6,9 +6,7 @@
 
 ### 二分查找
 
-注：在以下算法中，`if` 递归条件中改为非严格符号，就能处理有相同元素时的问题
-
-##### 查找给定值，存在则返回索引，否则返回-1：
+##### 查找给定值，存在则返回索引，否则返回-1
 
 ```python
 # 迭代版本
@@ -18,7 +16,7 @@ def binary_search(nums, target):
         mid = (left + right) // 2
         if nums[mid] == target:
             return mid
-        elif nums[mid] < target:
+        if nums[mid] < target:
             left = mid + 1
         else:
             right = mid - 1
@@ -30,7 +28,7 @@ def binary_search(nums, target, left, right):
     mid = (left + right) // 2
     if nums[mid] == target:
         return mid
-    elif nums[mid] < target:
+    if nums[mid] < target:
         return binary_search(nums, target, mid + 1, right)
     else:
         return binary_search(nums, target, left, mid - 1)
@@ -41,14 +39,13 @@ def binary_search(nums, target, left, right):
 int binarySearch(vector& nums, int target) {
     int left = 0, right = nums.size() - 1;
     while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] == target) {
+        int mid = (left + right) / 2;
+        if (nums[mid] == target)
             return mid;
-        } else if (nums[mid] < target) {
+        if (nums[mid] < target)
             left = mid + 1;
-        } else {
+        else
             right = mid - 1;
-        }
     }
     return -1;
 }
@@ -57,126 +54,141 @@ int binarySearch(vector& nums, int target, int left, int right) {
     if (left > right) {
         return -1;
     }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] == target) {
+    int mid = (left + right) / 2;
+    if (nums[mid] == target)
         return mid;
-    } else if (nums[mid] < target) {
+    if (nums[mid] < target)
         return binarySearch(nums, target, mid + 1, right);
-    } else {
+    else
         return binarySearch(nums, target, left, mid - 1);
-    }
 }
 ```
 
-##### 查找比给定值小的最大元素（下界）:
+##### 查找最后一个小于给定元素的位置（下界）
+
+找下界就是返回 `right`，`nums[mid] < target` 是否使用严格不等号等价于是否返回的是等于值的位置
+
+（记：找下界，往小找，找过头了给右值）
 
 ```python
 # 迭代版本
-def find_lower_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于target
+def lower_bound(nums, target):
+    left = 0
+    right = len(nums) - 1
+    result = -1 # 如果所有元素都 >= target，返回-1
+    
     while left <= right:
         mid = (left + right) // 2
-        if nums[mid] >= target:
-            i = mid
-            right = mid - 1
-        else:
+        if nums[mid] < target:
+            result = mid # 记录当前找到的位置
             left = mid + 1
-    return i - 1 if i != 0 else -1
+        else:
+            right = mid - 1 
+    return result
 # 递归版本
-def find_lower_bound(nums, target, left, right):
+def lower_bound(nums, target, left, right): 
     if left > right:
-        return right  # 返回比target小的最大元素的索引
+        return right # 当left>right时，right就是最后一个小于target的元素
+    
     mid = (left + right) // 2
-    if nums[mid] >= target:
-        return find_lower_bound(nums, target, left, mid - 1)
+    if nums[mid] < target:
+        return lower_bound(nums, target, mid + 1, right)
     else:
-        return find_lower_bound(nums, target, mid + 1, right)
+        return lower_bound(nums, target, left, mid - 1)
 ```
 
 ```c++
 // 迭代版本
-int findLowerBound(vector& nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于target
+int lower_bound(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+    int result = -1; // 如果所有元素都 >= target，返回-1
+    
     while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] >= target) {
-            i = mid;
-            right = mid - 1;
-        } else {
+        int mid = (left + right) / 2;
+        if (nums[mid] < target){
+            result = mid; // 记录当前找到的位置
             left = mid + 1;
         }
+        else
+            right = mid - 1;
     }
-    return i == 0 ? -1 : i - 1;
+    return result;
 }
 // 递归版本
-int findLowerBound(vector& nums, int target, int left, int right) {
-    if (left > right) {
-        return right;  // 返回比target小的最大元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] >= target) {
-        return findLowerBound(nums, target, left, mid - 1);
-    } else {
-        return findLowerBound(nums, target, mid + 1, right);
-    }
+int lower_bound(vector<int>& nums, int target, int left, int right) {
+    if (left > right)
+        return right; // 当left>right时，right就是最后一个小于target的元素
+    
+    int mid = (left + right) / 2;
+    if (nums[mid] < target)
+        return lower_bound(nums, target, mid + 1, right);
+    else
+        return lower_bound(nums, target, left, mid - 1);
 }
 ```
 
-##### 查找比给定值大的最小元素（上界）:
+##### 查找第一个大于给定元素的位置（上界）
+
+找上界就是返回 `left`，`nums[mid] > target` 是否使用严格不等号等价于是否返回的是等于值的位置
+
+（记：找上界，往大找，找过头了给左值）
 
 ```python
 # 迭代版本
-def find_upper_bound(nums, target):
-    left, right = 0, len(nums) - 1
-    i = len(nums)  # 初始化假设所有元素都小于等于target
+def upper_bound(nums, target):
+    left = 0
+    right = len(nums) - 1
+    result = len(nums) # 如果所有元素都 <= target，返回数组长度
+    
     while left <= right:
         mid = (left + right) // 2
         if nums[mid] > target:
-            i = mid
+            result = mid # 记录当前找到的位置
             right = mid - 1
         else:
             left = mid + 1
-    return i if i != len(nums) else -1
+    return result
 # 递归版本
-def find_upper_bound(nums, target, left, right):
+def upper_bound(nums, target, left, right):
     if left > right:
-        return left if left < len(nums) else -1  # 返回比target大的最小元素的索引
+        return left # 当left>right时，left就是第一个大于target的元素
+    
     mid = (left + right) // 2
     if nums[mid] > target:
-        return find_upper_bound(nums, target, left, mid - 1)
+        return upper_bound(nums, target, mid + 1, right)
     else:
-        return find_upper_bound(nums, target, mid + 1, right)
+        return upper_bound(nums, target, left, mid - 1)
 ```
 
 ```c++
 // 迭代版本
-int findUpperBound(vector& nums, int target) {
-    int left = 0, right = nums.size() - 1;
-    int i = nums.size();  // 初始化假设所有元素都小于等于target
+int upper_bound(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+    int result = nums.size(); // 如果所有元素都 <= target，返回数组长度
+    
     while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] > target) {
-            i = mid;
+        int mid = (left + right) / 2;
+        if (nums[mid] > target){
+            result = mid; // 记录当前找到的位置
             right = mid - 1;
-        } else {
-            left = mid + 1;
         }
+        else
+            left = mid + 1;
     }
-    return i != nums.size() ? i : -1;
+    return result;
 }
 // 递归版本
-int findUpperBound(vector& nums, int target, int left, int right) {
-    if (left > right) {
-        return left < nums.size() ? left : -1;  // 返回比target大的最小元素的索引
-    }
-    int mid = left + (right - left) / 2;
-    if (nums[mid] > target) {
-        return findUpperBound(nums, target, left, mid - 1);
-    } else {
-        return findUpperBound(nums, target, mid + 1, right);
-    }
+int upper_bound(vector<int>& nums, int target, int left, int right) {
+    if (left > right) 
+        return left; // 当left>right时，left就是第一个大于target的元素
+    
+    int mid = (left + right) / 2;
+    if (nums[mid] > target)
+        return upper_bound(nums, target, mid + 1, right);
+    else
+        return upper_bound(nums, target, left, mid - 1);
 }
 ```
 
@@ -626,6 +638,93 @@ def maxProduct(self, nums: List[int]) -> int:
 
 ```
 
+[978. 最长湍流子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-turbulent-subarray/description/)
+
+**问题**：找出最长的一个连续子数组，它内部的不等号在相邻的元素之间反向，输出其长度
+
+- **问题分析**：
+  - 连续 -> 连续子数组问题（要么追加，要么单开），看到连续就想到是序列DP了
+  - 分析核心判断：不号反向，有两种情况：
+    - `arr[i-2]>arr[i-1] and arr[i-1]<arr[i]`
+    - `arr[i-2]<arr[i-1] and arr[i-1]>arr[i]`
+  - 合并一下，也就是中间元素 `arr[i-1]` 是最大值或者最小值，意味着两边元素与其做差是同号的：`(arr[i-2]-arr[i-1])*(arr[i]-arr[i-1])>0`
+- **状态定义**：`dp[i]`：以第 i 个元素结尾的最长连续湍流子数组长度
+- **状态转移方程**：`dp[i] = dp[i-1]+1, if (arr[i-2]-arr[i-1])*(arr[i]-arr[i-1])>0`
+- **最终目标**：`max(dp)`
+- **边界条件与限制**：湍流子数组的基本长度分别是 1（和旁边元素相等或者没有旁边元素）；2（和旁边元素有不等关系）`dp[i] = 1 if arr[i]==arr[i-1] else 2` 
+
+```python
+def maxTurbulenceSize(self, arr: List[int]) -> int:
+    n = len(arr)
+    if n == 1: return 1
+    dp = [1]*n
+    for i in range(1, n):
+         dp[i] = 1 if arr[i]==arr[i-1] else 2
+    for i in range(2, n):
+        if (arr[i-2]-arr[i-1])*(arr[i]-arr[i-1])>0:
+            dp[i] = dp[i-1]+1
+    return max(dp)
+```
+
+```c++
+int sign(int x){
+    if(x==0) return 0;
+    return x>0? 1 : -1;
+}
+int maxTurbulenceSize(vector<int>& arr) {
+    int n = arr.size();
+    if(n==1) return 1;
+    vector<int> dp(n);
+    dp[0] = 1;
+    int res = arr[0]!=arr[1]? 2 : 1;
+    for(int i=1;i<n;i++)
+        dp[i] = arr[i]==arr[i-1] ? 1 : 2;
+    for(int i=2;i<n;i++){
+        if (sign(arr[i-2]-arr[i-1])*sign(arr[i]-arr[i-1])>0)
+            dp[i] = dp[i-1]+1;
+        res = max(res, dp[i]);
+    }
+    return res;
+}
+```
+
+- **空间优化**：很显然，这个问题的 `dp` 状态也只关注前驱
+
+```python
+def maxProduct(self, nums: List[int]) -> int:
+    n = len(arr)
+    if n == 1: return 1
+    dp = 2 if arr[0]!=arr[1] else 1
+    res = dp
+    for i in range(2, n):
+        if (arr[i-2]-arr[i-1])*(arr[i]-arr[i-1])>0:
+            dp+=1
+        else: dp=1 if arr[i]==arr[i-1] else 2
+        res = max(res, dp)
+    return res
+```
+
+```c++
+int sign(int x){
+    if(x==0) return 0;
+    return x>0? 1 : -1;
+}
+int maxTurbulenceSize(vector<int>& arr) {
+    int n = arr.size();
+    if(n==1) return 1;
+    int dp = arr[0]!=arr[1]? 2 : 1;
+    int res = dp;
+    for(int i=2;i<n;i++){
+        if (sign(arr[i-2]-arr[i-1])*sign(arr[i]-arr[i-1])>0)
+            dp+=1;
+        else
+            dp= arr[i]==arr[i-1]? 1:2;
+        res = max(res,dp);
+    }
+    return res;
+}
+```
+
 [91. 解码方法 - 力扣（LeetCode）](https://leetcode.cn/problems/decode-ways/description/)
 
 **问题**：计算并返回 **解码** 方法的 **总数** 
@@ -636,7 +735,7 @@ def maxProduct(self, nums: List[int]) -> int:
   - 当前字符非 `0`：`dp[i-1]`
   - 前两个字符范围合法：`dp[i-2]`
   - 二者各自成立时候进行求和
-- **最终目标**：`(n)`
+- **最终目标**：`dp(n)`
 - **边界条件与限制**：`dp[i] = 0` 
 
 ```python
@@ -672,11 +771,23 @@ int numDecodings(string s) {
 
 #### 最长递增子序列问题 LIS
 
-最基础的暴力 DP：
+[300. 最长递增子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-increasing-subsequence/description)
+
+**问题**：求最长递增子序列（非连续）的长度
+
+**问题分析**：作为递增问题，显然是从起点开始一路向后找的，并可以在任意处停止作为子问题，判断出是序列 DP
+
+求长度最基础的暴力 DP：
+
+- **状态定义**：`dp[i]`：以 `nums[i]` 结尾的最长递增子序列长度
+- **状态转移**：从递增关系入手：
+  - 找到可以和自己构成递增序列的前驱：`if(nums[j]<nums[i]): dp[i]=dp[j]+1`，这一行为本身就会产生多个可能的状态
+  - 状态转移选择：`max`
 
 ```python
 def lengthOfLIS(nums):
-    dp = [1] * len(nums)  # dp[i]：以nums[i]结尾的最长递增子序列长度
+    if len(nums)==1: return 1
+    dp = [1] * len(nums)
     for i in range(len(nums)):
         for j in range(i):
             if nums[j] < nums[i]:
@@ -685,38 +796,130 @@ def lengthOfLIS(nums):
 ```
 
 ```c++
-
+int lengthOfLIS(vector<int>& nums) {
+    int n = nums.size();
+    if(n==1) return 1;
+    int res = 0;
+    vector<int> dp(n, 1);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<i;j++){
+            if(nums[j]<nums[i]) 
+                dp[i]=max(dp[i], dp[j]+1);
+            res = max(dp[i], res);
+        }
+    }
+    return res;
+}
 ```
 
-基础模型：**二分法求 LIS 长度**：
+上面这种基础方法太暴力太慢了，没有能够利用递增性质的全局语义（每次都从头找前驱带来了大量的浪费）
 
-​	维护 `p` 数组：`p[i]`：长度为 `i+1` 的递增子序列的最末尾元素中的**最小值**（最小值的用意直观上是为了找上升得最慢的子序列），且显然 `p` 是递增的
-
-- 遍历主数组，若当前 `t[i]` 元素大于 `p[-1]`，则把该元素追加到 `p` 后：`p.append(t[i])`
-- 若当前 `t[i]` 元素小于 `p[-1]`，说明找到了更慢的上升子序列，则更新 `p`，覆盖掉 `p` 中大于 `t[i]` 的最小元素（二分查找）
-- 最终返回 `p` 的长度
-
-[300. 最长递增子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-increasing-subsequence/description)
-
-万能建模：DAG 模型，可用于 LIS 进阶问题
+​	首先介绍 LIS 问题的万能建模：DAG 模型，可用于 LIS 进阶问题（图中序列是：`4 2 7 6 8 3 5 6`）
 
 <img src="./figure/1.png" alt="1" style="zoom:50%;" />
 
 ​	建模思路：
 
-- 数据结构：二维数组，每一层用一个列表，每个列表内部是有序的
-- 构建过程：对于每个元素 `s[i]`，由于每个层的最小元素都在顶部，所以可以只看顶部就知道自己能不能和前面的层构成递增关系，即插入到下界后的有序表中
+- 数据结构：二维数组，每一层用一个列表，每个列表内部是有序的（可以视作栈）
+- 构建过程：对于每个元素 `s[i]`，由于每个层的最小元素都在顶部，所以可以只看第 `i` 个栈的顶部就知道自己能不能和第 `i-1` 个栈以及之前中的元素构成递增关系，即**压入到第一个栈顶比自己大的栈中**
 - 层间联系：图上的边实际上并不需要真的存储，因为边描述的是递增关系，递增关系可以在需要的时候通过遍历查询
 
-用法：
+改进模型：**二分法求 LIS 长度**：如果只需要求长度信息，就相当于只需要求 DAG 模型的宽度，那我们实际上就不需要保持整个 DAG 模型，而是保存它的最上层（DAG 越靠上的元素整体越小，直观上是上升速度最慢的子序列）
+
+- **状态定义**：`dp[i]`：长度为 `i+1` 的递增子序列的最末尾元素中的**最小值**（就是 DAG 的最上层，每一个队列我们只存储队头元素）
+
+- **状态转移**：
+
+  - 遍历主数组，若当前 `t[i]` 元素大于 `dp[-1]`，则把该元素追加到 `dp` 后：`dp.append(t[i])`
+
+  - 若当前 `t[i]` 元素小于 `dp[-1]`，说明找到了更慢的上升子序列，则更新 `dp`，覆盖掉 `dp` 中大于 `t[i]` 的最小元素（二分查找）
+
+- **最终目标**： `len(dp)` 
+
+```python
+def lengthOfLIS(self, nums: List[int]) -> int:
+    def find_upper_bound(nums, target, left, right):
+        if left > right:
+            return left if left < len(nums) else -1
+        mid = (left + right) // 2
+        if nums[mid] >= target:
+            return find_upper_bound(nums, target, left, mid - 1)
+        else:
+            return find_upper_bound(nums, target, mid + 1, right)
+    dp = []
+    dp.append(nums[0])
+    for i in range(1, len(nums)):
+        if nums[i]>dp[-1]: dp.append(nums[i])
+    	else: 
+        	index = find_upper_bound(dp,nums[i],0,len(p)-1)
+        	dp[index] = nums[i]
+    return len(p)
+```
+
+```c++
+int find_upper_bound(vector<int>& nums, int target, int l, int r){
+    if(l>r)  return l<nums.size() ? l : -1;
+    int mid = (l+r)/2;
+    if(nums[mid]>=target)
+        return find_upper_bound(nums, target, l, mid-1);
+    else
+        return find_upper_bound(nums, target, mid+1, r);
+}
+int lengthOfLIS(vector<int>& nums) {
+    int n = nums.size(), j =0; // j 是尾指针
+    vector<int> dp(n, 0);
+    dp[0] = nums[0];
+    for(int i=0;i<n;i++){
+        if(nums[i]>dp[j]) dp[++j]=nums[i];
+        else{
+            int idx = find_upper_bound(dp,nums[i],0,j);
+            dp[idx]=nums[i];
+        }
+    }
+    return j+1;
+}
+```
 
 **求最长递增子序列的个数**
 
-​	思路：子序列个数 = 到达子序列末节点的路径个数，每次插入新元素，都需要检查前一层队列中，是自己前驱的个数和，元素构造为：`val, num`
+[673. 最长递增子序列的个数 - 力扣（LeetCode）](https://leetcode.cn/problems/number-of-longest-increasing-subsequence)
+
+**问题分析**：在 DAG 模型中，子序列个数 = 到达子序列末节点的路径个数，每次插入新元素，都需要检查前一层队列中，是自己前驱的个数和，元素构造为：`val, num`
 
 <img src="./figure/2.png" alt="2" style="zoom:50%;" />
 
-[673. 最长递增子序列的个数 - 力扣（LeetCode）](https://leetcode.cn/problems/number-of-longest-increasing-subsequence)
+```python
+def findNumberOfLIS(self, nums: List[int]) -> int:
+    def find_lower_bound(nums, target, left, right):
+        if left > right:
+            return left  # 返回比target小的最大元素的索引
+        mid = (left + right) // 2
+        if nums[mid][0] < target:
+            return find_lower_bound(nums, target, left, mid - 1)
+        else:
+            return find_lower_bound(nums, target, mid + 1, right)
+    dp = [[(float('-inf'),1)]]
+    for i in range(0, len(nums)):
+        j = 0
+        while nums[i]>dp[j][-1][0]:
+            j+=1
+            if j==len(dp): break
+        index = find_lower_bound(dp[j-1],nums[i],0,len(dp[j-1])-1)
+        s_num = 0
+        for idx in range(index,len(dp[j-1])):
+            s_num+=dp[j-1][idx][1]
+        if j==len(dp): 
+            dp.append([(nums[i],s_num)])
+        else: dp[j].append((nums[i],s_num))
+    ans = 0
+    for i in dp[-1]:
+        ans+= i[1]
+    return ans
+```
+
+```c++
+
+```
 
 **俄罗斯套娃信封问题**
 
@@ -737,6 +940,10 @@ def lengthOfLIS(nums):
 **核心特点**：状态转移方向与常规顺序相反，通常是因为当前状态的计算需要依赖后面的状态（反过来说，就是当前的决定是根据其对后续造成的影响来判断的）
 
 🎯 **状态定义套路**：`dp[i]`：**以第 i 个元素开始**的某种最优解
+
+- 最常见的题型就是选择会造成**遮盖**（体现为后继的一部分数组元素可以不考虑或跳过），`dp` 状态体现为 `dp[i]` 在 `dp[i+1]` 和 `dp[i+k]` 之间做状态选择，`k` 就是被遮盖的长度
+- 解题的关键就是找到被遮盖的端点 `i+k`，或者锁定遮盖长度 `k`，就能迎刃而解
+- 遮盖类问题往往是无法空间优化的，因为它需要记住整个后继数组
 
 [2140. 解决智力问题 - 力扣（LeetCode）](https://leetcode.cn/problems/solving-questions-with-brainpower)
 
@@ -767,6 +974,67 @@ long long mostPoints(vector<vector<int>>& questions) {
     vector<long long> dp(n+1, 0); // 最后一个作为0哨兵
     for(int i=n-1;i>=0;i--){
         dp[i]=max(dp[i+1], dp[min(n, i + questions[i][1] + 1)]+questions[i][0]);
+    }
+    return dp[0];
+}
+```
+
+[983. 最低票价 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-cost-for-tickets/description/)
+
+**问题**：有三种票，各自能管 1、7、30 天，有不同的票价，给定递增的日程表，要求计算最低覆盖开销
+
+- **问题分析**：票的时间就是遮盖长度，看到遮盖问题就想到是逆序 DP；`days` 数组的递增性体现我们可以通过二分法找到屏蔽的位置，这道题和解决智力问题的区别在于：智力问题找到屏蔽端点是靠数组的索引，而本题是靠元素的值，这个映射就需要用到搜索
+- **状态定义**：`dp[i]`表示前从 `days[i]` 开始规划的最低开销
+- **状态转移方程**：显然，状态选择使用 `min`，有三种状态情况：
+  - 单买一天的：`dp[i+1]+costs[0]`
+  - 买 7 天的：`dp[x]+costs[1]`，其中 `x` 是 `days[i]+7` 所在的索引
+  - 买 30 天的：`dp[y]+costs[1]`，其中 `y` 是 `days[i]+30` 所在的索引
+
+- **最终目标**：`dp[0]`
+- **边界条件与限制**：`dp[n]=0` 额外处理越界的情况；`dp[n-1]=costs[0]`
+
+```python
+def find_left(self, days, target, left, right):
+    if left>right: return left
+	mid = (left+right)//2
+	if days[mid]>=target:
+	    return self.find_left(days, target, left, mid-1)
+    else:
+		return self.find_left(days, target, mid+1, right)
+
+def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+    least_cost = min(costs)
+    n = len(days)
+    dp = [0]*(n+1)
+    dp[n-1] = least_cost
+    last_day = days[n-1]
+    for i in range(n-2,-1,-1):
+        x = n if days[i]+7>last_day else self.find_left(days,days[i]+7,0,n-1)
+        y = n if days[i]+30>last_day else self.find_left(days,days[i]+30,0,n-1)
+        dp[i]=min(dp[i+1]+costs[0], dp[x]+costs[1], dp[y]+costs[2])
+    return dp[0]
+```
+
+```c++
+int find_left(vector<int>& days, int target, int left, int right){
+    if(left>right) return left;
+    int mid = (left+right)/2;
+    if(days[mid]>=target)
+        return find_left(days, target, left, mid-1);
+    else
+        return find_left(days, target, mid+1, right);
+}
+int mincostTickets(vector<int>& days, vector<int>& costs) {
+    int least_cost = min(costs[0], min(costs[1], costs[2]));
+    int n = days.size();
+    vector<int> dp(n+1);
+    dp[n] = 0;
+    dp[n-1] = least_cost;
+    int last_day = days[n-1];
+    for(int i=n-2;i>=0;i--){
+        int x = days[i]+7>last_day ? n : find_left(days,days[i]+7,0,n-1);
+        int y = days[i]+30>last_day ? n : find_left(days,days[i]+30,0,n-1);
+        dp[i]=min(dp[i+1]+costs[0], min(dp[x]+costs[1], dp[y]+costs[2]));
     }
     return dp[0];
 }
@@ -999,10 +1267,60 @@ int minInsertions(string s) {
 
 #### 分割点类型
 
+**矩阵连乘（LeetCode 没有）**
+
+**问题**：给定一系列矩阵 $A_1,A_2,…,A_n$，其中矩阵 $A_i$ 的维度为 $p_{i-1}\times p_i$。寻找最优的矩阵乘法顺序，使得总计算量（乘法次数）最小。
+
+- **问题分析**：需要使用结合率减小运算复杂度，这是因为不同运算顺序，中间的运算维度大小不一样
+- **状态定义**：`dp[i][j]`：`A_i,...,A_j` 所需的最小乘法次数
+- **状态转移**：对于一串矩阵中的一个分割点 `k` 来说：
+  - 其左右两侧的乘法次数为：$dp[i][k]+dp[k+1][j]$
+  - 其本身与两侧矩阵的乘法次数为：$p_{i-1}\times p_k\times p_j$
+  - 状态选择函数为：`min`
+- **最终目标**：`dp[1][n]`
+- **边界条件与限制**：`dp[i][i]=0`，单个矩阵无需计算
+
+```python
+def matrix_chain_order(p):
+    n = len(p) - 1  # 矩阵个数
+    dp = [[0] * (n + 1) for _ in range(n + 1)]
+    
+    for l in range(2, n + 1):  # 子链长度
+        for i in range(1, n - l + 2):
+            j = i + l - 1
+            dp[i][j] = float('inf')
+            for k in range(i, j):
+                cost = dp[i][k] + dp[k+1][j] + p[i-1]*p[k]*p[j]
+                if cost < dp[i][j]:
+                    dp[i][j] = cost
+    return dp[1][n]
+```
+
+```c++
+int matrixChainOrder(vector<int>& p) {
+    int n = p.size() - 1;
+    vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+    
+    for (int l = 2; l <= n; ++l) { // 子链长度
+        for (int i = 1; i <= n - l + 1; ++i) {
+            int j = i + l - 1;
+            dp[i][j] = INT_MAX;
+            for (int k = i; k < j; ++k) {
+                int cost = dp[i][k] + dp[k+1][j] + p[i-1] * p[k] * p[j];
+                if (cost < dp[i][j]) {
+                    dp[i][j] = cost;
+                }
+            }
+        }
+    }
+    return dp[1][n];
+}
+```
+
 [312. 戳气球 - 力扣（LeetCode）](https://leetcode.cn/problems/burst-balloons/description/)
 
 ```python
-pass
+
 ```
 
 ```c++
@@ -1021,6 +1339,54 @@ int maxCoins(vector<int>& nums) {
 
     return dp[0][n-1];
 }
+```
+
+[87. 扰乱字符串 - 力扣（LeetCode）](https://leetcode.cn/problems/scramble-string/)
+
+**问题**：如果一个字符串 `s1` 被划分为 `s1=x+y`，则可以选择是否交换而得到一个扰乱后的字符串 `s2`，继续再两个子串上执行这个算法，最终得到一个扰乱字符串。问给定的字符串 `s2` 是否是 `s1` 的扰乱字符串
+
+- **问题分析**：题目中显式地提到了划分点，区间 DP，启动。首先这个扰乱算法是可逆的，我们将这个逆操作设为 `f`，我们实际上要判断是否存在这样一种划分方式：使得 `s1` 划分出 `x1` 和 `y1`， `s2` 划分出 `x2` 和 `y2`，且 `f(x2)=x1,f(y2)=y1`，或者 `f(x2)=y1,f(y2)=x1`，则 `f(s2)=s1`。本题是**双区间划分**问题，但是有长度一样这个对齐标准，所以可以用三维数组记录状态
+- **状态定义**：`dp[i][j][k]`：`s2[j:j+k]` 是不是 `s1[i,i+k]` 的扰乱字符串
+- **状态转移**：设划分点到 `i` 的距离为 `d`，从满足扰乱匹配要求的两种情况出发：
+  - `dp[i][j][d]`（`f(x2)=x1`） `and` `dp[i+d][j+d][k-d]`（`f(y2)=y1`）
+  - `dp[i][j+k-d][d]`（`f(x2)=y1`）`and` `dp[i+d][j][k-d]`（`f(y2)=x1`）
+  - 两种情况只需要一个满足，所以状态选择函数为 `or`，另外只需要找到一个划分满足即可，因此找到了就跳出切点的循环
+- **最终目标**：`dp[0][0][n]`
+- **边界条件与限制**：
+  - `len(s1) == len(s2)`：必要条件，长度得一样
+  - `dp[i][j][1]==True if s1[i]==s2[j] else False`：边界条件，单字符匹配
+
+```python
+    def isScramble(self, s1: str, s2: str) -> bool:
+        # 题目中显式地提到了划分点，区间 DP，启动
+        # dp[i][j][k]: s2[j:j+k] 是不是 s1[i,i+k] 的扰乱字符串，划分点位于i,i+k之间
+        # 划分点相对于i的距离与相对于j或者j+k的距离是一样的
+        # 划分只有两种情况，设划分点到 i 的距离为 d
+        # 1.s1[i,i+d]==s2[j,j+d] and s1[i+d,i+k]==s2[j+d,j+k]
+        # 2.s1[i,i+d]==s2[j+k-d,j+k] and s1[i+d,i+k]==s2[j,j+k-d]
+        # 只有以上情况满足一个，才能认定为是扰乱字符串
+        # 子问题性质：如果两个子串已经被确定是互为扰乱的，则我们可以把它们看成相同的字符串
+        # 这意味着，在这个问题中，两个字串是互为扰乱的，和两个字串相同是一回事(dp==True)
+        # 所以说，我们就不需要使用 == 来判断，而是使用dp的记忆
+        # dp[i][j][k] = (dp[i][j][d] and dp[i+d][j+d][k-d]) or (dp[i][j+k-d][d] and dp[i+d][j][k-d])
+        # 边界: dp[i][j][1]=True if s1[i]==s2[j] else False
+        if len(s1) != len(s2): return False
+        n = len(s1)
+        dp=[[[False]*(n+1) for j in range(n)] for i in range(n)]
+        for i in range(n):
+            for j in range(n):
+                if s1[i]==s2[j]: dp[i][j][1] = True
+        for k in range(1, n+1):
+            for i in range(n-k+1):
+                for j in range(n-k+1):
+                    for d in range(1,k):
+                        dp[i][j][k] = (dp[i][j][d] and dp[i+d][j+d][k-d]) or (dp[i][j+k-d][d] and dp[i+d][j][k-d])
+                        if dp[i][j][k]: break
+        return dp[0][0][n]
+```
+
+```c++
+
 ```
 
 [1000. 合并石头的最低成本 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-cost-to-merge-stones/description/)
