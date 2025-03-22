@@ -226,7 +226,7 @@ ListNode* mid = slow->next;
 
 ### 滑动窗口
 
-滑动窗口仅适用于单调数组，即右扩展
+滑动窗口仅适用于在状态判断上单调的数组，即右扩展（例如非负数求和，长度等）
 
 滑动窗口双指针的核心逻辑：
 
@@ -234,6 +234,41 @@ ListNode* mid = slow->next;
 - 左指针左移：缩小窗口，为了满足最小约束
 
 [76. 最小覆盖子串 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-window-substring/description)
+
+[209. 长度最小的子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-size-subarray-sum/description/)
+
+```python
+def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+    l, r = 0, 0
+    n = len(nums)
+    nums_sum=0
+    res = n+1
+    for r in range(n):
+        nums_sum+=nums[r]
+        while nums_sum>=target:
+            if nums_sum>=target: res=min(res, r-l+1)
+            nums_sum-=nums[l]
+            l+=1
+    return res if res!= n+1 else 0
+```
+
+```c++
+int minSubArrayLen(int target, vector<int>& nums) {
+    int l=0, r=0;
+    int n = nums.size();
+    int sum = 0;
+    int res = n+1;
+    for(r=0;r<n;r++){
+        sum+=nums[r];
+        while(sum>=target){
+            if(sum>=target) res=min(res, r-l+1);
+            sum-=nums[l];
+            l++;
+        } 
+    }
+    return res==n+1? 0:res;
+}
+```
 
 ### 单调栈
 
@@ -502,9 +537,44 @@ def maxPathSum(self, root: Optional[TreeNode]) -> int:
 
 🎯 **状态定义套路**：`dp[i]`：**以第 i 个元素结尾**的某种最优解
 
+#### 递推问题
+
+
+
+[403. 青蛙过河 - 力扣（LeetCode）](https://leetcode.cn/problems/frog-jump/description/)
+
+**问题**：如果青蛙上一步跳跃了 `k` 个单位，那么它接下来的跳跃距离只能选择为 `k - 1`、`k` 或 `k + 1` 个单位。升序的 `stones` 列表指出了石头位置。
+
+- **问题分析**：
+  - 此处有两个需要记忆的：1、能不能跳到；2、上一步跳的距离
+  - 此处用倒序 `dp `是不合适的，因为现在能跳多远受到了前面的限制，而且并不是遮盖问题，是有上下界的
+  - 需要注意的是，石头间的距离是固定的，这意味着间隔 = 跳跃距离
+- **状态定义**：`dp[i][k]`: 用 `k` 步跳到 `stones[i]` 的可能性
+- **状态转移**：`dp[i][k] = dp[j][k] || dp[j][k+1] || dp[j][k-1], j=idx(stones[i]-k)`
+  - 这里反向找索引是没必要的，因为 `k=stones[i]-stones[j]`,可以计算 k 而不是 `j` 的位置
+
+```python
+def canCross(self, stones: List[int]) -> bool:
+    if stones[1]!=1:return False
+	n = len(stones)
+	dp=[[False]*(n+1) for _ in range(n)]
+	dp[1][1]=True
+	for i in range(2, n):
+    	for j in range(1, i):
+        	k = stones[i]-stones[j]
+        	if k<n: dp[i][k] = dp[j][k] or dp[j][k+1] or dp[j][k-1]
+    for i in range(len(dp[0])):
+        if dp[-1][i]: return True
+    return False
+```
+
+```c++
+
+```
+
 #### 连续子数组问题
 
-🎯 **状态定义**：`dp[i]`：以第 i 个元素**结尾**的子数组问题
+🎯 **状态定义**：`dp[i]`：以第 i 个元素**结尾**的连续子数组问题
 
 **状态转移**：`dp[i]=f(nums[i], g(dp[i-1],nums[i]))`：要么追加，要么单开，其中 `f` 是状态选择函数，`g` 是状态计算函数
 
@@ -929,9 +999,44 @@ def findNumberOfLIS(self, nums: List[int]) -> int:
 
 ​	排序中有个细节，却是点睛之笔，如果两个信封宽度相等，要按高度逆序排序 。 无论宽高，当严格大于时，才可以认为装的下。在宽相等的多个信封中，LIS 求解时只能取一个。 此时的局部逆序，则保证了 LIS 序列中最多从中取一个
 
-​	更多的，还有三维衍生问题：
+**三维衍生问题**
 
 [面试题 08.13. 堆箱子 - 力扣（LeetCode）](https://leetcode.cn/problems/pile-box-lcci/description/)
+
+**不止于不等号的 LIS**
+
+[368. 最大整除子集 - 力扣（LeetCode）](https://leetcode.cn/problems/largest-divisible-subset/description/)
+
+[376. 摆动序列 - 力扣（LeetCode）](https://leetcode.cn/problems/wiggle-subsequence/description/)
+
+```python
+
+```
+
+```c++
+int wiggleMaxLength(vector<int>& nums) {
+    int n = nums.size();
+    if(n==0) return 0;
+    vector<int> up(n,1), down(n,1);
+    int res = 1;
+    for(int i=1;i<n;i++){
+        if (nums[i] > nums[i - 1]) {
+            up[i]=down[i-1]+1;
+            down[i]=down[i-1];
+        }
+        if (nums[i] < nums[i - 1]){
+            down[i]=up[i-1]+1;
+            up[i]=up[i-1];
+        } 
+        if (nums[i] == nums[i - 1]){
+            down[i]=down[i-1];
+            up[i]=up[i-1];
+        }
+        res = max(res, max(up[i], down[i]));
+    }
+    return res;
+}
+```
 
 
 
@@ -1156,13 +1261,93 @@ int minDistance(string word1, string word2) {
 
 <img src="./figure/4.png" alt="4" style="zoom:35%;" />
 
+[718. 最长重复子数组 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-length-of-repeated-subarray/description/)
+
+**问题**：给两个整数数组 `nums1` 和 `nums2` ，返回 两个数组中公共的 、长度最长的连续子数组的长度。
+
+- **问题分析**：题目明确指明了是双序列问题，双序列 DP 启动；由连续子数问题做推广，知道我们应该以“以...结尾” 作为状态定义
+- **状态定义**：`dp[i][j]`：以 `nums1[i]=nums[j]` 结尾的最长公共连续子数组长度
+- **状态转移**：和其余连续子数组问题一样，要么追加要么单开，追加的条件是两个新考虑的元素相等
+  - `if nums1[i]==nums2[j]`：`dp[i][j] = dp[i-1][j-1] + 1`（追加）
+  - `else`：`dp[i][j] = 1`（单开）
+- **最终目标**：`max(dp)`
+- **边界条件与限制**：`dp[i][0]=if nums1[i]==nums2[0]`，`dp[0][j]=if nums1[0]==nums2[j]`
+
+```python
+def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+    n = len(nums1)
+    m = len(nums2)
+    dp = [[0]*m for _ in range(n)]
+    res = 0
+    for i in range(n):
+        for j in range(m):
+            if nums1[i]==nums2[j]:
+                if (i == 0 or j == 0): dp[i][j] = 1
+            	else: dp[i][j] = dp[i-1][j-1] + 1
+            res = max(res, dp[i][j])
+    return res
+```
+
+```c++
+int findLength(vector<int>& nums1, vector<int>& nums2) {
+    int n = nums1.size(), m=nums2.size();
+    vector<vector<int>> dp(n, vector<int>(m, 0));
+    int res = 0;
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++){
+            if(nums1[i]==nums2[j]) {
+                if (i == 0 || j == 0) dp[i][j] = 1; 
+                else dp[i][j] = dp[i-1][j-1] + 1;
+            }
+            res = max(res, dp[i][j]);
+        }
+    return res;
+}
+```
+
+- **空间优化**：注意到 `dp` 状态只依赖上一行，是很经典的二维滚动优化
+
+```python
+def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+    n = len(nums1)
+    m = len(nums2)
+    dp = [0]*m
+    res = 0
+    for i in range(n):
+        for j in range(m-1,-1,-1):
+            if nums1[i]==nums2[j]:
+                if (i == 0 or j == 0): dp[j] = 1
+                else: dp[j] = dp[j-1] + 1
+            else: dp[j]=0
+            res = max(res, dp[j])
+    return res
+```
+
+```c++
+int findLength(vector<int>& nums1, vector<int>& nums2) {
+    int n = nums1.size(), m=nums2.size();
+    vector<int> dp(m, 0);
+    int res = 0;
+    for(int i=0;i<n;i++)
+        for(int j=m-1;j>=0;j--){
+            if(nums1[i]==nums2[j]) {
+                if (i == 0 || j == 0) dp[j] = 1; 
+                else dp[j] = dp[j-1] + 1;
+            }
+            else dp[j]=0;
+            res = max(res, dp[j]);
+        }
+    return res;
+}
+```
+
 [1035. 不相交的线 - 力扣（LeetCode）](https://leetcode.cn/problems/uncrossed-lines)
 
 [1143. 最长公共子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-common-subsequence)
 
 
 
-##### 二维线性问题
+#### 二维线性问题
 
 **核心特点**：
 
@@ -2003,3 +2188,59 @@ int maxProfit(int k, vector<int>& prices) {
 ##### 矩阵旋转
 
 旋转 90° 公式：$m[i][j]=m[j][n-1-i]$
+
+##### 因式分解
+
+[871 · 最小分解 - LintCode](https://www.lintcode.com/problem/871/)
+
+**问题**：给定一个正整数`a`，找到最小的正整数`b`，它的每个数字相乘之后等于`a`，如果结果不存在或不是 32 位有符号整数则返回 0
+
+**问题分析**：
+
+- 边界：如果输入的数字是一位的，则直接返回它本身。如果是两位数包括以上且是质数，返回 0
+
+- 题目要求找**最小**的，结合前文单调栈章节的例题，可知此处要求 `b` 从左往右是**单调不减**的
+- 基于这个特性，我们不妨试图从右往左确定 `b` 的每一位，每确定一位的数字，再往前的数字范围也会被修改
+- 基于整除的算法
+
+```python
+def smallest_factorization(self, a: int) -> int:
+    if a<10: return a;
+    b, t, cur = 0, 9, 1
+    while(a>1):
+        if a%t==0:
+            b += t*cur
+            cur *= 10
+            a/=t
+        else:
+            t-=1
+            if t==1: break
+    if a!=1 or b>2147483647: return 0
+    return b
+```
+
+```c++
+int smallestFactorization(int a) {
+    if(a<10) return a;
+    int b=0;
+    int t=9, cur=1;
+    while(a>1){
+        if(a%t==0){
+            b += t*cur;
+            cur *= 10;
+            a/=t;
+        }
+        else{
+            t--;
+            if(t==1) break;
+        }
+    }
+    if(a!=1 or b<0) return 0;
+    return b;
+}
+```
+
+##### 均值不等式
+
+[343. 整数拆分 - 力扣（LeetCode）](https://leetcode.cn/problems/integer-break/description/)
+
