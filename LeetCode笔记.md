@@ -222,6 +222,59 @@ ListNode* mid = slow->next;
 
 [287. 寻找重复数 - 力扣（LeetCode）](https://leetcode.cn/problems/find-the-duplicate-number/)
 
+#### 下一个排列
+
+```python
+def next_permutation(nums):
+    # 找到第一个降序的位置
+    i = len(nums) - 2
+    while i >= 0 and nums[i] >= nums[i + 1]:
+        i -= 1
+    
+    if i >= 0:
+        # 找到比nums[i]大的最小数
+        j = len(nums) - 1
+        while j >= 0 and nums[j] <= nums[i]:
+            j -= 1
+        
+        # 交换
+        nums[i], nums[j] = nums[j], nums[i]
+    
+    # 反转i之后的序列
+    left, right = i + 1, len(nums) - 1
+    while left < right:
+        nums[left], nums[right] = nums[right], nums[left]
+        left += 1
+        right -= 1
+    
+    return nums
+```
+
+```c++
+#include <algorithm>
+void nextPermutation(std::vector<int>& nums) {
+    // 找到第一个降序的位置
+    int i = nums.size() - 2;
+    while (i >= 0 && nums[i] >= nums[i + 1]) {
+        i--;
+    }
+
+    if (i >= 0) {
+        // 找到比nums[i]大的最小数
+        int j = nums.size() - 1;
+        while (j >= 0 && nums[j] <= nums[i]) {
+            j--;
+        }
+
+        // 交换
+        std::swap(nums[i], nums[j]);
+    }
+
+    // 反转i之后的序列
+    std::reverse(nums.begin() + i + 1, nums.end());
+}
+```
+
 
 
 ### 滑动窗口
@@ -494,7 +547,111 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
 ## 树
 
+### 树的构造
 
+[105. 从前序与中序遍历序列构造二叉树 - 力扣（LeetCode）](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/)
+
+```python
+def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+    def recur(root, left, right):
+        if left > right: return None                              # 递归终止
+    	node = TreeNode(preorder[root])                       # 建立根节点
+    	i = dic[preorder[root]]                               # 划分根节点、左子树、右子树
+    	node.left = recur(root + 1, left, i - 1)              # 开启左子树递归
+    	node.right = recur(i - left + root + 1, i + 1, right) # 开启右子树递归
+    	return node                                           # 回溯返回根节点
+
+	dic, preorder = {}, preorder
+	for i in range(len(inorder)):
+    	dic[inorder[i]] = i
+    return recur(0, 0, len(inorder) - 1)
+```
+
+```c++
+map<int, int> index;
+TreeNode* myBuildTree(const vector<int>& preorder, const vector<int>& inorder, int preorder_left, int preorder_right, int inorder_left, int inorder_right) {
+    if (preorder_left > preorder_right) {
+        return nullptr;
+    }
+
+    // 前序遍历中的第一个节点就是根节点
+    int preorder_root = preorder_left;
+    // 在中序遍历中定位根节点
+    int inorder_root = index[preorder[preorder_root]];
+
+    // 先把根节点建立出来
+    TreeNode* root = new TreeNode(preorder[preorder_root]);
+    // 得到左子树中的节点数目
+    int size_left_subtree = inorder_root - inorder_left;
+    // 递归地构造左子树，并连接到根节点
+    // 先序遍历中「从 左边界+1 开始的 size_left_subtree」个元素就对应了中序遍历中「从 左边界 开始到 根节点定位-1」的元素
+    root->left = myBuildTree(preorder, inorder, preorder_left + 1, preorder_left + size_left_subtree, inorder_left, inorder_root - 1);
+    // 递归地构造右子树，并连接到根节点
+    // 先序遍历中「从 左边界+1+左子树节点数目 开始到 右边界」的元素就对应了中序遍历中「从 根节点定位+1 到 右边界」的元素
+    root->right = myBuildTree(preorder, inorder, preorder_left + size_left_subtree + 1, preorder_right, inorder_root + 1, inorder_right);
+    return root;
+}
+
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    int n = preorder.size();
+    for (int i = 0; i < n; ++i) {
+        index[inorder[i]] = i;
+    }
+    return myBuildTree(preorder, inorder, 0, n - 1, 0, n - 1);
+}
+```
+
+[106. 从中序与后序遍历序列构造二叉树 - 力扣（LeetCode）](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/description/)
+
+```python
+def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+    def helper(in_left, in_right):
+        # 如果这里没有节点构造二叉树了，就结束
+        if in_left > in_right:
+            return None
+
+        # 选择 post_idx 位置的元素作为当前子树根节点
+        val = postorder.pop()
+        root = TreeNode(val)
+
+        # 根据 root 所在位置分成左右两棵子树
+        index = idx_map[val]
+
+        # 构造右子树
+        root.right = helper(index + 1, in_right)
+        # 构造左子树
+        root.left = helper(in_left, index - 1)
+        return root
+
+    # 建立（元素，下标）键值对的哈希表
+    idx_map = {val:idx for idx, val in enumerate(inorder)} 
+    return helper(0, len(inorder) - 1)
+```
+
+```c++
+map<int,int> idx_map;
+int post_idx = 0;
+TreeNode* build(int in_left, int in_right, vector<int>& inorder, vector<int>& postorder){
+    if(in_left>in_right || post_idx<0) return nullptr;
+    int root_val = postorder[post_idx];
+    post_idx--;
+
+    TreeNode* root = new TreeNode(root_val);
+    int root_index = idx_map[root_val];
+    // 注意：必须是先右后左，因为是先左后右逆着来
+    root->right = build(root_index+1, in_right,inorder,postorder);
+    root->left = build(in_left, root_index-1,inorder,postorder);
+
+    return root;
+}
+TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+    post_idx = postorder.size()-1;
+    for(int i=0;i<inorder.size();i++){
+        idx_map[inorder[i]]=i;
+    }
+    return build(0,inorder.size()-1,inorder,postorder);
+}
+```
 
 [124. 二叉树中的最大路径和 - 力扣（LeetCode）](https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/)
 
@@ -512,6 +669,53 @@ def maxPathSum(self, root: Optional[TreeNode]) -> int:
     self.maxn = float("-inf")
     self.maxsum(root)
     return self.maxn
+```
+
+
+
+## 回溯
+
+[491. 非递减子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/non-decreasing-subsequences/description/)
+
+```python
+def findSubsequences(self, nums):
+    n = len(nums)
+    res = [] # 总的答案
+    path = [] # 各个答案
+
+    def dfs(start):
+        if len(path)>=2:   res.append(path[:])
+        vis = set()
+        for i in range(start, n):
+            if (len(path)!=0 and nums[i]<path[-1]) or nums[i] in vis: continue
+            vis.add(nums[i])
+            path.append(nums[i])
+            dfs(i+1)
+            path.pop()
+
+    dfs(0)
+    return res
+```
+
+```c++
+vector<vector<int>> res;
+vector<int> path;
+void dfs(vector<int>& nums, int start){
+    if(path.size()>=2) res.push_back(path);
+    set<int> vis;
+    for(int i=start;i<nums.size();i++){
+        if((!path.empty()&&nums[i]<path.back())||
+           vis.find(nums[i]) != vis.end()) continue;
+        vis.insert(nums[i]);
+        path.push_back(nums[i]);
+        dfs(nums, i+1);
+        path.pop_back();
+    }
+}
+vector<vector<int>> findSubsequences(vector<int>& nums) {
+    dfs(nums, 0);
+    return res;
+}
 ```
 
 
@@ -1344,6 +1548,24 @@ int findLength(vector<int>& nums1, vector<int>& nums2) {
 [1035. 不相交的线 - 力扣（LeetCode）](https://leetcode.cn/problems/uncrossed-lines)
 
 [1143. 最长公共子序列 - 力扣（LeetCode）](https://leetcode.cn/problems/longest-common-subsequence)
+
+**问题**：给定两个字符串 `text1` 和 `text2`，返回这两个字符串的最长公共子序列的长度。
+
+```python
+def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+    dp = [[0 for j in range(len(text2)+1)] for i in range(len(text1)+1)]
+    for i in range(1,len(text1)+1):
+        for j in range(1,len(text2)+1):
+            if text1[i-1]==text2[j-1]:
+                dp[i][j] =  dp[i-1][j-1]+1
+            else:
+                dp[i][j] =  max(dp[i-1][j], dp[i][j-1])
+    return dp[-1][-1]
+```
+
+```c++
+
+```
 
 
 
