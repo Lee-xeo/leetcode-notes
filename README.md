@@ -5,14 +5,14 @@
 
 #### 在线访问
 
-您可以通过以下链接直接访问在线版本：[LeetCode笔记](https://lex-voda.github.io/leetcode-notes/)
+您可以通过以下链接直接访问在线版本：[LeetCode笔记](https://Lee-xeo.github.io/leetcode-notes/)
 
 #### 本地部署
 
 1. 克隆仓库
 
    ```bash
-   git clone https://github.com/Lex-voda/leetcode-notes.git
+   git clone https://github.com/Lee-xeo/leetcode-notes.git
    ```
 
 2. 如果修改了笔记，可以运行转换脚本
